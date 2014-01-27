@@ -2,10 +2,15 @@
 
 $color-blue: #2b3c4d
 $color-white: #c3c7ca
+// $color-white: #e9e9e9
 $color-orange: #ffaa00
 
 $font-stack: "proxima-nova", sans-serif
 
+.ir
+  text-indent: 100%
+  white-space: nowrap
+  overflow: hidden
 
 @function calc-percent($target, $container)
   @return ($target / $container) * 100%
@@ -18,3 +23,5 @@ $font-stack: "proxima-nova", sans-serif
 @import "foundation/_button.sass"
 
 @import "layout/_home.sass"
+@import "layout/_projects.sass"
+@import "layout/_project.sass"

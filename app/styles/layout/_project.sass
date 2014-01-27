@@ -1,0 +1,41 @@
+.project__image
+  width: 100%
+  display: block
+  position: relative
+  max-height: 500px
+  overflow: hidden
+  img
+    width: 100%
+    display: block
+
+//==============================================================================
+// Custom media queries | ^custom
+//==============================================================================
+// Palm device styling
+@media (max-width: 320px)
+  .project__image
+    width: 180%
+    display: block
+    position: relative
+    margin: 0 -42%
+
+// Landscape palm device styling
+@media (min-width: 321px) and (max-width: 650px)
+  .project__image
+    width: 100%
+    display: block
+    position: relative
+
+
+@media (min-width: 1250px)
+  .project__image
+    img
+      transform: scale(1)
+
+@media screen and (min-width: 600px)
+  .project
+    padding-top: 70px
+
+  .project__desc
+    width: cp(540, 940)
+    margin-right: cp(100, 940)

@@ -1,0 +1,81 @@
+.projects
+  padding-top: 20px
+
+.project-preview
+  height: 250px
+  margin-bottom: 20px
+  width: 100%
+  float: left
+  display: block
+
+.project-preview__title
+  display: block
+  text-align: center
+  @extend .ir
+  background-repeat: no-repeat
+  margin: 80px auto 15px auto
+  height: 58px
+
+.project-preview__tags
+  text-align: center
+  font-weight: 700
+  text-transform: uppercase
+  font-family: $type-soft
+  span
+    margin: 0px 7px
+
+@media screen and (min-width: 600px)
+  .projects
+    padding-top: 100px
+
+@media screen and (min-width: 600px) and (max-width: 880px)
+  .project-preview
+    width: cp(300, 620)
+    margin-right: cp(20, 620)
+    &:nth-of-type(2n)
+      margin-right: 0%
+
+@media screen and (min-width: 880px)
+  .project-preview
+    width: cp(300, 940)
+    margin-right: cp(20, 940)
+    &:nth-of-type(3n)
+      margin-right: 0%
+
+
+// Project Colours
+.project-preview--talllies
+  background: #eaa53c
+  .project-preview__title
+    background-image: url(../images/maximmcnair_talllies.png)
+    width: 107px
+  span
+    color: #b47920
+.project-preview--crunchd
+  background: #abc362
+  .project-preview__title
+    background-image: url(../images/maximmcnair_crunchd.png)
+    width: 187px
+  span
+    color: #86994b
+.project-preview--fraiser
+  background: #e7e4e4
+  .project-preview__title
+    background-image: url(../images/maximmcnair_fraiser.png)
+    width: 126px
+  span
+    color: #a19d9d
+.project-preview--esis
+  background: #f8fafb
+  .project-preview__title
+    background-image: url(../images/maximmcnair_esis.png)
+    width: 138px
+  span
+    color: #bdc8ce
+.project-preview--loungers
+  background: #cec395
+  .project-preview__title
+    background-image: url(../images/maximmcnair_loungers.png)
+    width: 243px
+  span
+    color: #9c926a

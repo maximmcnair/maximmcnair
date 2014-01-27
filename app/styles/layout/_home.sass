@@ -1,11 +1,53 @@
-.work__desc
-  width: cp(460, 940)
-  margin-right: cp(100, 940)
-  float: left
-
-.work__desc__title
+.home
+  padding-top: 40px
+.home__desc__title
   margin-bottom: 10px
 
-.work__frameworks
-  width: cp(380, 940)
+
+@media screen and (min-width: 600px)
+  .home
+    padding-top: 140px
+  .home__desc
+    width: cp(460, 940)
+    margin-right: cp(100, 940)
+    float: left
+  .home__frameworks
+    width: cp(380, 940)
+    float: left
+
+
+@media screen and (max-width: 600px)
+  .home__frameworks
+    margin: 45px 0px 0px 0px
+  .home__framework
+    margin: 20px
+
+.home__framework
+  @extend .ir
+  height: 110px
+  width: 114px
+  display: block
   float: left
+
+.home__framework--backbone
+  background-image: url('../images/framework__backbone.png')
+.home__framework--angular
+  background-image: url('../images/framework__angular.png')
+.home__framework--mongodb
+  background-image: url('../images/framework__mongodb.png')
+.home__framework--grunt
+  background-image: url('../images/framework__grunt.png')
+.home__framework--nodejs
+  background-image: url('../images/framework__nodejs.png')
+
+@media (-webkit-min-device-pixel-ratio: 2)
+  .home__framework--backbone
+    background-image: url('../images/framework__backbone@2x.png')
+  .home__framework--angular
+    background-image: url('../images/framework__angular@2x.png')
+  .home__framework--mongodb
+    background-image: url('../images/framework__mongodb@2x.png')
+  .home__framework--grunt
+    background-image: url('../images/framework__grunt@2x.png')
+  .home__framework--nodejs
+    background-image: url('../images/framework__nodejs@2x.png')

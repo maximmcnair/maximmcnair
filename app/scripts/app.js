@@ -15,5 +15,9 @@ config(['$routeProvider', function($routeProvider) {
     { templateUrl: 'views/projects.html'
     , controller: 'ProjectsCtrl'
     })
+  $routeProvider.when('/projects/:project',
+    { templateUrl: 'views/project.html'
+    , controller: 'ProjectCtrl'
+    })
   $routeProvider.otherwise({redirectTo: '/'})
 }])
