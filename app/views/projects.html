@@ -1,0 +1,20 @@
+<h1>Projects</h1>
+
+<strong>Filter work</strong>
+
+<ul>
+  <li ng-repeat="project in projects">
+    <!-- <img src="{{project.thumb}}"> -->
+    <h3>{{project.title}}</h3>
+    <ul>
+      <li ng-repeat="tag in project.tags">{{tag}}</li>
+    </ul>
+  </li>
+</ul>
+
+<!-- <ul>
+  <h3>Filter</h3>
+  <div ng-repeat="project in projects">
+    <li ng-repeat="tag in project.tags">{{tag}}</li>
+  </div>
+</ul> -->
