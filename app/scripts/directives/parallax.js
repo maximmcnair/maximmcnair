@@ -11,13 +11,13 @@ angular.module('maximmcnairApp')
       }
       var handler = function() {
         var scrollTop = windowEl.scrollTop()
-        if(scrollTop < -1 && scrollTop > -9){
-          // console.log( 'a', '0' + Math.abs(scrollTop) )
+        if(scrollTop < -1 && scrollTop > -10){
+          console.log( 'a', '1.0' + Math.abs(scrollTop) )
           element.find('img').css(
             'transform', 'scale(1.0' + Math.abs(scrollTop) + ')'
           )
-        } else if (scrollTop < -9) {
-          // console.log( 'b', Math.abs(scrollTop) )
+        } else if (scrollTop < -9){
+          console.log( 'b', '1.' + Math.abs(scrollTop) )
           element.find('img').css(
             'transform', 'scale(1.' + Math.abs(scrollTop) + ')'
           )
