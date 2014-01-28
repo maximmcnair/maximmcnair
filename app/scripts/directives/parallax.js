@@ -12,12 +12,12 @@ angular.module('maximmcnairApp')
       var handler = function() {
         var scrollTop = windowEl.scrollTop()
         if(scrollTop < -1 && scrollTop > -10){
-          console.log( 'a', '1.0' + Math.abs(scrollTop) )
+          // console.log( 'a', '1.000' + Math.abs(scrollTop) )
           element.find('img').css(
             'transform', 'scale(1.0' + Math.abs(scrollTop) + ')'
           )
         } else if (scrollTop < -9){
-          console.log( 'b', '1.' + Math.abs(scrollTop) )
+          // console.log( 'b', '1.00' + Math.abs(scrollTop) )
           element.find('img').css(
             'transform', 'scale(1.' + Math.abs(scrollTop) + ')'
           )
