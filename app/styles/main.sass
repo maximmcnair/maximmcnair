@@ -1,23 +1,8 @@
 @import "compass/reset"
 
-$color-blue: #2b3c4d
-$color-white: #c3c7ca
-// $color-white: #e9e9e9
-$color-orange: #ffaa00
-
-$font-stack: "proxima-nova", sans-serif
-
-.ir
-  text-indent: 100%
-  white-space: nowrap
-  overflow: hidden
-
-@function calc-percent($target, $container)
-  @return ($target / $container) * 100%
-
-@function cp($target, $container)
-  @return calc-percent($target, $container)
-
+@import "foundation/_variables.sass"
+@import "foundation/_mixins.sass"
+@import "foundation/_extends.sass"
 @import "foundation/_base.sass"
 @import "foundation/_typography.sass"
 @import "foundation/_button.sass"
