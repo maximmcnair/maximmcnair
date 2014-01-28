@@ -1,14 +1,21 @@
 <section class="project__image" scroll-position="scroll">
-  <img src="/images/work_crunchd.jpg" alt="Crunchd">
+  <video autoplay="autoplay" loop="loop" class="project__video" ng-if="project.video">
+    <source src="{{project.video.mp4}}" type="video/mp4">
+    <source src="{{project.video.ogg}}" type="video/ogg">
+    <source src="{{project.video.webm}}" type="video/webm">
+    <!-- <source src="movie.ogg" type="video/ogg"> -->
+  </video>
+  <img src="{{project.hero}}" alt="Crunchd" ng-if="!project.video">
 </section>
+
 <section class="container project">
-  <section class="project__desc">
-    <h1>Crunchd</h1>
-    <p>Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.</p>
-
-    <p>I worked with Synth Media to created a PhoneGap & Backbone powered App for use on Andriod & IOS.</p>
-
-    <p>Featured on:</p>
-  </section>
-
+  <h1 class="project__title">{{project.title}}</h1>
+  <div class="clearfix">
+    <section class="project__desc">
+      <div ng-bind-html="project.desc"></div>
+    </section>
+    <aside class="project__aside">
+      <a class="btn" ng-if="project.href" href="{{project.href}}" target="_blank">View Project</a>
+    </aside>
+  </div>
 </section>
