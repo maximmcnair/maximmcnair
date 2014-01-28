@@ -2,8 +2,13 @@
   <img src="{{project.hero}}" alt="Crunchd">
 </section>
 <section class="container project">
-  <section class="project__desc">
-    <h1>{{project.title}}</h1>
-    <div ng-bind-html="project.desc"></div>
-  </section>
+  <h1 class="project__title">{{project.title}}</h1>
+  <div class="clearfix">
+    <section class="project__desc">
+      <div ng-bind-html="project.desc"></div>
+    </section>
+    <aside class="project__aside">
+      <a class="btn" ng-if="project.href" href="{{project.href}}" target="_blank">View Project</a>
+    </aside>
+  </div>
 </section>

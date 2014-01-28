@@ -8,6 +8,7 @@ angular.module('maximmcnairApp')
       , tags: ['iOS', 'Backbone', 'Phonegap']
       , hero: '/images/work_crunchd.jpg'
       , desc: '<p>Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk. </p><p> I worked with Synth Media to created a PhoneGap &amp;Backbone powered App for use on Andriod &amp;IOS. </p>'
+      , href: 'http://itunes.com/apps/crunchd'
       // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/883553/crunchd-trade_1x.png'
       }
     , { title: 'Talllies'
@@ -15,6 +16,7 @@ angular.module('maximmcnairApp')
       , tags: ['Node JS', 'Socket IO', 'Angular']
       , hero: '/images/work_crunchd.jpg'
       , desc: '<p>Time tracking for developers. Focusing on product features as it\'s main time metric, Talllies shows you exactly how long each feature took and enables you to give more accurate quote next time around. </p><p> Built with a mix of Backbone &amp;Marionette on the front end with a REST API built with Node &amp;Express. </p>'
+      , href: 'http://www.tallli.es/'
       // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/1231579/talllies-time-tracking-landing.jpg'
       }
     , { title: 'Frasier'
