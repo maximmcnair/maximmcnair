@@ -1,12 +1,11 @@
-<video autoplay="autoplay" loop="loop" class="project__video">
-  <source src="/images/background-video.mp4" type="video/mp4">
-  <source src="/images/background-video.theora.ogv" type="video/ogg">
-  <source src="/images/background-video.webm" type="video/webm">
-  <!-- <source src="movie.ogg" type="video/ogg"> -->
-</video>
-
-<section class="project__image" scroll-position="scroll" ng-if="false">
-  <img src="{{project.hero}}" alt="Crunchd">
+<section class="project__image" scroll-position="scroll">
+  <video autoplay="autoplay" loop="loop" class="project__video" ng-if="project.video">
+    <source src="{{project.video.mp4}}" type="video/mp4">
+    <source src="{{project.video.ogg}}" type="video/ogg">
+    <source src="{{project.video.webm}}" type="video/webm">
+    <!-- <source src="movie.ogg" type="video/ogg"> -->
+  </video>
+  <img src="{{project.hero}}" alt="Crunchd" ng-if="!project.video">
 </section>
 
 <section class="container project">

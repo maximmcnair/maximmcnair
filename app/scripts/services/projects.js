@@ -17,6 +17,11 @@ angular.module('maximmcnairApp')
       , hero: '/images/work_crunchd.jpg'
       , desc: '<p>Time tracking for developers. Focusing on product features as it\'s main time metric, Talllies shows you exactly how long each feature took and enables you to give more accurate quote next time around. </p><p> Built with a mix of Backbone &amp;Marionette on the front end with a REST API built with Node &amp;Express. </p>'
       , href: 'http://www.tallli.es/'
+      , video: {
+          'mp4' : '/images/background-video.mp4'
+        , 'ogg' : '/images/background-video.theora.ogv'
+        , 'webm' : '/images/background-video.webm'
+        }
       // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/1231579/talllies-time-tracking-landing.jpg'
       }
     , { title: 'Frasier'
