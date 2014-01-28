@@ -1,14 +1,9 @@
 <section class="project__image" scroll-position="scroll">
-  <img src="/images/work_crunchd.jpg" alt="Crunchd">
+  <img src="{{project.hero}}" alt="Crunchd">
 </section>
 <section class="container project">
   <section class="project__desc">
-    <h1>Crunchd</h1>
-    <p>Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.</p>
-
-    <p>I worked with Synth Media to created a PhoneGap & Backbone powered App for use on Andriod & IOS.</p>
-
-    <p>Featured on:</p>
+    <h1>{{project.title}}</h1>
+    <div ng-bind-html="project.desc"></div>
   </section>
-
 </section>

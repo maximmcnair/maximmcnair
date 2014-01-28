@@ -1,4 +1,4 @@
 angular.module('maximmcnairApp')
-  .controller('ProjectCtrl', function ($scope, $window, $routeParams) {
-    console.log($routeParams.projectTitle)
+  .controller('ProjectCtrl', function ($scope, $routeParams, ProjectsFactory) {
+    $scope.project = ProjectsFactory.getTask($routeParams.projectSlug)
   })
