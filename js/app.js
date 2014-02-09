@@ -4,7 +4,7 @@ angular.module('maximmcnairApp', [
   'ngSanitize',
   'ngRoute'
 ]).
-config(['$routeProvider', function($routeProvider, $locationProvider) {
+config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider.when('/',
     { templateUrl: 'views/main.html'
     , controller: 'MainCtrl'
