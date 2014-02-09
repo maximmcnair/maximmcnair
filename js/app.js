@@ -4,7 +4,7 @@ angular.module('maximmcnairApp', [
   'ngSanitize',
   'ngRoute'
 ]).
-config(['$routeProvider', function($routeProvider) {
+config(['$routeProvider', function($routeProvider, $locationProvider) {
   $routeProvider.when('/',
     { templateUrl: 'views/main.html'
     , controller: 'MainCtrl'
@@ -18,4 +18,5 @@ config(['$routeProvider', function($routeProvider) {
     , controller: 'ProjectCtrl'
     })
   $routeProvider.otherwise({redirectTo: '/'})
+  $locationProvider.html5Mode(true)
 }])
