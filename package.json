@@ -19,5 +19,7 @@
     "jade": "*",
     "sinon": "~1.7.3",
     "grunt-mocha": "~0.4.1"
+  },
+  "dependencies": {
   }
 }
