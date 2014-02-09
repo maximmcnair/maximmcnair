@@ -9,11 +9,11 @@ config(['$routeProvider', '$locationProvider', function($routeProvider, $locatio
     { templateUrl: '/views/main.html'
     , controller: 'MainCtrl'
     })
-  $routeProvider.when('/projects',
+  $routeProvider.when('/projects/',
     { templateUrl: '/views/projects.html'
     , controller: 'ProjectsCtrl'
     })
-  $routeProvider.when('/projects/:projectSlug',
+  $routeProvider.when('/projects/:projectSlug/',
     { templateUrl: '/views/project.html'
     , controller: 'ProjectCtrl'
     })
