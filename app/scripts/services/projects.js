@@ -24,26 +24,38 @@ angular.module('maximmcnairApp')
         }
       // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/1231579/talllies-time-tracking-landing.jpg'
       }
-    , { title: 'Frasier'
-      , slug: 'fraiser'
-      , tags: ['Angular']
-      , hero: '/images/work_crunchd.jpg'
-      , desc: 'Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.'
-      // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/908153/woven-films_1x.png'
-      }
+    // , { title: 'Frasier'
+    //   , slug: 'fraiser'
+    //   , tags: ['Angular']
+    //   , hero: '/images/work_crunchd.jpg'
+    //   , desc: 'Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.'
+    //   // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/908153/woven-films_1x.png'
+    //   }
     , { title: 'Esis'
       , slug: 'esis'
       , tags: ['Backbone', 'Node JS']
       , hero: '/images/work_crunchd.jpg'
-      , desc: 'Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.'
+      , desc: '<p>Synth Media\'s internal CMS built in Nodejs and Backbonejs. The interface features drag and drop modules for clients to build their own pages from pre designed widgets.</p>'
       // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/908153/woven-films_1x.png'
       }
-    , { title: 'Loungers'
-      , slug: 'loungers'
-      , tags: ['Wordpress', 'Angular']
-      , hero: '/images/work_crunchd.jpg'
-      , desc: 'Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.'
-      // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/908153/woven-films_1x.png'
+    // , { title: 'Loungers'
+    //   , slug: 'loungers'
+    //   , tags: ['Wordpress', 'Angular']
+    //   , hero: '/images/work_crunchd.jpg'
+    //   , desc: 'Crunchd is a cross-platform utility providing a network for fruit and veg enthusiasts to swap tips and trade produce with other locally-based, green-fingered folk.'
+    //   // , thumb: 'http://d13yacurqjgara.cloudfront.net/users/29099/screenshots/908153/woven-films_1x.png'
+    //   }
+    , { title: 'Appinionated'
+      , slug: 'appinionated'
+      , tags: ['Angular', 'Node js']
+      , hero: ''
+      , desc: '<p>A app review site featuring "only the best designed apps for the iPhone". Appinionated consists of two Angular apps and an Nodejs API. A simple infinite scroll based fronted for the everyday viewer and a custom made CMS mirroring the fronted app design for the admins.</p>'
+      }
+    , { title: 'Comentorise'
+      , slug: 'appinionated'
+      , tags: ['Angular', 'Node js']
+      , hero: ''
+      , desc: ''
       }
     ]
 
