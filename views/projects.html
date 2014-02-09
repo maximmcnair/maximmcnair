@@ -15,7 +15,7 @@
 </ul> -->
 
 <section class="projects container">
-  <a ng-repeat="project in projects" class="project-preview project-preview--{{project.slug}}" href="#/projects/{{project.slug}}">
+  <a ng-repeat="project in projects" class="project-preview project-preview--{{project.slug}}" href="/projects/{{project.slug}}">
     <h2 class="project-preview__title">{{project.title}}</h2>
     <div class="project-preview__tags">
       <span ng-repeat="tag in project.tags">{{tag}}</span>
