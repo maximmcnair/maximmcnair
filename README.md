@@ -1,17 +1,21 @@
-# Personal-Site
+# Frasier
 
-## Colours
-white
-`
-#e9e9e9
-`
+## Getting started
 
-dark blue
-`
-#16293c
-`
+```
+git clone git@github.com:maximmcnair/frasier
+cd frasier
+npm install
+bower install
+grunt
+```
 
-blue
-`
-#34495e
-`
+## Empty localstorage
+
+localStorage.setItem('frasier', '')
+localStorage.getItem('frasier')
+
+
+# Bugs
+- estimate sets to 0sec when no hour input is added
+- Task can be added with no title

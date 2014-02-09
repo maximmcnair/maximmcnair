@@ -24,7 +24,7 @@
 , "noempty": false
 , "nonew": true
 , "predef":
-  [ "angular"
+  [ "Backbone"
   , "describe"
   , "it"
   , "before"
