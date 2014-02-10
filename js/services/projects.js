@@ -50,6 +50,7 @@ angular.module('maximmcnairApp')
       , tags: ['Angular', 'Node js']
       , hero: '/images/work_appinionated.png'
       , desc: '<p>A app review site featuring "only the best designed apps for the iPhone". Appinionated consists of two Angular apps and an Nodejs API. A simple infinite scroll based fronted for the everyday viewer and a custom made CMS mirroring the fronted app design for the admins.</p>'
+      , href: 'http://www.appinionated.co.uk/'
       }
     ]
 
