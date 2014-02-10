@@ -7,11 +7,19 @@ h1{font-size:48px;font-family:"proxima-nova-soft",sans-serif;color:#e9e9e9}
 h2{color:#e9e9e9}
 p{font-size:18px;font-weight:100;line-height:26px;margin-bottom:15px}
 strong{font-weight:700}
-a{color:#c3c7ca;text-decoration:none;}
-a:hover{color:#c3c7ca}
+a{color:#c3c7ca;text-decoration:none;-webkit-transition:color .3s;-moz-transition:color .3s;-o-transition:color .3s;-ms-transition:color .3s;transition:color .3s;}
+a:hover{color:#fa0}
 .ampersand{font-family:Baskerville,"Goudy Old Style","Palatino","Book Antiqua",serif;font-size:110%;font-style:italic}
 .btn{padding:17px 30px;font-size:14px;border:2px solid #c3c7ca;display:inline-block;margin-top:30px;text-transform:uppercase;-webkit-border-radius:5px;border-radius:5px;font-weight:700;cursor:pointer;-webkit-transition:all .3s;-moz-transition:all .3s;-o-transition:all .3s;-ms-transition:all .3s;transition:all .3s;}
 .btn:hover{color:#2b3c4d;background:#fa0;border-color:#fa0}
+.header__main{position:fixed;top:0;left:0;right:0;background:#1e2e3d;overflow:hidden;padding:15px 15px 12px 15px;z-index:99999;}
+.header__main ul{list-style-type:none;margin:0;padding:0}
+.header__main li{margin:0;padding:0;float:left}
+.header__main__nav,.header__main__social{float:left;}
+.header__main__nav li,.header__main__social li{margin-right:20px}
+.header__main__nav{text-transform:uppercase;padding-top:2px}
+.header__main__social{float:right;}
+.header__main__social a{font-size:20px}
 .home{padding-top:40px}
 .home__desc__title{margin-bottom:10px}
 @media screen and (min-width: 700px){.home{padding-top:140px}

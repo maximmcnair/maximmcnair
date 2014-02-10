@@ -10,10 +10,28 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/ss-social.css">
     <script type="text/javascript" src="//use.typekit.net/gxg4ter.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   </head>
   <body ng-app="maximmcnairApp">
+
+    <header class="header__main">
+      <div class="container">
+        <nav class="header__main__nav">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projects">Projects</a></li>
+          </ul>
+        </nav>
+
+        <ul class="header__main__social">
+          <li><a target="_blank" href="https://twitter.com/maximmcnair" class="ss-icon ss-social-circle ss-twitter"></a></li>
+          <li><a target="_blank" href="http://dribbble.com/maximmcnair" class="ss-icon ss-social-circle ss-dribbble"></a></li>
+          <li><a target="_blank" href="https://github.com/maximmcnair" class="ss-icon ss-social-circle ss-github"></a></li>
+        </ul>
+      </div>
+    </header>
 
     <div ng-view=""></div>
 
