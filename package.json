@@ -1,0 +1,8 @@
+{
+  "name": "fanbookz",
+  "devDependencies": {
+    "nib": "*",
+    "gulp-stylus": "~1.0.2",
+    "gulp": "~3.8.0"
+  }
+}

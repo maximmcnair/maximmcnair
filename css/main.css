@@ -1,0 +1,174 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-family: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+body {
+  line-height: 1;
+  color: #000;
+  background: #fff;
+}
+ol,
+ul {
+  list-style: none;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+caption,
+th,
+td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+a img {
+  border: none;
+}
+html {
+  background: #fff;
+}
+.page {
+  background: #f5eeee;
+}
+.content {
+  background: #f5eeee;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  display: block;
+  position: absolute;
+  padding: 50px;
+}
+.content h1 {
+  max-width: 950px;
+}
+body {
+  color: #939191;
+  font-size: 55px;
+  font-family: "adobe-caslon-pro-1", "adobe-caslon-pro-2";
+}
+h1 {
+  font-size: 55px;
+  line-height: 70px;
+}
+a {
+  font-style: italic;
+  color: #5a5959;
+  -webkit-transition: color 0.6s;
+  -moz-transition: color 0.6s;
+  -o-transition: color 0.6s;
+  -ms-transition: color 0.6s;
+  transition: color 0.6s;
+}
+a:hover {
+  color: #454545;
+}
+.social {
+  position: absolute;
+  bottom: 20px;
+}
+.social a {
+  font-size: 16px;
+  margin-right: 25px;
+  text-decoration: none;
+}
+.social a:hover {
+  text-decoration: underline;
+}
+@media screen and (max-width: 500px) {
+  .content {
+    padding: 25px;
+  }
+  h1 {
+    font-size: 16px;
+    line-height: 28px;
+  }
+  .social {
+    bottom: 0px;
+  }
+  .social a {
+    font-size: 15px;
+    margin-right: 5px;
+  }
+}
+@media screen and (min-width: 500px) and (max-width: 900px) {
+  h1 {
+    font-size: 40px;
+    line-height: 51px;
+  }
+}
+@media screen and (min-width: 900px) {
+  .content {
+    padding: 50px;
+  }
+  h1 {
+    font-size: 55px;
+    line-height: 70px;
+  }
+}
