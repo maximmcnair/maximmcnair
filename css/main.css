@@ -92,11 +92,8 @@ a img {
 html {
   background: #fff;
 }
-.page {
-  background: #f5eeee;
-}
 .content {
-  background: #f5eeee;
+  background: #fff;
   top: 10px;
   left: 10px;
   right: 10px;
@@ -104,6 +101,16 @@ html {
   display: block;
   position: absolute;
   padding: 50px;
+  -webkit-animation: fadeInBG 0.5s 0.5s;
+  -moz-animation: fadeInBG 0.5s 0.5s;
+  -o-animation: fadeInBG 0.5s 0.5s;
+  -ms-animation: fadeInBG 0.5s 0.5s;
+  animation: fadeInBG 0.5s 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 .content h1 {
   max-width: 950px;
@@ -116,6 +123,19 @@ body {
 h1 {
   font-size: 55px;
   line-height: 70px;
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-animation: fadeIn 0.5s 1s;
+  -moz-animation: fadeIn 0.5s 1s;
+  -o-animation: fadeIn 0.5s 1s;
+  -ms-animation: fadeIn 0.5s 1s;
+  animation: fadeIn 0.5s 1s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 a {
   font-style: italic;
@@ -134,12 +154,51 @@ a:hover {
   bottom: 20px;
 }
 .social a {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
   font-size: 16px;
   margin-right: 25px;
   text-decoration: none;
 }
 .social a:hover {
   text-decoration: underline;
+}
+.social a:nth-of-type(1) {
+  -webkit-animation: fadeIn 0.5s 1.5s;
+  -moz-animation: fadeIn 0.5s 1.5s;
+  -o-animation: fadeIn 0.5s 1.5s;
+  -ms-animation: fadeIn 0.5s 1.5s;
+  animation: fadeIn 0.5s 1.5s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+.social a:nth-of-type(2) {
+  -webkit-animation: fadeIn 0.5s 1.6s;
+  -moz-animation: fadeIn 0.5s 1.6s;
+  -o-animation: fadeIn 0.5s 1.6s;
+  -ms-animation: fadeIn 0.5s 1.6s;
+  animation: fadeIn 0.5s 1.6s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+.social a:nth-of-type(3) {
+  -webkit-animation: fadeIn 0.5s 1.7s;
+  -moz-animation: fadeIn 0.5s 1.7s;
+  -o-animation: fadeIn 0.5s 1.7s;
+  -ms-animation: fadeIn 0.5s 1.7s;
+  animation: fadeIn 0.5s 1.7s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
 }
 @media screen and (max-width: 500px) {
   .content {
@@ -170,5 +229,85 @@ a:hover {
   h1 {
     font-size: 55px;
     line-height: 70px;
+  }
+}
+@-moz-keyframes fadeInBG {
+  0% {
+    background: #fff;
+  }
+  100% {
+    background: #f5eeee;
+  }
+}
+@-webkit-keyframes fadeInBG {
+  0% {
+    background: #fff;
+  }
+  100% {
+    background: #f5eeee;
+  }
+}
+@-o-keyframes fadeInBG {
+  0% {
+    background: #fff;
+  }
+  100% {
+    background: #f5eeee;
+  }
+}
+@keyframes fadeInBG {
+  0% {
+    background: #fff;
+  }
+  100% {
+    background: #f5eeee;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  100% {
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  100% {
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  100% {
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+  }
+  100% {
+    opacity: 1;
+    -ms-filter: none;
+    filter: none;
   }
 }

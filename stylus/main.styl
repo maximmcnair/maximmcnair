@@ -3,12 +3,13 @@ global-reset()
 html
   background #ffffff
 
-.page
-  background #f5eeee
+// .page
+//   background #f5eeee
   // position relative
 
 .content
-  background #f5eeee
+  // background #f5eeee
+  background #ffffff
   top 10px
   left 10px
   right 10px
@@ -16,8 +17,16 @@ html
   display block
   position absolute
   padding 50px
+  animation fadeInBG .5s .5s
+  animation-fill-mode forwards
   h1
     max-width 950px
+
+@keyframes fadeInBG
+  0%
+    background #ffffff
+  100%
+    background #f5eeee
 
 body
   color #939191
@@ -27,6 +36,10 @@ body
 h1
   font-size 55px
   line-height 70px
+  opacity 0
+  animation fadeIn .5s 1s
+  animation-fill-mode forwards
+
 
 a
   font-style italic
@@ -39,11 +52,21 @@ a
   position absolute
   bottom 20px
   a
+    opacity 0
     font-size 16px
     margin-right 25px
     text-decoration none
     &:hover
       text-decoration underline
+  a:nth-of-type(1)
+    animation fadeIn .5s 1.5s
+    animation-fill-mode forwards
+  a:nth-of-type(2)
+    animation fadeIn .5s 1.6s
+    animation-fill-mode forwards
+  a:nth-of-type(3)
+    animation fadeIn .5s 1.7s
+    animation-fill-mode forwards
 
 @media screen and (max-width: 500px)
   .content
@@ -68,3 +91,9 @@ a
   h1
     font-size 55px
     line-height 70px
+
+@keyframes fadeIn
+  0%
+    opacity 0
+  100%
+    opacity 1
