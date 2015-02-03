@@ -202,6 +202,33 @@ a.btn:hover {
 .intro-title {
   margin-bottom: 45px;
 }
+.intro-title a {
+  position: relative;
+}
+.intro-title a:after {
+  -webkit-transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  -moz-transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  -o-transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  -ms-transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  position: absolute;
+  z-index: 1;
+  content: "";
+  left: 50%;
+  right: 50%;
+  height: 3px;
+  bottom: -5px;
+  background-color: #fff;
+}
+.intro-title a:hover:after {
+  left: 0px;
+  right: 0px;
+}
 .social-icons svg,
 .social-icons path {
   -webkit-transition: fill 0.4s ease;

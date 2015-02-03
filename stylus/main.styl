@@ -125,6 +125,22 @@ a.btn
 
 .intro-title
   margin-bottom 45px
+  a
+    position relative
+  a:after
+    transition 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)
+    transform translate3d(0, 0, 0)
+    position absolute
+    z-index 1
+    content ""
+    left 50%
+    right 50%
+    height 3px
+    bottom -5px
+    background-color #ffffff
+  a:hover:after
+    left 0px
+    right 0px
 
 //==============================================================================
 //  Social
