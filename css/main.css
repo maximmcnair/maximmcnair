@@ -382,6 +382,9 @@ a.work-desc-btn {
 .footer-text a {
   color: rgba(255,255,255,0.5);
 }
+.footer-text--made-in {
+  font-weight: 600;
+}
 @-moz-keyframes fadeIn {
   0% {
     opacity: 0;
