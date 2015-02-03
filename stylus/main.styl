@@ -40,12 +40,28 @@ video
 
 .wf-loading
   .content
-    opacity 0
+    display none
 
 .wf-active
   .content
+    display block
+
+//==============================================================================
+//  Animation
+//==============================================================================
+@keyframes fadeIn
+  0%
+    opacity 0
+  100%
     opacity 1
 
+@keyframes fadeInDown
+  0%
+    opacity 0
+    transform translate(0px, -20px)
+  100%
+    opacity 1
+    transform translate(0px, 0px)
 
 //==============================================================================
 //  Typography
@@ -118,8 +134,6 @@ a.btn
 //  Intro Statement
 //==============================================================================
 .intro
-  // display none
-  // &.is-visible
   display block
   margin-bottom 190px
 
@@ -142,6 +156,12 @@ a.btn
     left 0px
     right 0px
 
+.cssanimations
+  .intro-title
+    opacity 0
+    animation fadeIn .5s .3s
+    animation-fill-mode forwards
+
 //==============================================================================
 //  Social
 //==============================================================================
@@ -156,6 +176,12 @@ a.btn
       svg
       path
         fill #ffffff
+
+.cssanimations
+  .social-icons
+    opacity 0
+    animation fadeInDown .5s .5s
+    animation-fill-mode forwards
 
 //==============================================================================
 //  Nav
@@ -202,10 +228,8 @@ a.work-desc-btn
 //  Projects
 //==============================================================================
 .work
-  // display none
   margin-bottom 155px
   clearifx()
-  // &.is-visible
   display block
 
 .work-media
@@ -235,6 +259,12 @@ a.work-desc-btn
 .work-featured-designweek
 .work-featured-theguardian
   margin-right 15px
+
+.cssanimations
+  .work
+    opacity 0
+    animation fadeIn .5s 1s
+    animation-fill-mode forwards
 
 //==============================================================================
 //  Footer
