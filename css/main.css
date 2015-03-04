@@ -262,7 +262,7 @@ a.btn:hover {
 .social-icons a:hover path {
   fill: #fff;
 }
-.cssanimations .social-icons {
+.cssanimations .social-icons__dribbble {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -271,6 +271,36 @@ a.btn:hover {
   -o-animation: fadeInDown 0.5s 0.5s;
   -ms-animation: fadeInDown 0.5s 0.5s;
   animation: fadeInDown 0.5s 0.5s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+.cssanimations .social-icons__github {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-animation: fadeInDown 0.5s 0.7s;
+  -moz-animation: fadeInDown 0.5s 0.7s;
+  -o-animation: fadeInDown 0.5s 0.7s;
+  -ms-animation: fadeInDown 0.5s 0.7s;
+  animation: fadeInDown 0.5s 0.7s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+.cssanimations .social-icons__twitter {
+  opacity: 0;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  -webkit-animation: fadeInDown 0.5s 0.9s;
+  -moz-animation: fadeInDown 0.5s 0.9s;
+  -o-animation: fadeInDown 0.5s 0.9s;
+  -ms-animation: fadeInDown 0.5s 0.9s;
+  animation: fadeInDown 0.5s 0.9s;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
   -o-animation-fill-mode: forwards;
@@ -371,11 +401,11 @@ a.btn:hover {
   opacity: 0;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
-  -webkit-animation: fadeIn 0.5s 1s;
-  -moz-animation: fadeIn 0.5s 1s;
-  -o-animation: fadeIn 0.5s 1s;
-  -ms-animation: fadeIn 0.5s 1s;
-  animation: fadeIn 0.5s 1s;
+  -webkit-animation: fadeIn 0.5s 1.4s;
+  -moz-animation: fadeIn 0.5s 1.4s;
+  -o-animation: fadeIn 0.5s 1.4s;
+  -ms-animation: fadeIn 0.5s 1.4s;
+  animation: fadeIn 0.5s 1.4s;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
   -o-animation-fill-mode: forwards;
