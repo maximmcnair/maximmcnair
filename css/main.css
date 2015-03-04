@@ -419,6 +419,10 @@ a.btn:hover {
 }
 .footer-text a {
   color: rgba(255,255,255,0.5);
+  position: relative;
+}
+.footer-text a:hover {
+  color: #fff;
 }
 .footer-text--made-in {
   font-weight: 600;
