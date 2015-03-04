@@ -224,7 +224,7 @@ a.btn:hover {
   left: 50%;
   right: 50%;
   height: 3px;
-  bottom: -5px;
+  bottom: -1px;
   background-color: #fff;
 }
 .intro-title a:hover:after {
