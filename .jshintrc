@@ -24,8 +24,7 @@
 , "noempty": false
 , "nonew": true
 , "predef":
-  [ "Backbone"
-  , "describe"
+  [ "describe"
   , "it"
   , "before"
   , "beforeEach"

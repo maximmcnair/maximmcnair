@@ -2,13 +2,13 @@
 var gulp = require('gulp')
   , stylus = require('gulp-stylus')
   , nib = require('nib')
-  // , jshint = require('gulp-jshint')
+  , jshint = require('gulp-jshint')
+  , rename = require('gulp-rename')
   // , stylish = require('jshint-stylish')
   // , concat = require('gulp-concat')
   // , mochaPhantomJS = require('gulp-mocha-phantomjs')
   // , map = require('map-stream')
   // , fileinclude = require('gulp-file-include')
-  // , rename = require('gulp-rename')
 
 var stylusOptions =
     { set: ['compress']
@@ -22,9 +22,18 @@ var stylusOptions =
       , 'stylus/*.styl'
       ]
     }
+
 gulp.task('stylus', function () {
-  gulp.src('stylus/main.styl')
+  // Render production version
+  gulp.src('./stylus/main.styl')
     .pipe(stylus(stylusOptions).on('error', handleError))
+    .pipe(gulp.dest('css'))
+
+  // Render development version
+  stylusOptions.compress = true
+  gulp.src('./stylus/main.styl')
+    .pipe(stylus(stylusOptions).on('error', handleError))
+    .pipe(rename('main.min.css'))
     .pipe(gulp.dest('css'))
 })
 
@@ -44,4 +53,6 @@ function handleError(err) {
   this.emit('end')
 }
 
-gulp.task('default', ['stylus', 'watch'])
+gulp.task('default', ['stylus'])
+
+gulp.task('watch', ['stylus', 'watch'])
