@@ -2,7 +2,7 @@
 var gulp = require('gulp')
   , stylus = require('gulp-stylus')
   , nib = require('nib')
-  , jshint = require('gulp-jshint')
+  // , jshint = require('gulp-jshint')
   , rename = require('gulp-rename')
   // , stylish = require('jshint-stylish')
   // , concat = require('gulp-concat')
