@@ -5,5 +5,8 @@
     "gulp-stylus": "~1.0.2",
     "gulp": "~3.8.0",
     "gulp-rename": "^1.2.0"
+  },
+  "dependencies": {
+    "simple-server": "^1.0.1"
   }
 }
