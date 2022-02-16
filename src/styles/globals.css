@@ -1,0 +1,120 @@
+:root {
+  --color-bg: #1b1e26;
+  --color-white: #ffffff;
+  /* --color-text: #9093a0; */
+  --color-text: #9ba0b5;
+  --color-dark: rgba(144, 147, 160, 0.5);
+  /* #444755 */
+}
+
+::selection {
+  background-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* @import url('https://fonts.googleapis.com/css?family=Inter:400,600'); */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/inter/v7/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2)
+    format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/sourcecodepro/v20/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQtMlrTA.woff2)
+    format("woff2");
+}
+
+html {
+  font-size: 100%; /* 16px */
+  background: var(--color-bg);
+}
+
+body {
+  background: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+p {
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-white);
+}
+
+h1,
+.text_h1 {
+  margin-top: 0;
+  font-size: 2.074rem;
+}
+
+h2,
+.text_h2 {
+  font-size: 2.074rem;
+}
+
+h3,
+.text_h3 {
+  font-size: 1.728rem;
+}
+
+h4,
+.text_h4 {
+  font-size: 1.44rem;
+}
+
+h5,
+.text_h5 {
+  font-size: 1.2rem;
+}
+
+small,
+.text_small {
+  font-size: 0.833rem;
+}
+
+code {
+  font-family: "Source Code Pro", monospace;
+}
+
+article {
+  max-width: 680px;
+  width: 80%;
+  margin: 60px auto 50px auto;
+}

@@ -1,0 +1,50 @@
+---
+title: "Nextjs with mdx"
+publishedOn: "2022-02-15T16:31:05.404Z"
+published: true
+---
+
+## Setup nextjs blog with MDX
+
+## Overview
+
+- /content/ will contain mdx posts
+- /pages/p/[slug].tsx will contain template
+
+```ts
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { Post } from "types";
+
+const contentDirectory = path.join(process.cwd(), "content");
+
+export async function getPostSlugs(): Promise<string[]> {
+  const slugs = fs.readdirSync(contentDirectory);
+  return slugs;
+}
+
+export async function getPost(slug: string): Promise<Post> {
+  const postPath = path.join(contentDirectory, `${slug}.mdx`);
+  const postSource = fs.readFileSync(postPath);
+  const { content, data: meta } = matter(postSource);
+  return {
+    slug,
+    content,
+    meta,
+  };
+}
+
+export async function getPosts(): Promise<Post[]> {
+  const slugs = await getPostSlugs();
+  return await Promise.all(
+    slugs.map(async (slug) => {
+      return await getPost(slug.replace(".mdx", ""));
+    })
+  );
+}
+```
+
+## Get posts
+
+## Get post content and render
