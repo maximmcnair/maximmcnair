@@ -1,15 +1,15 @@
-import type { GetStaticProps, NextPage } from "next";
-import Head from "next/head";
-// import Image from "next/image";
+import type { NextPage } from "next";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
 import { getPosts } from "utils/posts";
+import { Intro } from "components/Intro";
+import { Layout } from "components/Layout";
 import { Post } from "types";
 
 export async function getStaticProps() {
   const posts = await getPosts();
-  return { props: { posts: posts } };
+  return { props: { posts: posts.filter((p) => p.meta.published) } };
 }
 
 interface Props {
@@ -18,31 +18,19 @@ interface Props {
 
 const Home: NextPage<Props> = ({ posts }) => {
   return (
-    <div>
-      <Head>
-        <title>Maxim McNair</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout>
+      <Intro />
 
-      <main>
-        <div>
-          <p>
-            Developer interested in React, Web VR, typescript.
-          </p>
-          <p>Learning Blender and diving into the Web3 World.</p>
-          <p>Founder of burnie.app & keeptheaxesharp.com</p>
-        </div>
-        <article>
-          {posts.map(({ slug, meta }) => (
-            <a href={`/p/${slug}`} key={slug}>
-              <h2>{meta.title}</h2>
-              <strong>{format(parseISO(meta.publishedOn), "MMM yyyy")}</strong>
-            </a>
-          ))}
-        </article>
-      </main>
-    </div>
+      <section className="articles">
+        <span>Articles</span>
+        {posts.map(({ slug, meta }) => (
+          <a href={`/p/${slug}`} key={slug} className="article-prev">
+            <h2 className="article-prev__title">{meta.title}</h2>
+            <strong className="article-prev__date">{format(parseISO(meta.publishedOn), "MMM yyyy")}</strong>
+          </a>
+        ))}
+      </section>
+    </Layout>
   );
 };
 

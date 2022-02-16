@@ -1,15 +1,57 @@
 ---
-title: "Nextjs with mdx"
+title: "Using MDX for a NextJS blog"
 publishedOn: "2022-02-15T16:31:05.404Z"
 published: true
 ---
 
-## Setup nextjs blog with MDX
+I'm intending to start writing a lot more articles on this site, so for this rebuild I wanted to keep the layout completely separate from the article content. This will enable me to update the site layout within updating the articles themselves.
 
-## Overview
+I want to be able to write content in markdown, but also to embed React components and have code syntax highlighting throughout my articles.
+
+### Article content with Markdown
+
+Step one is to handle the rendering of our content. We'll use a number of packages to handle all the specific features we need.
+
+- [next-mdx-remote](https://www.npmjs.com/package/next-mdx-remote) Markdown rendering with React component support
+- [gray-matter](https://www.npmjs.com/package/gray-matter) YAML meta data support
+- [react-highlight](https://www.npmjs.com/package/react-highlight) Code syntax highlighting, with easy theming
+
+This will enable us to write our articles like the following:
+
+````
+---
+title: Hello
+slug: home
+---
+
+Article content in **markdown.**
+
+## Component example
+<ReactComponent />
+
+More content in **markdown.**
+
+```ts
+function syntaxHightlight(){
+  return '';
+}
+``
+````
+
+### How it'll work
+
+The articles are stored in a directory and we'll use a NextJS template to render the layout of the page with an `<article>` to contain the articles content.
+
+When a user visits a url such as `/p/article-name`, we'll search our content directory for an article with a filename that matches the url.
+
+With our directory structure looking like the following:
 
 - /content/ will contain mdx posts
 - /pages/p/[slug].tsx will contain template
+
+### Listing our articles
+
+For the homepage we want to show a list of articles. We'll need access each content file and process the meta data for the title to render. For this we need the following helper functions:
 
 ```ts
 import fs from "fs";
@@ -17,16 +59,21 @@ import path from "path";
 import matter from "gray-matter";
 import { Post } from "types";
 
+// Our /content directory, which contains multiple .mdx files
 const contentDirectory = path.join(process.cwd(), "content");
 
 export async function getPostSlugs(): Promise<string[]> {
+  // Get all the files in our content directory
   const slugs = fs.readdirSync(contentDirectory);
-  return slugs;
+  // Return a list without their file extension
+  return slugs.map((s) => s.replace(".mdx", ""));
 }
 
 export async function getPost(slug: string): Promise<Post> {
+  // Get file content
   const postPath = path.join(contentDirectory, `${slug}.mdx`);
   const postSource = fs.readFileSync(postPath);
+  // Extract meta data
   const { content, data: meta } = matter(postSource);
   return {
     slug,
@@ -37,14 +84,81 @@ export async function getPost(slug: string): Promise<Post> {
 
 export async function getPosts(): Promise<Post[]> {
   const slugs = await getPostSlugs();
+  // Loop through each file and return it's meta data and content
   return await Promise.all(
     slugs.map(async (slug) => {
-      return await getPost(slug.replace(".mdx", ""));
+      return await getPost(slug);
     })
   );
 }
 ```
 
-## Get posts
+With our article content processed in the previous helpers, we can easily fetch our articles when will build our site with `getStaticProps` and then pass our articles to our Home page as props
 
-## Get post content and render
+**/pages/index.ts**
+
+```ts
+export async function getStaticProps() {
+  const posts = await getPosts();
+  return { props: { posts } };
+}
+
+const Home: NextPage = ({ posts }) => {
+  return (
+    <>
+      {posts.map(({ slug, meta }) => (
+        <a href={`/p/${slug}`} key={slug}>
+          <h2>{meta.title}</h2>
+        </a>
+      ))}
+    </>
+  );
+};
+```
+
+## Rendering our article
+
+Now that our users can follow a link to our article. We can use the url slug to get the correct article content, and then render this content with `<MDXRemote />`.
+
+Note that since we want to embed React components we need to do this server side with `getStaticProps` or `getInitialProps`.
+
+**/pages/p/[slug].ts**
+
+```ts
+export const getStaticPaths: GetStaticPaths = async () => {
+  // Get all our article's and return each one slug as an available page url
+  const slugs: string[] = await getPostSlugs();
+  const paths = slugs.map((slug) => {
+    return {
+      params: { slug },
+    };
+  });
+  return { paths, fallback: "blocking" };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  // Use our url slug to get the correct article content
+  const slug = context?.params?.slug || "";
+  const { content, meta } = await getPost(String(slug) || "");
+  // Use MDXRemote's serialize to get our correct embedded React components
+  const mdx = await serialize(content);
+
+  return {
+    props: {
+      meta,
+      mdx,
+    },
+  };
+};
+
+const Post: NextPage = ({ meta, mdx }) => {
+  return (
+    <>
+      <h1>{meta?.title}</h1>
+      <MDXRemote {...mdx} components={{ pre: Highlight }} />
+    </>
+  );
+};
+
+export default Post;
+```

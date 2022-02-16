@@ -1,27 +1,25 @@
 import React from "react";
 import Head from "next/head";
 
-interface Meta {
-  title: string;
-  author: string;
-  desc: string;
-}
+import { Nav } from "components/Nav";
 
 interface Props {
-  meta: Meta;
+  title?: string;
+  desc?: string;
 }
 
-export const Layout: React.FC<Props> = ({ meta, children }) => {
+export const Layout: React.FC<Props> = ({ title, desc, children }) => {
   return (
     <>
       <Head>
-        <title>{meta.title ? `${meta.title} | ` : ""}Maxim McNair</title>
-        <meta name="description" content={meta.desc || ""} />
+        <title>{title ? `${title} | ` : ""}Maxim McNair</title>
+        <meta name="description" content={desc || ""} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <article>{children}</article>
+      <main className="page">
+        <Nav />
+        {children}
       </main>
     </>
   );

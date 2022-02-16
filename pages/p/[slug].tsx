@@ -1,5 +1,4 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import format from "date-fns/format";
@@ -7,6 +6,7 @@ import parseISO from "date-fns/parseISO";
 import Highlight from "react-highlight";
 
 import { getPostSlugs, getPost } from "utils/posts";
+import { Layout } from "components/Layout";
 import { Meta } from "types";
 
 interface Props {
@@ -39,21 +39,19 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Post: NextPage<Props> = ({ meta, mdx }) => {
   return (
-    <>
-      <Head>
-        <title>{meta?.title ? `${meta.title} | ` : ""}Maxim McNair</title>
-        <meta name="description" content={meta?.desc || ""} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <article>
-          <h1>{meta?.title}</h1>
-          <strong>{format(parseISO(meta?.publishedOn), "MMM yyyy")}</strong>
+    <Layout title={meta?.title} desc={meta?.desc}>
+      <article className="article">
+        <header className="article__header">
+          <h1 className="article__title">{meta?.title}</h1>
+          <strong className="article__date">
+            {format(parseISO(meta?.publishedOn), "MMM yyyy")}
+          </strong>
+        </header>
+        <div className="article__content">
           <MDXRemote {...mdx} components={{ pre: Highlight }} />
-        </article>
-      </main>
-    </>
+        </div>
+      </article>
+    </Layout>
   );
 };
 
