@@ -7,7 +7,7 @@ const contentDirectory = path.join(process.cwd(), "content");
 
 export async function getPostSlugs(): Promise<string[]> {
   const slugs = fs.readdirSync(contentDirectory);
-  return slugs.map(s => s.replace('.mdx', ''));
+  return slugs.map((s) => s.replace(".mdx", ""));
 }
 
 export async function getPost(slug: string): Promise<Post> {

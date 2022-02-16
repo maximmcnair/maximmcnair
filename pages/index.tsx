@@ -9,7 +9,20 @@ import { Post } from "types";
 
 export async function getStaticProps() {
   const posts = await getPosts();
-  return { props: { posts: posts.filter((p) => p.meta.published) } };
+
+  return {
+    props: {
+      posts: posts
+        .filter((p) => p.meta.published)
+        .sort((a, b) =>
+          a.meta.publishedOn > b.meta.publishedOn
+            ? -1
+            : a.meta.publishedOn < b.meta.publishedOn
+            ? 1
+            : 0
+        ),
+    },
+  };
 }
 
 interface Props {
@@ -26,7 +39,9 @@ const Home: NextPage<Props> = ({ posts }) => {
         {posts.map(({ slug, meta }) => (
           <a href={`/p/${slug}`} key={slug} className="article-prev">
             <h2 className="article-prev__title">{meta.title}</h2>
-            <strong className="article-prev__date">{format(parseISO(meta.publishedOn), "MMM yyyy")}</strong>
+            <strong className="article-prev__date">
+              {format(parseISO(meta.publishedOn), "MMM yyyy")}
+            </strong>
           </a>
         ))}
       </section>
