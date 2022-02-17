@@ -55,7 +55,6 @@ a {
 
 html {
   font-size: 100%; 
-  /* font-size: 112.5%;*/
   background: var(--color-bg);
 }
 
@@ -71,6 +70,7 @@ body {
 p {
   margin-bottom: 1rem;
   font-weight: 400;
+  font-size: 1.138rem;
 }
 
 h1,
