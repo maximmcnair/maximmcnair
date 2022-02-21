@@ -184,6 +184,7 @@ pre {
   animation: fadeIn 0.5s 0.3s;
   animation-fill-mode: forwards;
   margin-top: 20px;
+  padding-right: 15px;
 }
 
 .intro-title a {

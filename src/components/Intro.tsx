@@ -2,27 +2,11 @@ import React from "react";
 
 interface Props {}
 
-// <div>
-// <p>
-// Developer interested in React, Web VR, typescript.
-// </p>
-// <p>Learning Blender and diving into the Web3 World.</p>
-// <p>Founder of burnie.app & keeptheaxesharp.com</p>
-// </div>
-
-// {
-// "I'm a full-stack dev working at "}
-// <a href="https://neverbland.com/" target="_blank" rel="noreferrer">
-// Neverbland.
-// </a>
-// {" Below are a few projects I've worked on over the last couple of years. Interested in my work "
-// }
-
 export const Intro: React.FC<Props> = ({}) => {
   return (
     <section className="intro">
       <h2 className="intro-title text_h4">
-        {"I'm a full-stack developer and occansional designer. "}
+        {"I'm a full-stack developer and occasional designer. "}
         {"Currently focused on React, Svelte and Web3."}
         <br />
         {"Interested in my work "}
