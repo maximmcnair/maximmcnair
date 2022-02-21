@@ -10,17 +10,22 @@ interface Props {}
 // <p>Founder of burnie.app & keeptheaxesharp.com</p>
 // </div>
 
+// {
+// "I'm a full-stack dev working at "}
+// <a href="https://neverbland.com/" target="_blank" rel="noreferrer">
+// Neverbland.
+// </a>
+// {" Below are a few projects I've worked on over the last couple of years. Interested in my work "
+// }
+
 export const Intro: React.FC<Props> = ({}) => {
   return (
     <section className="intro">
-      <h2 className="intro-title type_display">
-        {
-          "I'm a full-stack dev working at "}
-        <a href="https://neverbland.com/" target="_blank" rel="noreferrer">
-          Neverbland.
-        </a>
-        {" Below are a few projects I've worked on over the last couple of years. Interested in my work "
-        }
+      <h2 className="intro-title text_h4">
+        {"I'm a full-stack developer and occansional designer. "}
+        {"Currently focused on React, Svelte and Web3."}
+        <br />
+        {"Interested in my work "}
         <a href="mailto:mail@maximmcnair.com" target="_blank" rel="noreferrer">
           {"let's talk."}
         </a>

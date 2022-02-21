@@ -54,7 +54,7 @@ a {
 }
 
 html {
-  font-size: 100%; 
+  font-size: 100%;
   background: var(--color-bg);
 }
 
@@ -266,12 +266,16 @@ pre {
   color: #ffffff;
 }
 
+.article-prev__date {
+  display: flex;
+}
+
 .article__title {
   margin: 0px;
 }
 
 .article__date {
-  display: block;
+  display: flex;
   margin-bottom: 20px;
 }
 
@@ -313,4 +317,15 @@ pre {
 
 .btn:hover {
   background: var(--color-white);
+}
+
+.tags {
+  display: flex;
+  gap: 5px;
+  margin-right: 5px;
+}
+
+.tag {
+  text-transform: uppercase;
+  font-weight: 600;
 }

@@ -44,7 +44,17 @@ const Post: NextPage<Props> = ({ meta, mdx }) => {
         <header className="article__header">
           <h1 className="article__title">{meta?.title}</h1>
           <strong className="article__date">
-            {format(parseISO(meta?.publishedOn), "MMM yyyy")}
+            {meta?.tags?.length > 0 && (
+              <div className="tags">
+                {meta.tags.map((t) => (
+                  <span key={t} className="tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+            {' • '}
+            {format(parseISO(meta?.publishedOn), "do MMM yyyy")}
           </strong>
         </header>
         <div className="article__content">

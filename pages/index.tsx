@@ -40,7 +40,17 @@ const Home: NextPage<Props> = ({ posts }) => {
           <a href={`/p/${slug}`} key={slug} className="article-prev">
             <h2 className="article-prev__title">{meta.title}</h2>
             <strong className="article-prev__date">
-              {format(parseISO(meta.publishedOn), "MMM yyyy")}
+              {meta?.tags?.length > 0 && (
+                <div className="tags">
+                  {meta.tags.map((t: string) => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+              {" • "}
+              {format(parseISO(meta?.publishedOn), "do MMM yyyy")}
             </strong>
           </a>
         ))}

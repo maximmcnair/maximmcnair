@@ -10,4 +10,5 @@ export interface Meta {
   desc: string;
   publishedOn: string;
   published: string;
+  tags: string[];
 }
