@@ -53,7 +53,7 @@ const Post: NextPage<Props> = ({ meta, mdx }) => {
                 ))}
               </div>
             )}
-            {' • '}
+            <span className="article-dot">{" • "}</span>
             {format(parseISO(meta?.publishedOn), "do MMM yyyy")}
           </strong>
         </header>

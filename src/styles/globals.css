@@ -19,6 +19,12 @@
   color: var(--color-bg);
 }
 
+img,
+video {
+  width: 100%;
+  max-width: 100%;
+}
+
 html,
 body {
   padding: 0;
@@ -156,7 +162,7 @@ pre {
 }
 
 .page {
-  max-width: 680px;
+  max-width: 617px;
   width: 80%;
   margin: 40px auto 50px auto;
 }
@@ -184,7 +190,6 @@ pre {
   animation: fadeIn 0.5s 0.3s;
   animation-fill-mode: forwards;
   margin-top: 20px;
-  padding-right: 15px;
 }
 
 .intro-title a {
@@ -249,7 +254,7 @@ pre {
 
 .article-prev {
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
   transition: all 0.3s;
 }
 
@@ -301,32 +306,70 @@ pre {
   margin-top: 0px;
 }
 
+.article-dot {
+  display: inline-block;
+  padding: 0px 7px;
+}
+
 .btn {
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
-  padding: 4px 18px 2px 18px;
-  margin-top: 20px;
+  padding: 6px 18px 4px 18px;
   display: inline-block;
   cursor: pointer;
-  border-radius: 3px;
-  /* color: #1b1e26; */
-  /* background: #444755; */
+  border-radius: 5px;
+  color: var(--color-grey-dark);
+  background: var(--color-grey-light);
+  transition: all .3s;
 }
 
 .btn:hover {
+  color: var(--color-bg);
   background: var(--color-white);
 }
 
 .tags {
   display: flex;
-  gap: 5px;
-  margin-right: 5px;
+  gap: 12px;
+  padding-right: 5px;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
 }
 
+.tags li,
 .tag {
   text-transform: uppercase;
   font-weight: 600;
+}
+
+.projects {
+  display: block;
+  margin-top: 60px;
+  opacity: 0;
+  animation: fadeIn 0.5s 2s;
+  animation-fill-mode: forwards;
+}
+
+.work {
+  margin-top: 15px;
+  margin-bottom: 35px;
+}
+
+.work-desc {
+  position: relative;
+}
+
+.work-desc-title {
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+.work-desc-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
