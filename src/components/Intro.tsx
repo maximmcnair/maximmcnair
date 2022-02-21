@@ -16,7 +16,7 @@ export const Intro: React.FC<Props> = ({}) => {
       <h2 className="intro-title type_display">
         {
           "I'm a full-stack dev working at "}
-        <a href="http://neverbland.com/" target="_blank" rel="noreferrer">
+        <a href="https://neverbland.com/" target="_blank" rel="noreferrer">
           Neverbland.
         </a>
         {" Below are a few projects I've worked on over the last couple of years. Interested in my work "

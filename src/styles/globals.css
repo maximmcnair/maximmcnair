@@ -73,6 +73,14 @@ p {
   font-size: 1.138rem;
 }
 
+p code {
+  background: var(--color-grey-dark);
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
 h1,
 h2,
 h3,
