@@ -255,6 +255,7 @@ pre {
 .article-prev {
   display: block;
   margin-top: 5px;
+  margin-bottom: 15px;
   transition: all 0.3s;
 }
 
@@ -296,6 +297,10 @@ pre {
   animation: fadeIn 0.5s 0.3s;
   animation-fill-mode: forwards;
   color: var(--color-white);
+}
+
+.article__content li {
+  font-size: 1.138rem;
 }
 
 .article__content a {
