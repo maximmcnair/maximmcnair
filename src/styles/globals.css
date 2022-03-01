@@ -255,6 +255,7 @@ pre {
 .article-prev {
   display: block;
   margin-top: 5px;
+  margin-bottom: 15px;
   transition: all 0.3s;
 }
 
@@ -298,6 +299,10 @@ pre {
   color: var(--color-white);
 }
 
+.article__content li {
+  font-size: 1.138rem;
+}
+
 .article__content a {
   color: var(--color-highlight);
 }
@@ -317,7 +322,7 @@ pre {
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
-  padding: 6px 18px 4px 18px;
+  padding: 6px 18px;
   display: inline-block;
   cursor: pointer;
   border-radius: 5px;
