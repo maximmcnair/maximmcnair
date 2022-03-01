@@ -1,9 +1,27 @@
 {
   "name": "maximmcnair",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "date-fns": "^2.28.0",
+    "gray-matter": "^4.0.3",
+    "next": "12.0.10",
+    "next-mdx-remote": "^3.0.8",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-highlight": "^0.14.0"
+  },
   "devDependencies": {
-    "nib": "*",
-    "gulp-stylus": "~1.0.2",
-    "gulp": "~3.8.0",
-    "gulp-rename": "^1.2.0"
+    "@types/node": "17.0.17",
+    "@types/react": "17.0.39",
+    "@types/react-highlight": "^0.12.5",
+    "eslint": "7",
+    "eslint-config-next": "12.0.10",
+    "typescript": "4.5.5"
   }
 }
