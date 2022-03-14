@@ -1,0 +1,209 @@
+---
+title: "MacOS command line setup"
+publishedOn: "2022-03-10T16:31:05.404Z"
+tags: ['Alacritty', 'tmux']
+published: true
+---
+
+I'm currently in the process of moving over to MacOS from Arch Linux as my daily driver. This article will outline my decisions for the command line. With a focus on [alacritty](https://github.com/alacritty/alacritty), [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh), [tmux](https://github.com/tmux/tmux), and [teamocil](https://github.com/remi/teamocil). I'll follow up with an article outlining my vim setup.
+
+The main change since the last time I ran MacOS as my daily driver, will be swapping out ITerm2 for Alacritty. This is mainly due to not needing tab support, as I use tmux's tabs and windows, and the fact alacritty can be configured through a .yml file rather than though a UI panel. 
+
+### Alacritty
+Alacritty is a fast, cross-platform, OpenGL terminal emulator. Alacritty is bare bones, with no support for tabs.
+
+Using a .yml file is great since you can set it up once, get it in version control, and use across multiple devices and installs. It also allows for easy setup with a bash script, a pain point for MacOS setup for me is having to do everything setup multiple applications through a UI.
+
+This should live `~/.config/alacritty/alacritty.yml` or `~/.alacritty.yml`. This is my current alacritty config, with [dracula theme colors](https://draculatheme.com/) and use of Adobe's OSS [Source Code Pro](https://github.com/adobe-fonts/source-code-pro) typeface.
+
+**~/.alacritty.yml**
+
+```yml
+# Copy with mouse
+selection:
+  # This string contains all characters that are 
+  # used as separators for "semantic words" in Alacritty.
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+  # When set to `true`, selected text will be copied 
+  # to the primary clipboard.
+  save_to_clipboard: true
+
+mouse:
+  hints:
+    launcher:
+      # This depends on your OS, on Mac it’s `open`
+      program: open
+    modifiers: Command
+
+cursor:
+  style: Block
+
+font:
+  normal:
+    family: Source Code Pro
+  size: 17
+
+# Allow for alt key bindings
+key_bindings:
+  - { key: Key0, mods: Alt, chars: 'º' }
+  - { key: Key1, mods: Alt, chars: '¡' }
+  - { key: Key2, mods: Alt, chars: '€' }
+  - { key: Key3, mods: Alt, chars: '#' }
+  - { key: Key4, mods: Alt, chars: '¢' }
+  - { key: Key5, mods: Alt, chars: '∞' }
+  - { key: Key6, mods: Alt, chars: '§' }
+  - { key: Key7, mods: Alt, chars: '¶' }
+  - { key: Key8, mods: Alt, chars: '•' }
+  - { key: Key9, mods: Alt, chars: 'ª' }
+
+# https://draculatheme.com/alacritty
+colors:
+  primary:
+    background: '#282a36'
+    foreground: '#f8f8f2'
+    bright_foreground: '#ffffff'
+  cursor:
+    text: CellBackground
+    cursor: CellForeground
+  vi_mode_cursor:
+    text: CellBackground
+    cursor: CellForeground
+  search:
+    matches:
+      foreground: '#44475a'
+      background: '#50fa7b'
+    focused_match:
+      foreground: '#44475a'
+      background: '#ffb86c'
+    bar:
+      background: '#282a36'
+      foreground: '#f8f8f2'
+  hints:
+    start:
+      foreground: '#282a36'
+      background: '#f1fa8c'
+    end:
+      foreground: '#f1fa8c'
+      background: '#282a36'
+  line_indicator:
+    foreground: None
+    background: None
+  selection:
+    text: CellForeground
+    background: '#44475a'
+  normal:
+    black: '#21222c'
+    red: '#ff5555'
+    green: '#50fa7b'
+    yellow: '#f1fa8c'
+    blue: '#bd93f9'
+    magenta: '#ff79c6'
+    cyan: '#8be9fd'
+    white: '#f8f8f2'
+  bright:
+    black: '#6272a4'
+    red: '#ff6e6e'
+    green: '#69ff94'
+    yellow: '#ffffa5'
+    blue: '#d6acff'
+    magenta: '#ff92df'
+    cyan: '#a4ffff'
+    white: '#ffffff'
+```
+
+![alacritty colors](/terminal/colors.png)
+
+### OhMyZsh
+Easy to setup following their [instructions](https://github.com/ohmyzsh/ohmyzsh), this supplies a number of extras to zsh but the main one I use it for is adding git status to your prompt along with easy themes.
+
+**~/.zshrc**
+
+```
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="zhann"
+
+plugins=(git)
+
+source $ZSH/oh-my-zsh.sh
+```
+
+![ohmyzsh](/terminal/ohmyzsh.png)
+
+
+### Tmux
+
+[Tmux](https://github.com/tmux/tmux) is a "terminal multiplexer", put simply it allows for managing multiple terminals in tabs and windows. Each session is managed on device, so I could SSH into server start a session, leave, and then come back in a few days and attach to that session, with everything still running. This is perfect is your internet is patchy, as it'll keep running your commands on device if your internet fails.
+
+This paired with teamocil, for creating sessions, allows for a setup once use multiple times approach.
+
+### Tmux Cheatsheet
+```zsh
+# Sessions
+tmux new -s session_name       # Create new session
+tmux ls                        # List all sessions
+tmux attach -t session_name    # Attach to session
+tmux detach                    # Detach from current session
+tmux kill-session              # End session
+tmux kill-server               # End all sessions
+tmux $                         # Rename session
+
+# C-b stands for Ctrl+b (this prefix can be reset in conf)
+
+# Panes
+C-b %                          # Default new vert pane
+C-b "                          # Default new horz pane
+C-b |                          # My new vert pane
+C-b -                          # My new horz pane
+C-b o                          # Go to next pane
+C-b space                      # Toggle layout
+C-b z                          # Toggle pane fullscreen
+
+# Windows
+C-b c                          # Create new window
+C-b n                          # Go to next window
+C-b p                          # Go to prev window
+C-b 1                          # Go to window 1
+C-b ,                          # List all windows
+C-b w                          # Rename window
+
+# Misc
+C-b d                          # Detach session
+```
+
+### Teamocil
+Teamocil allows for automating tmux session creation from a config file, with full support for pane and window layouts with commands.
+
+Here's an example node.js + react project setup. This is create two windows, the first with a vim session, the second with a window split into two vertical panes. Here we automatically install the corect version of node with nvm, then run the correct process for either the api service or the react project.
+
+**~/.teamocil/project.yml**
+
+```yml
+name: "project name"
+windows:
+  - name: vim
+    root: ~/project-dir
+    panes:
+      - v .
+  - name: runners
+    root: ~/project-dir
+    layout: even-horizontal
+    panes:
+      - commands:
+        - cd api
+        - nvm install
+        - yarn start:dev
+      - commands:
+        - cd web
+        - nvm install
+        - yarn start
+```
+
+To run teamocil, you'll need to be in tmux first, then run teamocil with `--here` to avoid creating an extra window.
+
+```zsh
+tmux
+teamocil nmblr --here
+```
+
