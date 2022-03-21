@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       meta,
       mdx,
-      posts: posts.filter((p) => p.meta.published),
+      posts: posts.filter((p) => p.meta.published && !!p.meta.title),
     },
   };
 };
