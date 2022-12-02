@@ -1,0 +1,138 @@
+---
+import Opx from "../../components/Opx.tsx";
+---
+
+<div class="background">
+  <Opx client:load />
+</div>
+
+<style is:global>
+  body {
+    margin: 0px;
+  }
+
+  :root .background {
+    --color-white: #eceff4;
+    --color-black: #141421;
+
+    --color-grey-light: #C8C6D0;
+    --color-grey: #D3D7E0;
+    --color-grey-dark: #BEC1C9;
+    /* --color-black: #000000; */
+  }
+
+  .background {
+    background: var(--color-grey-light);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    padding: 24px;
+    background: var(--color-grey);
+    height: 248px;
+    width: 626px;
+    border-radius: 21px;
+    box-shadow: inset 3.50329px 3.50329px 0px #FFFFFF; 
+  }
+
+  .inside {
+    background: var(--color-black);
+    border-radius: 10px;
+    height: 100%;
+    padding: 4px;
+  }
+
+  .keys {
+    display: flex;
+    gap: 4px;
+  }
+
+  .keyblack,
+  .keyblackactive {
+    width: 129px;
+    height: 80px;
+    background: var(--color-grey);
+    border-radius: 7px;
+    position: relative;
+    margin-bottom: 4px;
+    transition: 0.1s;
+  }
+
+  .keyblackactive {
+    background: var(--color-grey-dark);
+    transform: scale(0.99);
+  }
+
+  .keyblack::after,
+  .keyblackactive::after {
+    content: '';
+    display: block;
+    width: 52px;
+    height: 52px;
+    border-radius: 84px;
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    transition: 0.1s;
+
+    background: #141421;
+    border: 2px solid rgba(235, 238, 244, 0.2);
+    box-shadow: 0px -7.00658px 10.5099px rgba(255, 255, 255, 0.64), -3.50329px 10.5099px 10.5099px rgba(49, 52, 58, 0.13);
+  }
+
+  .keyblack:nth-of-type(1)::after,
+  .keyblackactive:nth-of-type(1)::after,
+  .keyblack:nth-of-type(3)::after,
+  .keyblackactive:nth-of-type(3)::after {
+    left: auto;
+    right: 15px;
+  }
+
+  .keyblack:nth-of-type(4),
+  .keyblackactive:nth-of-type(4) {
+    width: 87px;
+  }
+
+  .keywhite,
+  .keywhiteactive {
+    width: 85px;
+    height: 164px;
+    transition: 0.1s;
+    background: var(--color-grey);
+    border-radius: 7px;
+    position: relative;
+  }
+
+  .keywhiteactive {
+    background: var(--color-grey-dark);
+    transform: scale(0.99);
+  }
+
+  .keywhite::after,
+  .keywhiteactive::after {
+    transition: 0.1s;
+    content: '';
+    display: block;
+    width: 52px;
+    height: 136px;
+    background: red;
+    border-radius: 84px;
+    border: #D6DAE3 solid 2px;
+    background: var(--color-grey);
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    box-shadow: 0px -7.00658px 10.5099px rgba(255, 255, 255, 0.64), -7.00658px 7.00658px 10.5099px #C0C9D3, inset -3.50329px 3.50329px 10.5099px rgba(255, 255, 255, 0.25);
+  }
+
+  .keywhiteactive::after {
+    transform: scale(0.99);
+    background: var(--color-grey-dark);
+    border: #ced0d5 solid 2px;
+    box-shadow: 0px -7.00658px 10.5099px rgba(255, 255, 255, 0), -7.00658px 7.00658px 10.5099px #C0C9D3, inset -3.50329px 3.50329px 10.5099px rgba(255, 255, 255, 0.05);
+  }
+</style>

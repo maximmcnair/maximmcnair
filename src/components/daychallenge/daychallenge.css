@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 360px;
+  height: 600px;
+  background: rgba(32, 36, 40, 1);
+  border-radius: 13px;
+  position: relative;
+  overflow: hidden;
+
+  border: 1px solid rgba(0, 0, 0, 0.01);
+  box-shadow: inset -2px -2px 4px rgba(24, 25, 26, 0.5),
+    inset 2px 2px 4px rgba(242, 249, 255, 0.1);
+  filter: drop-shadow(210px 210px 180px rgba(0, 0, 0, 0.2))
+    drop-shadow(87px 87px 74px rgba(11, 12, 13, 0.15))
+    drop-shadow(47px 47px 40px rgba(11, 12, 13, 0.13))
+    drop-shadow(26px 26px 22px rgba(11, 12, 13, 0.08))
+    drop-shadow(14px 14px 12px rgba(11, 12, 13, 0.07))
+    drop-shadow(6px 6px 6px rgba(11, 12, 13, 0.05));
+
+  padding: 30px;
+}
+
+.container::after {
+  content: "";
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  /* background: url(/noise.jpeg); */
+  /* opacity: 0.01; */
+  background: url(/texture.jpeg);
+  opacity: 0.08;
+  background-blend-mode: overlay;
+  z-index: 1;
+}
+
+.screen {
+  width: 100%;
+  background: #000000;
+  background-image: radial-gradient(
+    rgba(0, 150, 0, 0.25), black 120%
+  );
+  color: #66cf8c;
+  font-size: 18px;
+  text-shadow: 0 0 5px #66cf8c;
+  border: none;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  padding: 10px;
+  height: 50px;
+  position: relative;
+  z-index: 3;
+}
+
+.screen:focus {
+  outline: none;
+}
+
+.screen::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: red;
+  /* repeating-linear-gradient( */
+    /* 0deg, */
+    /* red, */
+    /* red, */
+    /* rgba(0, 0, 0, 1), */
+    /* rgba(0, 0, 0, 1.15) 1px, */
+    /* transparent 1px, */
+    /* transparent 2px */
+  /* ); */
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  z-index: 2;
+  position: relative;
+}
+
+.button {
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(180deg, #414344 0%, #2b2d2e 100%);
+  background-clip: padding-box;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.4),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.3);
+  transition: all 0.1s;
+
+  flex: 1;
+  aspect-ratio: 1;
+  justify-content: center;
+  align-items: center;
+  border: solid 5px transparent;
+  border-radius: 1em;
+}
+
+.button:after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  bottom: -5px;
+  left: -5px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, #1d262d, #12161a);
+}
+
+.button__active {
+  background: linear-gradient(180deg, #323435 0%, #242627 100%);
+  background-clip: padding-box;
+  box-shadow: 0px 1px 0px rgb(112 112 112 / 30%),
+    inset 0px 2px 3px rgb(0 0 0 / 75%);
+}
+
+.button-text-wrapper {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  border-radius: 50%;
+  background: linear-gradient(359deg, #363839 5.39%, #202222 110.61%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s;
+  box-shadow: 0px 1px 0px rgb(112 112 112 / 30%),
+    inset 0px 2px 3px rgb(0 0 0 / 35%);
+}
+
+.button__active .button-text-wrapper {
+  background: linear-gradient(359deg, #2e3031 5.39%, #202222 110.61%);
+  box-shadow: 0px 1px 0px rgb(112 112 112 / 30%),
+    inset 0px 2px 3px rgb(0 0 0 / 75%);
+}
+
+.button-text {
+  user-select: none;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 800;
+  transition: all 0.1s;
+  text-shadow: 0 1px 0 rgba(94, 94, 94, 0.69);
+}
+
+.button__active .button-text {
+  color: red;
+  text-shadow: 0px 0px 8px rgba(255, 64, 64, 0.8);
+}

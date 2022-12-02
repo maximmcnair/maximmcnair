@@ -1,0 +1,170 @@
+---
+export interface Props {
+  title: string;
+  desc: string;
+}
+
+const { title, desc } = Astro.props;
+
+// <nav>
+//   <a href="/">Home</a>
+//   <a href="/tool/copy-paste-mathjax">tool</a>
+// </nav>
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={desc || ""} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/Inter Web/Inter-Regular.woff2?v=3.19") format("woff2"),
+      url("/fonts/Inter Web/Inter-Regular.woff?v=3.19") format("woff");
+  }
+  @font-face {
+    font-family: "Inter";
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("/fonts/Inter Web/Inter-Italic.woff2?v=3.19") format("woff2"),
+      url("/fonts/Inter Web/Inter-Italic.woff?v=3.19") format("woff");
+  }
+  @font-face {
+    font-family: "Laicab";
+    src: url("/fonts/Laica/laicaa-regular.woff-webfont.woff2") format("woff2"),
+      url("/fonts/Laica/laicaa-regular.woff-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Laicab Italic";
+    src: url("/fonts/Laica/laicaa-italic.woff2") format("woff2"),
+      url("/fonts/Laica/laicaa-italic.woff") format("woff");
+    font-style: italic;
+    font-weight: normal;
+  }
+
+  :root {
+    --color-white: #f7f7f7;
+    --color-grey: #4d4d4d;
+    --color-grey-light: #797979;
+    --color-grey-dark: #1d1f20;
+    --color-black: #0d0d0d;
+    --color-gold: #d09f69;
+
+    --color-red: #ff5965;
+
+    --color-text: var(--color-white);
+    --color-bg: var(--color-black);
+
+    --type-h1: 2.488rem;
+    --type-h2: 2.074rem;
+    --type-h3: 1.728rem;
+    --type-h4: 1.44rem;
+    --type-h5: 1.2rem;
+    --type-body: 1rem;
+    --type-small: 0.8rem;
+
+    --type-inter: "Inter";
+    --type-laica: "Laicab";
+
+    --type-title: var(--type-laica);
+    --type-body: var(--type-inter);
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0px;
+    background: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  ::selection {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  /* typography */
+  html {
+    font-size: 112.5%; /* 18px */
+    font-family: "Inter";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    margin: 3rem 0 1.38rem;
+  }
+
+  h1,
+  .h1 {
+    margin-top: 0;
+    font-size: var(--type-h1);
+  }
+
+  h2,
+  .h2 {
+    font-size: var(--type-h2);
+  }
+
+  h3,
+  .h3 {
+    font-size: var(--type-h3);
+  }
+
+  h4,
+  .h4 {
+    font-size: var(--type-h4);
+  }
+
+  h5,
+  .h5 {
+    font-size: var(--type-h5);
+  }
+
+  small,
+  .small {
+    font-size: var(--type-small);
+  }
+
+  strong {
+    color: var(--color-gold);
+  }
+</style>

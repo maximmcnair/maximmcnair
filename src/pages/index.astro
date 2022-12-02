@@ -1,0 +1,369 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DayChallenge from "../components/DayChallenge.tsx";
+---
+
+<Layout title="Maxim McNair" desc="Product Engineer">
+  <link rel="preload" href="/img/bulb.png" as="image" />
+  <link rel="preload" href="/img/neverbland.jpg" as="image" />
+  <link rel="preload" href="/img/nmblr.png" as="image" />
+  <link rel="preload" href="/img/work_boilerroom.jpg" as="image" />
+  <link rel="preload" href="/img/work_inmysize.jpg" as="image" />
+
+  <nav class="nav">
+    <h1 class="nav-name">Maxim McNair</h1>
+    <span class="nav-title">Product Engineer</span>
+  </nav>
+
+  <main>
+    <section class="intro">
+      <p class="intro-desc">
+        A product engineer and designer. <br /> Interested in the <em
+          >intersection of math, comp sci and design</em
+        >.
+      </p>
+
+      <p class="intro-desc hide">
+        I'm currently taking part in the <em>a tool a day for 15 days</em> challenge.
+      </p>
+
+      <div id="canvas-art"></div>
+    </section>
+
+    <section class="social-icons">
+      <a
+        href="http://dribbble.com/maximmcnair"
+        target="_blank"
+        rel="noreferrer"
+        class="social-icons__dribbble"
+      >
+        <svg width="25px" height="25px" viewBox="0 0 21 21">
+          <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+            <g
+              transform="translate(-513.000000, -1949.000000)"
+              fill="currentColor"
+            >
+              <g transform="translate(112.000000, 829.000000)">
+                <g transform="translate(0.000000, 1103.000000)">
+                  <path
+                    d="M421.768417,25.386 C421.631917,24.71225 421.42425,24.04725 421.1565,23.4131667 C420.894,22.7895833 420.57025,22.1899167 420.191667,21.6293333 C419.816,21.0734167 419.38375,20.5513333 418.910667,20.0765 C418.43525,19.6005 417.914917,19.1694167 417.357833,18.7949167 C416.798417,18.414 416.197,18.0896667 415.5775,17.826 C414.943417,17.5594167 414.277833,17.3505833 413.604083,17.2146667 C412.914,17.0723333 412.202333,17 411.491833,17 C410.781333,17 410.07025,17.0723333 409.378417,17.2146667 C408.704083,17.3505833 408.04025,17.5594167 407.406167,17.826 C406.786667,18.0896667 406.18525,18.414 405.624083,18.7949167 C405.067,19.1694167 404.547833,19.6005 404.071833,20.0765 C403.597583,20.5513333 403.167667,21.0734167 402.792,21.6293333 C402.412833,22.1899167 402.08675,22.7895833 401.82425,23.4131667 C401.557083,24.04725 401.35,24.71225 401.21175,25.386 C401.071167,26.0760833 401,26.78775 401,27.4994167 C401,28.21225 401.071167,28.9239167 401.21175,29.6151667 C401.35,30.2895 401.557083,30.9539167 401.82425,31.5874167 C402.08675,32.2104167 402.412833,32.8118333 402.792,33.3718333 C403.167667,33.9283333 403.597583,34.44925 404.071833,34.92525 C404.547833,35.3995 405.067,35.8305833 405.624083,36.2056667 C406.18525,36.5848333 406.786667,36.9109167 407.406167,37.174 C408.04025,37.4423333 408.704083,37.6470833 409.378417,37.7859167 C410.07025,37.92825 410.781333,38 411.491833,38 C412.202333,38 412.914,37.92825 413.604083,37.7859167 C414.277833,37.6470833 414.943417,37.4423333 415.5775,37.174 C416.197,36.9109167 416.798417,36.5848333 417.357833,36.2056667 C417.914917,35.8305833 418.43525,35.3995 418.910667,34.92525 C419.38375,34.44925 419.816,33.9283333 420.191667,33.3718333 C420.57025,32.8118333 420.894,32.2104167 421.1565,31.5874167 C421.42425,30.9539167 421.631917,30.2895 421.768417,29.6151667 C421.9125,28.9239167 421.983667,28.21225 421.983667,27.4994167 C421.983667,26.78775 421.9125,26.0760833 421.768417,25.386 Z M416.498,34.9375 C416.407583,34.3961667 415.928667,31.7641667 414.755583,28.5319167 C417.647167,28.06875 420.152583,28.86325 420.3375,28.9239167 C419.94025,31.4223333 418.5105,33.5771667 416.498,34.9375 Z M411.491833,36.4675833 C409.323583,36.4675833 407.334417,35.6958333 405.783917,34.4125 C405.90175,34.5081667 405.98575,34.5694167 405.98575,34.5694167 C405.98575,34.5694167 407.701333,30.8203333 413.016667,28.9676667 C413.037083,28.9606667 413.056917,28.95425 413.075583,28.9484167 C414.33675,32.2273333 414.85825,34.9725 414.988917,35.7570833 C413.915583,36.2138333 412.732,36.4675833 411.491833,36.4675833 Z M402.530667,27.4994167 C402.530667,27.40375 402.53475,27.3104167 402.537667,27.2170833 C402.69575,27.2194167 407.124417,27.3203333 411.738,25.9384167 C411.994083,26.44125 412.239667,26.9528333 412.464833,27.46325 C412.344083,27.4959167 412.229167,27.5315 412.111917,27.5705833 C407.276667,29.1345 404.82375,33.4879167 404.82375,33.4879167 C404.82375,33.4879167 404.826667,33.4908333 404.826667,33.492 C403.399833,31.9035833 402.530667,29.803 402.530667,27.4994167 Z M407.668083,19.3910833 C407.787667,19.54975 409.444333,21.7985 410.995417,24.5570833 C406.693333,25.701 402.957667,25.6560833 402.723167,25.6514167 C403.305917,22.8741667 405.1685,20.57175 407.668083,19.3910833 Z M417.410333,20.7706667 C417.387583,20.8056667 416.111833,22.7493333 412.7285,24.0180833 C411.19725,21.2011667 409.51375,18.9635 409.379583,18.7861667 C410.056833,18.6228333 410.765,18.533 411.491833,18.533 C413.75925,18.533 415.830667,19.38 417.410333,20.7706667 Z M420.4495,27.41075 C420.318833,27.3821667 417.28725,26.7288333 414.20725,27.11675 C414.145417,26.9633333 414.081833,26.80875 414.015333,26.6541667 C413.828083,26.2155 413.627417,25.7809167 413.41975,25.35275 C416.9565,23.90725 418.392667,21.8288333 418.409,21.8049167 C419.669,23.3315 420.42675,25.28275 420.4495,27.41075 Z"
+                  ></path>
+                </g>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </a>
+
+      <a
+        href="http://github.com/maximmcnair"
+        class="social-icons__github"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <svg
+          version="1.1"
+          id="Layer_1"
+          x="0px"
+          y="0px"
+          width="25.53px"
+          height="25px"
+          viewBox="0 0 25.53 25"
+          enableBackground="new 0 0 25.53 25"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M12.764,0.035C5.716,0.035,0,5.751,0,12.801c0,5.639,3.657,10.423,8.73,12.112
+                c0.638,0.116,0.871-0.277,0.871-0.615c0-0.303-0.011-1.106-0.018-2.172c-3.55,0.771-4.3-1.711-4.3-1.711
+                c-0.58-1.474-1.417-1.867-1.417-1.867c-1.159-0.792,0.087-0.776,0.087-0.776c1.281,0.09,1.956,1.316,1.956,1.316
+                c1.138,1.95,2.987,1.387,3.715,1.061c0.116-0.824,0.445-1.389,0.81-1.706c-2.834-0.323-5.814-1.417-5.814-6.309
+                c0-1.394,0.498-2.533,1.314-3.425C5.803,8.385,5.366,7.087,6.06,5.33c0,0,1.072-0.343,3.511,1.309
+                c1.018-0.283,2.11-0.425,3.196-0.43c1.084,0.005,2.176,0.147,3.195,0.43c2.438-1.652,3.507-1.309,3.507-1.309
+                c0.697,1.757,0.259,3.055,0.128,3.378c0.817,0.893,1.312,2.032,1.312,3.425c0,4.904-2.984,5.983-5.829,6.298
+                c0.459,0.395,0.867,1.174,0.867,2.364c0,1.706-0.016,3.083-0.016,3.502c0,0.341,0.229,0.738,0.878,0.613
+                c5.068-1.69,8.722-6.473,8.722-12.11C25.53,5.751,19.815,0.035,12.764,0.035z"
+          ></path>
+        </svg>
+      </a>
+
+      <a
+        href="http://twitter.com/maximmcnair"
+        class="social-icons__twitter"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <svg
+          version="1.1"
+          id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="25.53px"
+          height="25px"
+          viewBox="0 0 25.53 25"
+          enableBackground="new 0 0 25.53 25"
+        >
+          <path
+            d="M26.184,4.163c-0.988,0.438-2.05,0.734-3.162,0.867c1.136-0.682,2.009-1.76,2.42-3.046
+                c-1.064,0.631-2.243,1.089-3.496,1.336c-1.005-1.07-2.436-1.739-4.019-1.739c-3.041,0-5.507,2.465-5.507,5.505
+                c0,0.432,0.049,0.852,0.143,1.255C7.987,8.111,3.931,5.92,1.215,2.588C0.741,3.401,0.47,4.347,0.47,5.356
+                c0,1.91,0.972,3.595,2.449,4.583C2.016,9.91,1.167,9.663,0.425,9.25C0.424,9.273,0.424,9.296,0.424,9.32
+                c0,2.667,1.898,4.892,4.417,5.399c-0.462,0.125-0.949,0.193-1.451,0.193c-0.355,0-0.7-0.035-1.036-0.1
+                c0.7,2.187,2.734,3.779,5.143,3.824c-1.884,1.476-4.258,2.356-6.837,2.356c-0.444,0-0.883-0.026-1.313-0.077
+                c2.436,1.562,5.33,2.474,8.439,2.474c10.128,0,15.666-8.39,15.666-15.665c0-0.238-0.005-0.477-0.016-0.712
+                C24.511,6.236,25.446,5.267,26.184,4.163z"
+          ></path>
+        </svg>
+      </a>
+    </section>
+
+    <section class="previous-work">
+      <span class="previous-sub">Previous Work</span>
+
+      <p class="previous-work-names">
+        Real-time strategy collaboration at <em
+          class="previous-work-hover"
+          data-img="/img/nmblr.png"
+          data-width="775"
+          data-height="453">Nmblr</em
+        >
+        / Helped startups thrive at <em
+          class="previous-work-hover"
+          data-img="/img/neverbland.jpg"
+          data-width="600"
+          data-height="315">Neverbland</em
+        > / Green energy mobile apps at <em
+          class="previous-work-hover"
+          data-img="/img/bulb.png"
+          data-width="333"
+          data-height="722">Bulb</em
+        > / Music and Video streaming mobile and TV apps at <em
+          class="previous-work-hover"
+          data-img="/img/work_boilerroom.jpg"
+          data-width="600"
+          data-height="375">Boiler Room</em
+        > / Founded <em
+          class="previous-work-hover"
+          data-img="/img/work_inmysize.jpg"
+          data-width="600"
+          data-height="375">InMySize</em
+        >
+      </p>
+    </section>
+
+    <div class="cursor"></div>
+  </main>
+</Layout>
+
+<style>
+  /* index page */
+  main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    /* justify-content: center; */
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  .page-title {
+    margin-top: 80px;
+  }
+
+  main section {
+    max-width: 800px;
+    width: 100%;
+    padding: 0px 10px;
+  }
+
+  .nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    width: 160px;
+    padding: 10px;
+    text-align: center;
+    background: rgba(13, 13, 13, 0.05);
+    backdrop-filter: blur(30px);
+    transform: translate3d(-80px, 0px, 0px);
+    border-radius: 3px;
+    z-index: 2;
+  }
+
+  .nav-name {
+    margin: 0px;
+    color: var(--color-white);
+    font-size: var(--type-small);
+  }
+
+  .nav-title {
+    /* color: var(--color-grey); */
+    color: rgba(350, 350, 350, 0.5);
+    font-size: var(--type-small);
+  }
+
+  .intro {
+    position: relative;
+    margin-top: 80px;
+    /* text-align: center; */
+  }
+
+  .intro-desc {
+    margin-bottom: 0px;
+    font-family: var(--type-laica);
+    font-size: var(--type-h4);
+    max-width: 600px;
+  }
+
+  @media (min-width: 550px) {
+    .intro-desc {
+      font-size: var(--type-h3);
+    }
+  }
+
+  .intro em {
+    color: var(--color-gold);
+  }
+
+  .social-icons {
+    /* text-align: center; */
+    margin-top: 20px;
+    margin-bottom: 60px;
+    user-select: none;
+  }
+
+  .social-icons a {
+    margin: 4px;
+  }
+
+  .social-icons svg,
+  .social-icons path {
+    transition: fill 0.4s ease;
+    fill: var(--color-grey);
+  }
+
+  .social-icons a:hover path {
+    fill: var(--color-gold);
+  }
+
+  .previous-work {
+    position: relative;
+    margin-top: 350px;
+  }
+
+  .previous-sub {
+    position: absolute;
+    text-transform: uppercase;
+    left: -5px;
+    display: block;
+    transform: rotate(90deg);
+    font-size: var(--type-small);
+    transform-origin: top left;
+    color: var(--color-grey);
+    user-select: none;
+  }
+
+  .previous-work-names {
+    margin-top: -8px;
+    position: relative;
+    font-size: var(--type-h3);
+    font-family: var(--type-title);
+    color: var(--color-grey-light);
+  }
+
+  .previous-work-names em {
+    color: var(--color-white);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .previous-work-names em:hover {
+    color: var(--color-black);
+    position: relative;
+    z-index: 3;
+  }
+
+  .cursor {
+    width: 20px;
+    height: 20px;
+    max-width: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+  }
+</style>
+
+<style is:global>
+  .p5Canvas {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    z-index: -1;
+  }
+</style>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.min.js"
+></script>
+<script is:inline src="/js/sketch.js"></script>
+
+<script>
+  class Cursor {
+    constructor(el) {
+      console.log(el);
+      this.DOM = { el: el };
+      this.img = {
+        src: null,
+        height: null,
+        width: null,
+      };
+      this.mouse = { x: 0, y: 0 };
+      this.onMouseMoveEvt = (evt) => {
+        this.mouse = { x: evt.clientX, y: evt.clientY };
+        requestAnimationFrame(() => this.render());
+      };
+      window.addEventListener("mousemove", this.onMouseMoveEvt);
+    }
+
+    render() {
+      const style = this.DOM.el.style;
+      if (this.img.src) {
+        style.display = "block";
+        const heightOffset = this.img.height / 2;
+        const widthOffset = this.img.width / 2;
+        style.transform = `translate(${this.mouse.x - widthOffset}px, ${
+          this.mouse.y - heightOffset
+        }px)`;
+        style.backgroundImage = `url(${this.img.src})`;
+        style.width = `${this.img.width}px`;
+        style.height = `${this.img.height}px`;
+      } else {
+        style.display = "none";
+        style.backgroundImage = null;
+      }
+    }
+
+    setImage(src, height, width) {
+      this.img = { src, height, width };
+    }
+  }
+
+  const cursor = new Cursor(document.querySelector(".cursor"));
+
+  const els = document
+    .querySelectorAll(".previous-work-hover")
+    .forEach((el) => {
+      const { img, height, width } = el.dataset;
+      el.addEventListener("mouseenter", (evt) =>
+        cursor.setImage(img, height, width)
+      );
+      el.addEventListener("mouseleave", (evt) =>
+        cursor.setImage(null, null, null)
+      );
+    });
+</script>
