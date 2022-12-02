@@ -4,6 +4,12 @@ import DayChallenge from "../components/DayChallenge.tsx";
 ---
 
 <Layout title="Maxim McNair" desc="Product Engineer">
+  <link rel="preload" href="/img/bulb.png" as="image" />
+  <link rel="preload" href="/img/neverbland.jpg" as="image" />
+  <link rel="preload" href="/img/nmblr.png" as="image" />
+  <link rel="preload" href="/img/work_boilerroom.jpg" as="image" />
+  <link rel="preload" href="/img/work_inmysize.jpg" as="image" />
+
   <nav class="nav">
     <h1 class="nav-name">Maxim McNair</h1>
     <span class="nav-title">Product Engineer</span>
@@ -20,6 +26,8 @@ import DayChallenge from "../components/DayChallenge.tsx";
       <p class="intro-desc hide">
         I'm currently taking part in the <em>a tool a day for 15 days</em> challenge.
       </p>
+
+      <div id="canvas-art"></div>
     </section>
 
     <section class="social-icons">
@@ -111,10 +119,40 @@ import DayChallenge from "../components/DayChallenge.tsx";
     </section>
 
     <section class="previous-work">
-      <span>Previous Work</span>
+      <span class="previous-sub">Previous Work</span>
 
-      <p>Launched global </p>
+      <p class="previous-work-names">
+        Real-time strategy collaboration at <em
+          class="previous-work-hover"
+          data-img="/img/nmblr.png"
+          data-width="775"
+          data-height="453">Nmblr</em
+        >
+        / Helped startups thrive at <em
+          class="previous-work-hover"
+          data-img="/img/neverbland.jpg"
+          data-width="600"
+          data-height="315">Neverbland</em
+        > / Green energy mobile apps at <em
+          class="previous-work-hover"
+          data-img="/img/bulb.png"
+          data-width="333"
+          data-height="722">Bulb</em
+        > / Music and Video streaming mobile and TV apps at <em
+          class="previous-work-hover"
+          data-img="/img/work_boilerroom.jpg"
+          data-width="600"
+          data-height="375">Boiler Room</em
+        > / Founded <em
+          class="previous-work-hover"
+          data-img="/img/work_inmysize.jpg"
+          data-width="600"
+          data-height="375">InMySize</em
+        >
+      </p>
     </section>
+
+    <div class="cursor"></div>
   </main>
 </Layout>
 
@@ -135,9 +173,9 @@ import DayChallenge from "../components/DayChallenge.tsx";
   }
 
   main section {
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
-    padding: 10px;
+    padding: 0px 10px;
   }
 
   .nav {
@@ -151,6 +189,7 @@ import DayChallenge from "../components/DayChallenge.tsx";
     backdrop-filter: blur(30px);
     transform: translate3d(-80px, 0px, 0px);
     border-radius: 3px;
+    z-index: 2;
   }
 
   .nav-name {
@@ -166,13 +205,16 @@ import DayChallenge from "../components/DayChallenge.tsx";
   }
 
   .intro {
+    position: relative;
     margin-top: 80px;
-    text-align: center;
+    /* text-align: center; */
   }
 
   .intro-desc {
+    margin-bottom: 0px;
     font-family: var(--type-laica);
     font-size: var(--type-h4);
+    max-width: 600px;
   }
 
   @media (min-width: 550px) {
@@ -186,8 +228,10 @@ import DayChallenge from "../components/DayChallenge.tsx";
   }
 
   .social-icons {
-    text-align: center;
+    /* text-align: center; */
+    margin-top: 20px;
     margin-bottom: 60px;
+    user-select: none;
   }
 
   .social-icons a {
@@ -204,26 +248,120 @@ import DayChallenge from "../components/DayChallenge.tsx";
     fill: var(--color-gold);
   }
 
-  .preview {
-    padding: 40px;
-    border-radius: 5px;
-    min-height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .previous-work {
+    position: relative;
+    margin-top: 350px;
+  }
 
-    background: #bdc3c7; /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-      to left,
-      #bdc3c7,
-      #2c3e50
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(
-      to left,
-      #bdc3c7,
-      #2c3e50
-    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .previous-sub {
+    position: absolute;
+    left: -5px;
+    display: block;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    color: var(--color-grey);
+    user-select: none;
+  }
+
+  .previous-work-names {
+    margin-top: -8px;
+    position: relative;
+    font-size: var(--type-h3);
+    font-family: var(--type-title);
+    color: var(--color-grey-light);
+  }
+
+  .previous-work-names em {
+    color: var(--color-white);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .previous-work-names em:hover {
+    color: var(--color-black);
+    position: relative;
+    z-index: 3;
+  }
+
+  .cursor {
+    width: 20px;
+    height: 20px;
+    max-width: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
   }
 </style>
 
-<script></script>
+<style is:global>
+  .p5Canvas {
+    position: absolute;
+    top: 120px;
+    left: 0px;
+    z-index: -1;
+  }
+</style>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/p5@1.5.0/lib/p5.min.js"
+></script>
+<script is:inline src="/js/sketch.js"></script>
+
+<script>
+  class Cursor {
+    constructor(el) {
+      console.log(el);
+      this.DOM = { el: el };
+      this.img = {
+        src: null,
+        height: null,
+        width: null,
+      };
+      this.mouse = { x: 0, y: 0 };
+      this.onMouseMoveEvt = (evt) => {
+        this.mouse = { x: evt.clientX, y: evt.clientY };
+        requestAnimationFrame(() => this.render());
+      };
+      window.addEventListener("mousemove", this.onMouseMoveEvt);
+    }
+
+    render() {
+      const style = this.DOM.el.style;
+      if (this.img.src) {
+        style.display = "block";
+        const heightOffset = this.img.height / 2;
+        const widthOffset = this.img.width / 2;
+        style.transform = `translate(${this.mouse.x - widthOffset}px, ${
+          this.mouse.y - heightOffset
+        }px)`;
+        style.backgroundImage = `url(${this.img.src})`;
+        style.width = `${this.img.width}px`;
+        style.height = `${this.img.height}px`;
+      } else {
+        style.display = "none";
+        style.backgroundImage = null;
+      }
+    }
+
+    setImage(src, height, width) {
+      this.img = { src, height, width };
+    }
+  }
+
+  const cursor = new Cursor(document.querySelector(".cursor"));
+
+  const els = document
+    .querySelectorAll(".previous-work-hover")
+    .forEach((el) => {
+      const { img, height, width } = el.dataset;
+      el.addEventListener("mouseenter", (evt) =>
+        cursor.setImage(img, height, width)
+      );
+      el.addEventListener("mouseleave", (evt) =>
+        cursor.setImage(null, null, null)
+      );
+    });
+</script>
