@@ -4,7 +4,10 @@ import BuiltBy from "../../components/BuiltBy.astro";
 import Layout from "../../layouts/Layout.astro";
 ---
 
-<Layout title="Copy Paste Latex">
+<Layout
+  title="Copy Paste MathJax"
+  desc="Click on an expression to copy to your clipboard"
+>
   <BuiltBy />
   <CopyPasteMathJax client:load />
 </Layout>
