@@ -1,8 +1,8 @@
-🔥 Developer/Designer/Creative Coder/Blender explorer
+### 🔥 Developer/Designer/Creative Coder/Blender explorer
 
-Currently building: \n
-https://opentypecollective.com \n
-https://usecables.com \n
-https://copypastemathjax.com \n
+- Currently building:
+- https://opentypecollective.com
+- https://usecables.com
+- https://copypastemathjax.com
 
 Find my personal site @ https://maximmcnair.com
