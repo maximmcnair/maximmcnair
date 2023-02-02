@@ -1,8 +1,8 @@
 ### 🔥 Developer/Designer/Creative Coder/Blender  Explorer/Vim Addict
 
 Currently building:
-- https://opentypecollective.com
-- https://usecables.com
-- https://copypastemathjax.com
+- Showcase of opensource variable typefaces https://opentypecollective.com
+- Node base shader animation tool prototype https://usecables.com
+- Easily search and copy mathjax symbols https://copypastemathjax.com
 
 Find my personal site @ https://maximmcnair.com
