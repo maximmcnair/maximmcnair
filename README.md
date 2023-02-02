@@ -1,4 +1,4 @@
-### 🔥 Developer/Designer/Creative Coder/Blender explorer and vim lover
+### 🔥 Developer/Designer/Creative Coder/Blender explorer/vim addict
 
 Currently building:
 - https://opentypecollective.com
