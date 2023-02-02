@@ -1,6 +1,6 @@
-### 🔥 Developer/Designer/Creative Coder/Blender explorer
+### 🔥 Developer/Designer/Creative Coder/Blender explorer and vim lover
 
-- Currently building:
+Currently building:
 - https://opentypecollective.com
 - https://usecables.com
 - https://copypastemathjax.com
