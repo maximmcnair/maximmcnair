@@ -1,4 +1,4 @@
-### 🔥 Developer/Designer/Creative Coder/Blender  Explorer/Vim Addict
+### 🔥 Developer/Designer/Creative Coder
 
 Currently building:
 - Showcase of opensource variable typefaces https://opentypecollective.com
