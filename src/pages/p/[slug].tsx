@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
     <Layout title={meta?.title} desc={meta?.desc}>
-      <article className="article">
+      <article className="article content">
         <header className="article__header">
           <h1 className="article__title">{meta?.title}</h1>
           <strong className="article__date">

@@ -207,9 +207,13 @@ video {
 .articles {
   margin-top: 50px;
   padding-top: 30px;
-  opacity: 0;
-  animation: fadeIn 0.5s 1.4s;
-  animation-fill-mode: forwards;
+  /* opacity: 0; */
+  /* animation: fadeIn 0.5s 1.4s; */
+  /* animation-fill-mode: forwards; */
+}
+
+.article {
+  margin-top: 80px;
 }
 
 .article-prev {
@@ -246,15 +250,15 @@ video {
 }
 
 .article__header {
-  opacity: 0;
-  animation: fadeIn 0.5s 0.3s;
-  animation-fill-mode: forwards;
+  /* opacity: 0; */
+  /* animation: fadeIn 0.5s 0.3s; */
+  /* animation-fill-mode: forwards; */
 }
 
 .article__content {
-  opacity: 0;
-  animation: fadeIn 0.5s 0.3s;
-  animation-fill-mode: forwards;
+  /* opacity: 0; */
+  /* animation: fadeIn 0.5s 0.3s; */
+  /* animation-fill-mode: forwards; */
   color: var(--color-white);
 }
 
