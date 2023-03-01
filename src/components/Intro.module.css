@@ -2,11 +2,11 @@
   position: relative;
   background-color: var(--color-blue);
   min-height: 100vh;
-  padding: 20px;
 }
 
 .intro {
-  padding-top: 60px;
+  padding: 20px;
+  padding-top: 80px;
   z-index: var(--z-intro);
   position: relative;
 }
