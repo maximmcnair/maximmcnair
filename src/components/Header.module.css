@@ -1,0 +1,40 @@
+.header {
+  position: fixed;
+  top: 20px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  z-index: var(--z-header);
+}
+
+.content {
+  /* max-width: 1400px; */
+  width: 100%;
+  padding: 0px 30px;
+  /* width: 80%; */
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 28px;
+	font-variation-settings: 'wght' 600;
+  /* align-self: flex-start; */
+  margin-top: 3px;
+}
+
+.links {
+  align-self: flex-end;
+  display: flex;
+  font-size: 18px;
+	font-variation-settings: 'wght' 600;
+  gap: 20px;
+}
+
+@media (min-width: 450px) {
+  .header {
+    position: absolute;
+  }
+}

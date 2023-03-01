@@ -1,0 +1,40 @@
+---
+title: "tmux"
+publishedOn: "2022-03-13:31:05.404Z"
+tags: ["cmd", "linux"]
+published: true
+---
+
+```zsh
+# Sessions
+tmux new -s session_name       # Create new session
+tmux ls                        # List all sessions
+tmux attach -t session_name    # Attach to session
+tmux detach                    # Detach from current session
+tmux kill-session              # End session
+tmux kill-server               # End all sessions
+tmux $                         # Rename session
+teamocil project --here        # Initialise teamocil session
+
+# C-b stands for Ctrl+b (this prefix can be reset in conf)
+
+# Panes
+C-b %                          # Default new vert pane
+C-b "                          # Default new horz pane
+C-b |                          # My new vert pane
+C-b -                          # My new horz pane
+C-b o                          # Go to next pane
+C-b space                      # Toggle layout
+C-b z                          # Toggle pane fullscreen
+
+# Windows
+C-b c                          # Create new window
+C-b n                          # Go to next window
+C-b p                          # Go to prev window
+C-b 1                          # Go to window 1
+C-b ,                          # List all windows
+C-b w                          # Rename window
+
+# Misc
+C-b d                          # Detach session
+```
