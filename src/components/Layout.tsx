@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 interface Props {
   title?: string;
   desc?: string;
+  children: React.ReactNode;
 }
 
 export const Layout: React.FC<Props> = ({ title, desc, children }) => {

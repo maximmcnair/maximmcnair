@@ -10,6 +10,7 @@ import { Layout } from '@/components/Layout';
 import { LawOf100 } from '@/components/LawOf100';
 import { Post, Meta } from '@/types';
 
+// @ts-ignore
 const AHref: React.FC<{ href: string }> = ({ href, children }) => {
   return (
     <a href={href} target="_blank" rel="noreferrer">
@@ -76,6 +77,7 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
             {...mdx}
             components={{
               pre: Highlight,
+              // @ts-ignore
               a: AHref,
               LawOf100: () => <LawOf100 amount={posts.length} />
             }}
