@@ -1,0 +1,294 @@
+/* Epilogue */
+@font-face {
+  src: url('/Epilogue.woff2') format('woff2');
+  font-family: 'Epilogue';
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  /* Typography */
+  --typeface-body: 'Epilogue';
+
+	/* Colors */
+	--color-white: #f7f7f7;
+	--color-grey: #4d4d4d;
+	--color-grey-light: #797979;
+	--color-grey-lighter: #cecece;
+	--color-grey-dark: #1d1f20;
+	--color-grey-darker: #131515;
+	--color-black: #0d0d0d;
+	--color-gold: #d09f69;
+  --color-blue: #332bcc;
+
+  /* Z Index */
+  --z-header: 999;
+  --z-background: 777;
+  --z-header: 999;
+  --z-draggable: 888;
+  --z-drawing: 666;;
+}
+
+/* @media (prefers-color-scheme: dark) { */
+/*   :root { */
+/*   } */
+/* } */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--color-black);
+}
+
+body {
+  font-family: var(--typeface-body);
+  color: rgb(var(--foreground-rgb));
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+::selection {
+  color: var(--color-blue);
+  background-color: var(--color-black);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p {
+  margin-bottom: 1rem;
+  font-weight: 400;
+  font-size: 1.138rem;
+}
+
+p code {
+  background: var(--color-grey-dark);
+  border-radius: 3px;
+  padding: 3px 5px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+h1,
+.text_h1 {
+  margin-top: 0;
+  font-size: 2.488rem;
+}
+
+h2,
+.text_h2 {
+  font-size: 2.074rem;
+  line-height: 1.45;
+}
+
+h3,
+.text_h3 {
+  font-size: 1.728rem;
+}
+
+h4,
+.text_h4 {
+  font-size: 1.44rem;
+}
+
+h5,
+.text_h5 {
+  font-size: 1.2rem;
+}
+
+small,
+.text_small {
+  font-size: 0.833rem;
+}
+
+code,
+.type_code {
+  font-family: "Source Code Pro", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.react-draggable {
+  cursor: grab;
+}
+.react-draggable-dragging {
+  cursor: grabbing;
+}
+
+.react-draggable .content {
+  transition: transform 0.3s;
+  transform: scale(1.1);
+}
+.react-draggable-dragging .content {
+  transform: scale(1);
+}
+
+/* Container */
+.content {
+  display: block;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+/* Button */
+.btn {
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  padding: 8px 18px 4px 18px;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  color: var(--color-grey-dark);
+  background: var(--color-grey-light);
+  transition: all .3s;
+}
+
+.btn:hover {
+  color: var(--color-black);
+  background: var(--color-white);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate(0px, -20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0px, 0px);
+  }
+}
+
+/* Articles */
+.articles {
+  margin-top: 50px;
+  padding-top: 30px;
+  opacity: 0;
+  animation: fadeIn 0.5s 1.4s;
+  animation-fill-mode: forwards;
+}
+
+.article-prev {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  transition: all 0.3s;
+}
+
+.article-prev__title {
+  margin: 0px;
+  transition: all 0.3s;
+  color: var(--color-white);
+}
+
+.article-prev:hover {
+  margin-left: 10px;
+}
+
+.article-prev:hover .article-prev__title {
+  color: #ffffff;
+}
+
+.article-prev__date {
+  display: flex;
+}
+
+.article__title {
+  margin: 0px;
+}
+
+.article__date {
+  color: var(--color-grey-light);
+}
+
+.article__header {
+  opacity: 0;
+  animation: fadeIn 0.5s 0.3s;
+  animation-fill-mode: forwards;
+}
+
+.article__content {
+  opacity: 0;
+  animation: fadeIn 0.5s 0.3s;
+  animation-fill-mode: forwards;
+  color: var(--color-white);
+}
+
+.article__content li {
+  font-size: 1.138rem;
+}
+
+.article__content a {
+  /* color: var(--color-highlight); */
+}
+
+.article__content h2:first-child {
+  margin-top: 0px;
+}
+
+.article-dot {
+  color: var(--color-grey-light);
+  display: inline-block;
+  padding: 0px 7px;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  gap: 12px;
+  padding-right: 5px;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.tags li,
+.tag {
+  color: var(--color-grey-light);
+  text-transform: uppercase;
+  font-weight: 600;
+}

@@ -1,8 +1,10 @@
-### 🔥 Developer/Designer/Creative Coder
+## Article ideas
+- Slack-clone sockets
+- Slack-clone sockets p2 - redis
 
-Currently building:
-- Node base shader animation tool prototype https://usecables.com
-- Showcase of opensource variable typefaces https://opentypecollective.com
-- Easily search and copy mathjax symbols https://copypastemathjax.com
+- Law of 100
+- Setting a local Ethereum blockchain with Hardhat
 
-Find my personal site @ https://maximmcnair.com
+### Svelte
+- How to pass data between pages in SvelteKit
+- typescript generics

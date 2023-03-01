@@ -1,30 +1,38 @@
 {
-  "name": "@example/basics",
-  "type": "module",
-  "version": "0.0.1",
+  "name": "maxim-2023",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@astrojs/react": "^1.2.2",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
-    "astro": "^1.6.11",
+    "@next/font": "13.1.6",
+    "@types/node": "18.14.0",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
+    "classcat": "^5.0.4",
     "date-fns": "^2.29.3",
-    "katex": "^0.16.3",
-    "leva": "^0.9.34",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "eslint": "8.34.0",
+    "eslint-config-next": "13.1.6",
+    "gl-react": "^5.2.0",
+    "gl-react-dom": "^5.2.1",
+    "gray-matter": "^4.0.3",
+    "next": "13.1.6",
+    "next-mdx-remote": "^4.4.0",
+    "perfect-freehand": "^1.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-draggable": "^4.4.5",
+    "react-highlight": "^0.15.0",
     "styled-components": "^5.3.6",
-    "tone": "^14.7.77",
-    "typescript": "^4.9.3"
+    "typescript": "4.9.5"
   },
   "devDependencies": {
-    "@types/katex": "^0.14.0"
+    "@types/gl-react": "^3.15.4",
+    "@types/gl-react-dom": "^3.15.4",
+    "@types/react-highlight": "^0.12.5"
   }
 }
