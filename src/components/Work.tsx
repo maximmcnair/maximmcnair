@@ -61,7 +61,7 @@ export default function Work() {
         <h2>Projects</h2>
 
         {projects.map((p) => (
-          <article className={styles.work}>
+          <article className={styles.work} key={p.id}>
             <div className={styles.workMedia}>
               {p.vidSrc ? (
                 <video autoPlay={true} loop muted>
@@ -81,8 +81,8 @@ export default function Work() {
               <h3 className={styles.workDescTitle}>{p.title}</h3>
               <p className={styles.workDescParagraph}>{p.desc}</p>
               <ul className="tags">
-                {p.tags.map((t) => (
-                  <li>{t}</li>
+                {p.tags.map((t, idx) => (
+                  <li key={idx}>{t}</li>
                 ))}
               </ul>
               {p.href ? (
