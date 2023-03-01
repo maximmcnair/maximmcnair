@@ -1,10 +1,8 @@
-## Article ideas
-- Slack-clone sockets
-- Slack-clone sockets p2 - redis
+### 🔥 Developer/Designer/Creative Coder
 
-- Law of 100
-- Setting a local Ethereum blockchain with Hardhat
+Currently building:
+- Node base shader animation tool prototype https://usecables.com
+- Showcase of opensource variable typefaces https://opentypecollective.com
+- Easily search and copy mathjax symbols https://copypastemathjax.com
 
-### Svelte
-- How to pass data between pages in SvelteKit
-- typescript generics
+Find my personal site @ https://maximmcnair.com
