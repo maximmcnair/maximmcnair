@@ -1,78 +1,105 @@
 import Image from 'next/image';
 import styles from './Work.module.css';
 
+interface Project {
+  id: number;
+  title: string;
+  desc: string;
+  src?: string;
+  vidSrc?: string;
+  tags: string[];
+  href?: string;
+}
+
+const projects: Project[] = [
+  {
+    id: 3,
+    title: 'Nmblr',
+    desc: `Nmblr is a real-time collaboration platform for research and discovery in pharma. I led the construction of this greenfield project with a focus on building an interactive and real-time
+app with drag-and-drop functionality throughout.`,
+    vidSrc: '/nmblr.mp4',
+    tags: ['React', 'Sockets', 'Postgres', 'Node', 'GraphQL'],
+    href: 'http://nmblr.co/'
+  },
+  {
+    id: 3,
+    title: 'Cables',
+    desc: `Lead development of Cables, A no-code node based animation tool for creating shaders in the browser.`,
+    vidSrc: '/cables.mp4',
+    tags: ['WebGL', 'Svelte'],
+    href: 'http://usecables.com/'
+  },
+  {
+    id: 2,
+    title: 'Open Type Collective',
+    desc: `A showcase of open source variable typefaces that you can use on any project.`,
+    vidSrc: '/opentypecollective.mp4',
+    tags: ['Svelte'],
+    href: 'http://opentypecollective.com/'
+  },
+  {
+    id: 0,
+    title: 'InMySize',
+    desc: `InMySize is a streetwear shopping app that shows users clothing from multiple stores that are currently in stock. Sizes are continuously updated using Node-based crawlers.`,
+    src: '/img/work_inmysize.jpg',
+    tags: ['React Native', 'Node JS', 'Koa', 'MongoDB', 'Design']
+  }
+  // {
+  //   id: 1,
+  //   title: 'Keep The Axe Sharp',
+  //   desc: `Keep The Axe Sharp uses flashcards and a repetition spaced learning algorithm to help programmers commit easy forgotten patterns, edge cases and shortcuts to memory.`,
+  //   src: '/img/work_keepyouraxesharp.jpg',
+  //   tags: ['React', 'Node JS', 'Design']
+  //   // href: 'http://keeptheaxesharp.com/'
+  // }
+];
+
 export default function Work() {
   return (
     <section className={styles.container}>
       <div className="content">
         <h2>Projects</h2>
 
-        <article className={styles.work}>
-          <div className={styles.workMedia}>
-            <Image
-              src="/img/work_inmysize.jpg"
-              alt="InMySize"
-              width={700}
-              height={438}
-              quality={100}
-            />
-          </div>
-          <div className={styles.workDesc}>
-            <h3 className={styles.workDescTitle}>InMySize</h3>
-            <p className={styles.workDescParagraph}>
-              InMySize is a streetwear shopping app that shows users clothing
-              from multiple stores that are currently in stock. Sizes are
-              continuously updated using Node-based crawlers. As a personal
-              project, I designed and built it across web and mobile platforms
-              using React.
-            </p>
-            <ul className="tags">
-              <li>React Native</li>
-              <li>Node JS</li>
-              <li>Koa</li>
-              <li>MongoDB</li>
-              <li>Design</li>
-            </ul>
-          </div>
-        </article>
-
-        <article className={styles.work}>
-          <div className={styles.workMedia}>
-            <Image
-              src="/img/work_keepyouraxesharp.jpg"
-              alt="KeepTheAxeSharp"
-              width={700}
-              height={438}
-              quality={100}
-            />
-          </div>
-          <div className={styles.workDesc}>
-            <h3 className={styles.workDescTitle}>Keep The Axe Sharp</h3>
-            <p className={styles.workDescParagraph}>
-              Keep The Axe Sharp uses flashcards and a repetition spaced
-              learning algorithm to help programmers commit easy forgotten
-              patterns, edge cases and shortcuts to memory.
-            </p>
-            <p className={styles.workDescParagraph}>
-            </p>
-            <ul className="tags">
-              <li>React</li>
-              <li>Node JS</li>
-              <li>Gulp</li>
-              <li>Design</li>
-            </ul>
-            <div className={styles.workDescBtn}>
-              <a
-                href="http://keeptheaxesharp.com/"
-                target="_blank"
-                rel="noreferrer"
-                className="btn"
-              >
-                View Project
-              </a>
+        {projects.map((p) => (
+          <article className={styles.work}>
+            <div className={styles.workMedia}>
+              {p.vidSrc ? (
+                <video autoPlay={true} loop muted>
+                  <source src={p.vidSrc} type="video/mp4" />
+                </video>
+              ) : (
+                <Image
+                  src={p.src || ''}
+                  alt={p.title}
+                  width={700}
+                  height={438}
+                  quality={100}
+                />
+              )}
             </div>
-          </div>
-        </article>
+            <div className={styles.workDesc}>
+              <h3 className={styles.workDescTitle}>{p.title}</h3>
+              <p className={styles.workDescParagraph}>{p.desc}</p>
+              <ul className="tags">
+                {p.tags.map((t) => (
+                  <li>{t}</li>
+                ))}
+              </ul>
+              {p.href ? (
+                <div className={styles.workDescBtn}>
+                  <a
+                    href={p.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn"
+                  >
+                    View Project
+                  </a>
+                </div>
+              ) : null}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

@@ -9,7 +9,6 @@ interface Work {
   x: number;
   y: number;
   href?: string;
-  type?: string;
   src: string;
 }
 
@@ -20,7 +19,6 @@ export default function Intro(){
     { id : 0,
       title: 'useCables.com',
       href: "https://www.usecables.com/",
-      type: 'video/mp4',
       src: '/cables.mp4',
       x: -220,
       y: -270,
@@ -28,7 +26,6 @@ export default function Intro(){
     { id : 1,
       title: 'burnie.app',
       href: "burnie.app",
-      type: 'video/mp4',
       src: '/burnie-900.mp4',
       x: 420,
       y: -300,
@@ -36,7 +33,6 @@ export default function Intro(){
     { id : 2,
       title: 'openTypeCollective.com',
       href: "https://www.openTypeCollective.com/",
-      type: 'video/mp4',
       src: '/opentypecollective.mp4',
       x: -230,
       y: 390,
@@ -44,7 +40,6 @@ export default function Intro(){
     { id : 3,
       title: 'nmblr.co',
       href: "https://www.nmblr.co/",
-      type: 'video/mp4',
       src: '/nmblr.mp4',
       x: 440,
       y: 340,
@@ -147,7 +142,7 @@ export default function Intro(){
         {work.map(work => (
           <Draggable x={work.x} y={work.y} title={work.title} href={work.href} key={work.id}>
             <video autoPlay={true} loop muted>
-              <source src={work.src} />
+              <source src={work.src} type="video/mp4" />
             </video>
           </Draggable>
         ))}
