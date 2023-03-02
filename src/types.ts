@@ -12,3 +12,10 @@ export interface Meta {
   published: string;
   tags: string[];
 }
+
+export interface Experiment {
+  name: string;
+  slug: string;
+  published: boolean;
+  src: string;
+}

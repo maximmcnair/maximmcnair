@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Intro from '@/components/Intro';
 import Work from '@/components/Work';
 import Articles from '@/components/Articles';
+import Experiments from '@/components/Experiments';
 
 export async function getStaticProps() {
   const posts = await getPosts();
@@ -62,14 +63,12 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="articles">
           <Articles posts={posts} />
         </section>
+        <section id="experiments">
+          <Experiments />
+        </section>
       </main>
     </>
   );
-  // <Drawing />
-  //
-  // <section id="experiments">
-  //   <h1>Experiments</h1>
-  // </section>
 };
 
 export default Home;

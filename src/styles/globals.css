@@ -10,23 +10,23 @@
   /* Typography */
   --typeface-body: 'Epilogue';
 
-	/* Colors */
-	--color-white: #f7f7f7;
-	--color-grey: #4d4d4d;
-	--color-grey-light: #797979;
-	--color-grey-lighter: #cecece;
-	--color-grey-dark: #1d1f20;
-	--color-grey-darker: #131515;
-	--color-black: #0d0d0d;
-	--color-gold: #d09f69;
+  /* Colors */
+  --color-white: #f7f7f7;
+  --color-grey: #4d4d4d;
+  --color-grey-light: #797979;
+  --color-grey-lighter: #cecece;
+  --color-grey-dark: #1d1f20;
+  --color-grey-darker: #131515;
+  --color-black: #0d0d0d;
+  --color-gold: #d09f69;
   --color-blue: #332bcc;
 
   /* Z Index */
   --z-header: 999;
-  --z-background: 777;
-  --z-header: 999;
   --z-draggable: 888;
-  --z-drawing: 666;;
+  --z-canvas: 888;
+  --z-background: 777;
+  --z-drawing: 666;
 }
 
 /* @media (prefers-color-scheme: dark) { */
@@ -123,7 +123,7 @@ small,
 
 code,
 .type_code {
-  font-family: "Source Code Pro", monospace;
+  font-family: 'Source Code Pro', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -161,7 +161,6 @@ video {
   padding: 20px;
 }
 
-
 /* Button */
 .btn {
   font-weight: 700;
@@ -175,7 +174,7 @@ video {
   border-radius: 5px;
   color: var(--color-grey-dark);
   background: var(--color-grey-light);
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .btn:hover {
@@ -295,4 +294,13 @@ video {
   color: var(--color-grey-light);
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* Experiments */
+.canvas {
+  background-color: var(--color-black);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: var(--z-canvas);
 }
