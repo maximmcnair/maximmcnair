@@ -13,7 +13,6 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 3,
     title: 'Nmblr',
     desc: `Nmblr is a real-time collaboration platform for research and discovery in pharma. I led the construction of this greenfield project with a focus on building an interactive and real-time
 app with drag-and-drop functionality throughout.`,
@@ -22,7 +21,6 @@ app with drag-and-drop functionality throughout.`,
     href: 'http://nmblr.co/'
   },
   {
-    id: 3,
     title: 'Cables',
     desc: `Lead development of Cables, A no-code node based animation tool for creating shaders in the browser.`,
     vidSrc: '/cables.mp4',
@@ -30,7 +28,6 @@ app with drag-and-drop functionality throughout.`,
     href: 'http://usecables.com/'
   },
   {
-    id: 2,
     title: 'Open Type Collective',
     desc: `A showcase of open source variable typefaces that you can use on any project.`,
     vidSrc: '/opentypecollective.mp4',
@@ -38,21 +35,19 @@ app with drag-and-drop functionality throughout.`,
     href: 'http://opentypecollective.com/'
   },
   {
-    id: 0,
     title: 'InMySize',
     desc: `InMySize is a streetwear shopping app that shows users clothing from multiple stores that are currently in stock. Sizes are continuously updated using Node-based crawlers.`,
     src: '/img/work_inmysize.jpg',
     tags: ['React Native', 'Node JS', 'Koa', 'MongoDB', 'Design']
   }
   // {
-  //   id: 1,
   //   title: 'Keep The Axe Sharp',
   //   desc: `Keep The Axe Sharp uses flashcards and a repetition spaced learning algorithm to help programmers commit easy forgotten patterns, edge cases and shortcuts to memory.`,
   //   src: '/img/work_keepyouraxesharp.jpg',
   //   tags: ['React', 'Node JS', 'Design']
   //   // href: 'http://keeptheaxesharp.com/'
   // }
-];
+].map((p, idx) => ({ ...p, id: idx }));
 
 export default function Work() {
   return (
