@@ -2,7 +2,6 @@ import Image from 'next/image';
 import styles from './Work.module.css';
 
 interface Project {
-  id: number;
   title: string;
   desc: string;
   src?: string;
@@ -47,7 +46,7 @@ app with drag-and-drop functionality throughout.`,
   //   tags: ['React', 'Node JS', 'Design']
   //   // href: 'http://keeptheaxesharp.com/'
   // }
-].map((p, idx) => ({ ...p, id: idx }));
+];
 
 export default function Work() {
   return (
@@ -55,8 +54,8 @@ export default function Work() {
       <div className="content">
         <h2>Projects</h2>
 
-        {projects.map((p) => (
-          <article className={styles.work} key={p.id}>
+        {projects.map((p, idx) => (
+          <article className={styles.work} key={idx}>
             <div className={styles.workMedia}>
               {p.vidSrc ? (
                 <video autoPlay={true} loop muted>
