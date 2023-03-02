@@ -155,7 +155,7 @@ function canvasAnimation(
     offset
   );
 
-  resizeCanvasToDisplaySize(gl.canvas, 1);
+  resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement, 1);
 
   // Tell WebGL how to convert from clip space to pixels
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);

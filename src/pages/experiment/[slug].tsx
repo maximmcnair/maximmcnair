@@ -3,8 +3,11 @@ import dynamic from 'next/dynamic';
 
 import { Layout } from '@/components/Layout';
 import { experiments } from '@/utils/experiments';
+import { Experiment } from '@/types';
 
-interface Props {}
+interface Props {
+  meta: Experiment;
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
