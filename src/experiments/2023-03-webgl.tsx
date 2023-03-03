@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
 
-function resizeCanvasToDisplaySize(
-  canvas: HTMLCanvasElement,
-  multiplier: number
-): boolean {
-  multiplier = multiplier || 1;
-  const width = (canvas.clientWidth * multiplier) | 0;
-  const height = (canvas.clientHeight * multiplier) | 0;
-  if (canvas.width !== width || canvas.height !== height) {
-    canvas.width = width;
-    canvas.height = height;
-    return true;
+function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
+  const dpr = window.devicePixelRatio || 1;
+  console.log('resizeCanvasToDisplaySize', dpr);
+
+  const { width, height } = canvas.getBoundingClientRect();
+
+  const displayWidth = Math.floor(width * dpr);
+  const displayHeight = Math.floor(height * dpr);
+
+  console.log(canvas.width, displayWidth, canvas.height, displayHeight);
+  if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+    canvas.width = displayWidth;
+    canvas.height = displayHeight;
   }
-  return false;
 }
 
 const vertexShaderSrc = `#version 300 es
@@ -155,7 +156,7 @@ function canvasAnimation(
     offset
   );
 
-  resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement, 1);
+  resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement);
 
   // Tell WebGL how to convert from clip space to pixels
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
