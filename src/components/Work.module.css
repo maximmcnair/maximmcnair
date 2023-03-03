@@ -25,7 +25,14 @@
 }
 
 .workDescBtn {
-  position: absolute;
-  top: 0px;
-  right: 0px;
+  margin-top: 15px;
+}
+
+@media (min-width: 510px) {
+  .workDescBtn {
+    margin-top: 0px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
 }
