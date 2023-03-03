@@ -138,6 +138,10 @@ video {
   height: auto;
 }
 
+video::-internal-media-controls-overlay-cast-button {
+  display: none;
+}
+
 .react-draggable {
   cursor: grab;
 }
