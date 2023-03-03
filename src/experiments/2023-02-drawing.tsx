@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { getStroke } from 'perfect-freehand';
-import { getSvgPathFromStroke } from "@/utils/getSvgPathFromStroke";
-import styles from './Drawing.module.css'
+import { getSvgPathFromStroke } from '@/utils/getSvgPathFromStroke';
+import styles from './2023-02-Drawing.module.css';
 
 const options = {
   size: 10,
   thinning: 0.1,
   smoothing: 0.1,
-  streamline: 0.1,
+  streamline: 0.1
 };
 
-const Drawing: React.FC = () => {
+export default function Drawing() {
   const [points, setPoints] = useState([]);
 
   function handlePointerDown(e: React.MouseEvent) {
@@ -34,11 +34,9 @@ const Drawing: React.FC = () => {
       className={styles.draw}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
-      style={{ touchAction: "none" }}
+      style={{ touchAction: 'none' }}
     >
-      {points && <path d={pathData} />}
+      {points && <path d={pathData} fill="var(--color-blue)" />}
     </svg>
   );
 }
-
-export default Drawing;
