@@ -26,3 +26,5 @@ export const experiments: Experiment[] = [
     src: '2023-01-moving-gradient.tsx'
   },
 ];
+// import Background from '@/components/Background'
+// <Background />

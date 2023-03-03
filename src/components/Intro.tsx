@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Draggable from '@/components/Draggable'
-// import Background from '@/components/Background'
 import styles from './Intro.module.css';
 
 interface Work {
@@ -12,12 +11,11 @@ interface Work {
   src: string;
 }
 
-{/* <Background /> */}
 
 export default function Intro(){
   const [work] = useState<Work[]>([
     { id : 0,
-      title: 'useCables.com',
+      title: 'usecables.com',
       href: "https://www.usecables.com/",
       src: '/cables.mp4',
       x: -220,
@@ -31,7 +29,7 @@ export default function Intro(){
       y: -300,
     },
     { id : 2,
-      title: 'openTypeCollective.com',
+      title: 'opentypecollective.com',
       href: "https://www.openTypeCollective.com/",
       src: '/opentypecollective.mp4',
       x: -230,
@@ -45,7 +43,6 @@ export default function Intro(){
       y: 340,
     },
   ]);
-
 
   return (
     <section className={styles.introWrapper}>
