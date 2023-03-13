@@ -226,7 +226,7 @@ export default function WebGL() {
   useEffect(() => {
     const canvas: HTMLCanvasElement | null = document.querySelector('#canvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('webgl2');
+    const ctx = canvas.getContext('webgl2', {preserveDrawingBuffer: true});
     if (!ctx) return;
 
     // set height&width of canvas
