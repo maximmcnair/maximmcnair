@@ -23,7 +23,7 @@ export default function Intro(){
     },
     { id : 1,
       title: 'burnie.app',
-      href: "burnie.app",
+      href: "https://burnie.app/",
       src: '/burnie-900.mp4',
       x: 420,
       y: -300,
