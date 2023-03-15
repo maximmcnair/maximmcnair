@@ -25,6 +25,12 @@ export const experiments: Experiment[] = [
     published: true,
     src: '2023-01-moving-gradient.tsx'
   },
+  {
+    name: 'Canvas Collab',
+    slug: 'canvas-collab',
+    published: true,
+    src: 'canvas-collab.tsx'
+  },
 ];
 // import Background from '@/components/Background'
 // <Background />
