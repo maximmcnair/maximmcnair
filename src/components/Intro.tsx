@@ -48,8 +48,8 @@ export default function Intro(){
     <section className={styles.introWrapper}>
       <section className={styles.intro}>
         <span className={styles.name}>Maxim McNair</span>
-        <h2 className={styles.title}>{'I\'m a product engineer and designer, focused on '}
-          <span className={styles.titleHighlight}>building creative tools for the web.</span>
+        <h2 className={styles.title}>{'I\'m a product engineer focused on '}
+          <span className={styles.titleHighlight}>building collaborative tools for the web.</span>
         </h2>
         <section className={styles.socialIcons}>
           <a
