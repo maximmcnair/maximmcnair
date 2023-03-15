@@ -1,6 +1,7 @@
 .introWrapper {
   position: relative;
   background-color: var(--color-blue);
+  background-image: url(/bg-dot.png);
   min-height: 100vh;
 }
 
