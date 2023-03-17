@@ -4,6 +4,7 @@
   background-image: radial-gradient(var(--color-blue-dark) 10%, var(--color-blue) 10%);
   background-position: 0 0;
   background-size: 15px 15px;
+  overflow: hidden;
 }
 
 .windows{

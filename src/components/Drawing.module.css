@@ -1,7 +1,7 @@
 .draw {
   cursor: url(/paint.svg) 4 27, auto;
   display: block;
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
@@ -14,7 +14,7 @@
 
 .drawBg {
   display: block;
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
