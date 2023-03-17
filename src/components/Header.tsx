@@ -9,8 +9,8 @@ const Header: React.FC = () => {
         <nav className={styles.links}>
           <Link href="/#about">About</Link>
           <Link href="/#work">Work</Link>
+          <Link href="/#experiments">Experiments</Link>
           <Link href="/#articles">Articles</Link>
-          <Link href="/#experiments" style={{display: 'none'}}>Experiments</Link>
         </nav>
       </div>
     </header>

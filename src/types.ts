@@ -14,8 +14,11 @@ export interface Meta {
 }
 
 export interface Experiment {
-  name: string;
-  slug: string;
+  title?: string;
+  slug?: string;
+  video?: string;
+  thumb?: string;
+  category: string;
   published: boolean;
-  src: string;
+  src?: string;
 }
