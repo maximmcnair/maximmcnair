@@ -11,11 +11,14 @@ interface Props {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    paths: experiments.map((e) => {
-      return {
-        params: { slug: e.slug }
-      };
-    }),
+    paths: 
+      experiments
+        .filter(e => !!e.slug && !e.published)
+        .map((e) => {
+          return {
+            params: { slug: e.slug }
+          };
+        }),
     fallback: 'blocking'
   };
 };
