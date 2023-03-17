@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Draggable from '@/components/Draggable'
+import Drawing from '@/components/Drawing'
 import styles from './Intro.module.css';
 
 interface Work {
@@ -10,7 +11,6 @@ interface Work {
   href?: string;
   src: string;
 }
-
 
 export default function Intro(){
   const [work] = useState<Work[]>([
@@ -44,13 +44,20 @@ export default function Intro(){
     },
   ]);
 
+  // <img src="/img/maxim-bio.jpg" className={styles.avatar}/>
+
   return (
     <section className={styles.introWrapper}>
+      <Drawing/>
+
       <section className={styles.intro}>
-        <span className={styles.name}>Maxim McNair</span>
-        <h2 className={styles.title}>{'I\'m a product engineer focused on '}
-          <span className={styles.titleHighlight}>building collaborative tools for the web.</span>
-        </h2>
+        <div className={styles.introText}>
+          <span className={styles.name}>Maxim McNair</span>
+          <h2 className={styles.title}>{'I\'m a product engineer focused on '}
+            <span className={styles.titleHighlight}>building collaborative tools for the web.</span>
+          </h2>
+        </div>
+
         <section className={styles.socialIcons}>
           <a
             href="http://dribbble.com/maximmcnair"
@@ -136,13 +143,15 @@ export default function Intro(){
           </a>
         </section>
 
-        {work.map(work => (
-          <Draggable x={work.x} y={work.y} title={work.title} href={work.href} key={work.id}>
-            <video autoPlay={true} loop muted>
-              <source src={work.src} type="video/mp4" />
-            </video>
-          </Draggable>
-        ))}
+        <div className={styles.windows}>
+          {work.map(work => (
+            <Draggable x={work.x} y={work.y} title={work.title} href={work.href} key={work.id}>
+              <video autoPlay={true} loop muted>
+                <source src={work.src} type="video/mp4" />
+              </video>
+            </Draggable>
+          ))}
+        </div>
       </section>
     </section>
   );
