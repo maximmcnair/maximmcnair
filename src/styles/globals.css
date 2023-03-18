@@ -311,3 +311,7 @@ video::-internal-media-controls-overlay-cast-button {
   left: 0px;
   z-index: var(--z-canvas);
 }
+
+.canvas-collab {
+  background-color: white;
+}

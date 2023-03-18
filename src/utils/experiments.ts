@@ -53,4 +53,12 @@ export const experiments: Experiment[] = [
     published: false,
     src: '2023-03-webgl.tsx'
   },
+  {
+    title: 'Canvas Collab',
+    slug: 'canvas-collab',
+    category: 'Canvas 2d',
+    thumb: '/experiments/canvas-collab.jpg',
+    published: true,
+    src: 'canvas-collab.tsx'
+  },
 ];
