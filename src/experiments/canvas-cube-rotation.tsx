@@ -3,14 +3,6 @@ import * as glMatrix from "gl-matrix";
 
 const { mat4, vec4 } = glMatrix;
 
-// const config = {
-//   aspectRatio: 1,
-//   fovAngle: 30,
-//   zNear: 0,
-//   zFar: 800,
-//   distance: 2,
-// };
-//
 function canvasAnimation(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D
@@ -175,7 +167,7 @@ function canvasAnimation(
     for (let i = 0; i < vertices.length; i++) {
       vec4.transformMat4(renderVertices[i], vertices[i], transformMatrix);
       // vec4.transformMat4(renderVertices[i], renderVertices[i], projectionMatrix);
-      vec4.scale(renderVertices[i], renderVertices[i], 150);
+      vec4.scale(renderVertices[i], renderVertices[i], 80);
     }
     return vertices;
   }

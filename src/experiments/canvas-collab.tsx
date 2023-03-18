@@ -189,6 +189,9 @@ function canvasAnimation(
     canvas.style.cursor = cursor;
   }
 
+  // set default cursor to 
+  updateCursor('grab');
+
   function noteDelete(noteId: number) {
     notes = notes.filter(n => {
       if (n.id !== noteId) return true;
@@ -238,7 +241,7 @@ function canvasAnimation(
     if (draggingBackground) {
       draggingBackground = false;
     }
-    updateCursor('default');
+    updateCursor('grab');
     render();
   });
 
