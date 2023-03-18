@@ -18,6 +18,7 @@
     "date-fns": "^2.29.3",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
+    "gl-matrix": "^3.4.3",
     "gl-react": "^5.2.0",
     "gl-react-dom": "^5.2.1",
     "gray-matter": "^4.0.3",

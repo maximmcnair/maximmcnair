@@ -20,13 +20,16 @@
   --color-black: #0d0d0d;
   --color-gold: #d09f69;
   --color-blue: #332bcc;
+  --color-blue-dark: #302b95;
 
   /* Z Index */
   --z-header: 999;
   --z-draggable: 888;
   --z-canvas: 888;
   --z-background: 777;
+  --z-intro: 666;
   --z-drawing: 666;
+  --z-drawing-bg: 555;
 }
 
 /* @media (prefers-color-scheme: dark) { */

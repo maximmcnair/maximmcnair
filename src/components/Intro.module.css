@@ -1,7 +1,14 @@
 .introWrapper {
   position: relative;
-  background-color: var(--color-blue);
   min-height: 100vh;
+  background-image: radial-gradient(var(--color-blue-dark) 10%, var(--color-blue) 10%);
+  background-position: 0 0;
+  background-size: 15px 15px;
+  overflow: hidden;
+}
+
+.windows{
+  pointer-events: all;
 }
 
 .intro {
@@ -9,6 +16,22 @@
   padding-top: 60px;
   z-index: var(--z-intro);
   position: relative;
+  pointer-events: none;
+}
+
+.introText {
+  pointer-events: none;
+  user-select: none;
+}
+
+.avatar {
+  top: 50px;
+  left: -160px;
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: none;
 }
 
 .name {
@@ -57,6 +80,7 @@
   margin-top: 20px;
   margin-bottom: 60px;
   user-select: none;
+  pointer-events: all;
 }
 
 .socialIcons a {

@@ -21,7 +21,7 @@ app with drag-and-drop functionality throughout.`,
   },
   {
     title: 'Cables',
-    desc: `Lead development of Cables, A no-code node based animation tool for creating shaders in the browser.`,
+    desc: `Led development of Cables, A no-code node based animation tool for creating shaders in the browser.`,
     vidSrc: '/cables.mp4',
     tags: ['WebGL', 'Svelte'],
     href: 'http://usecables.com/'
