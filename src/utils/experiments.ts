@@ -20,6 +20,14 @@ export const experiments: Experiment[] = [
     src: '2023-01-moving-gradient.tsx'
   },
   {
+    title: 'Cube Matrix Rotation',
+    slug: 'canvas-cube-rotation',
+    category: 'Canvas 2d',
+    thumb: '/experiments/cube-rotation.jpg',
+    published: true,
+    src: 'canvas-cube-rotation.tsx'
+  },
+  {
     category: 'Blender',
     video: '/experiments/feb-26.mp4',
     published: true
@@ -46,6 +54,3 @@ export const experiments: Experiment[] = [
     src: '2023-03-webgl.tsx'
   },
 ];
-
-// import Background from '@/components/Background'
-// <Background />
