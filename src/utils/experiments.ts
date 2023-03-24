@@ -28,6 +28,14 @@ export const experiments: Experiment[] = [
     src: 'canvas-cube-rotation.tsx'
   },
   {
+    title: 'Flocking Boids',
+    slug: 'canvas-flocking-boids',
+    category: 'Canvas 2d',
+    thumb: '/experiments/cube-rotation.jpg',
+    published: true,
+    src: 'canvas-flocking-boids.tsx'
+  },
+  {
     category: 'Blender',
     video: '/experiments/feb-26.mp4',
     published: true
