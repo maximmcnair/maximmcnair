@@ -12,6 +12,14 @@ export const experiments: Experiment[] = [
     published: true
   },
   {
+    title: '',
+    slug: 'three-vectors',
+    category: 'ThreeJS',
+    thumb: '/experiments/',
+    published: false,
+    src: 'three.tsx'
+  },
+  {
     title: 'Moving Gradient',
     slug: 'moving-gradient',
     category: 'Canvas 2d',

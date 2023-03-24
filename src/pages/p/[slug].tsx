@@ -1,13 +1,17 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Highlight from 'react-highlight';
+import Head from 'next/head';
 
 import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
 import { LawOf100 } from '@/components/LawOf100';
+import { MathGrid } from '@/components/MathGrid';
 import { Post, Meta } from '@/types';
 
 // @ts-ignore
@@ -38,7 +42,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context?.params?.slug || '';
   const { content, meta } = await getPost(String(slug) || '');
-  const mdx = await serialize(content);
+  const mdx = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex]
+    }
+  });
 
   // Get all posts just for LawOf100
   const posts = await getPosts();
@@ -56,6 +65,15 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
     <Layout title={meta?.title} desc={meta?.desc}>
       <article className="article content">
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css"
+          integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM"
+          crossOrigin="anonymous"
+        />
+      </Head>
+        
         <header className="article__header">
           <h1 className="article__title">{meta?.title}</h1>
           <strong className="article__date">
@@ -77,6 +95,8 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
             {...mdx}
             components={{
               pre: Highlight,
+              MathGrid,
+              small: ({children}) => <small>{children}</small>,
               // @ts-ignore
               a: AHref,
               LawOf100: () => <LawOf100 amount={posts.length} />
