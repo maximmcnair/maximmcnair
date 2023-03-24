@@ -26,59 +26,51 @@ function getRandomInt(min: number, max: number): number {
 class Vector {
   x: number;
   y: number;
-  z: number;
 
-  constructor(x: number, y: number, z?: number){
+  constructor(x: number, y: number){
     this.x = x || 0;
     this.y = y || 0;
-    this.z = z || 0;
   }
 
   add(vec: Vector) {
     this.x += vec.x;
     this.y += vec.y;
-    this.z += vec.z;
     return this;
   }
 
   sub(vec: Vector) {
     this.x -= vec.x;
     this.y -= vec.y;
-    this.z -= vec.z;
     return this;
   }
 
   mult(n: number) {
     this.x *= n;
     this.y *= n;
-    this.z *= n;
     return this;
   }
 
   div(n: number) {
     this.x /= n;
     this.y /= n;
-    this.z /= n;
     return this;
   }
 
   getMag(): number {
-    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
   setMag(m: number) {
     const angle = this.getAngle();
     this.x = Math.cos(angle) * m;
     this.y = Math.cos(angle) * m;
-    this.z = Math.cos(angle) * m;
   }
 
   getMagSq(): number {
-    return this.x * this.x + this.y * this.y + this.z * this.z;
+    return this.x * this.x + this.y * this.y;
   }
 
   getAngle(): number {
-    // TODO handle z
     return Math.atan2(this.y, this.x);
   }
 
@@ -104,14 +96,13 @@ class Vector {
   }
 
   dup(): Vector {
-    return new Vector(this.x, this.y, this.z);
+    return new Vector(this.x, this.y);
   }
 
   dist(vec: Vector): number{
     const dx = vec.x - this.x;
     const dy = vec.y - this.y;
     return Math.hypot(dx, dy)
-    // return Math.sqrt(dx * dx + dy * dy);
   }
 }
 
@@ -214,7 +205,7 @@ class Boid {
 
   seperate(boids: Boid[]): Vector {
     // desired velocity = average of all fleeing desired velocites
-    const desiredSeparation = 25;
+    const desiredSeparation = 45;
     let steer = new Vector(0, 0);
     let count = 0;
 
@@ -243,39 +234,9 @@ class Boid {
     return steer;
   }
 
-  boundaries(): Vector {
-    // const { x, y } = this.position;
-    // // TODO this could not be correct
+  boundaries() {
     const width = window.innerWidth;
     const height = window.innerHeight;
-  
-    // const gap = 50;
-    // const desired = new Vector(0, 0);
-    //
-    // if (x < gap) {
-    //   const adjust = new Vector(this.maxspeed, this.velocity.y);
-    //   desired.add(adjust);
-    // } else if (x > width - gap) {
-    //   const adjust = new Vector(-this.maxspeed, this.velocity.y);
-    //   desired.add(adjust);
-    // }
-    // 
-    // if (y < gap) {
-    //   const adjust = new Vector(this.velocity.x, this.maxspeed);
-    //   desired.add(adjust);
-    // } else if (y > height - gap) {
-    //   const adjust = new Vector(this.velocity.x, -this.maxspeed);
-    //   desired.add(adjust);
-    // }
-    //
-    // if (desired.x !== 0 && desired.y !== 0) {
-    //   desired.normalize();
-    //   desired.mult(this.maxspeed);
-    //   desired.sub(this.velocity);
-    //   desired.limit(this.maxforce);
-    // }
-    //
-    // return desired;
 
     if (this.position.x < -this.r) this.position.x = width + this.r;
     if (this.position.y < -this.r) this.position.y = height + this.r;
