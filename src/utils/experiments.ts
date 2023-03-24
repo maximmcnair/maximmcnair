@@ -66,7 +66,7 @@ export const experiments: Experiment[] = [
     slug: 'canvas-collab',
     category: 'Canvas 2d',
     thumb: '/experiments/canvas-collab.jpg',
-    published: true,
+    published: false,
     src: 'canvas-collab.tsx'
   },
 ];
