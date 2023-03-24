@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // p5 style map function
 function map(val: number, start1: number, stop1: number, start2: number, stop2: number, withinBounds?: number) {
@@ -245,90 +245,89 @@ class Boid {
   }
 }
 
-function canvasAnimation(
-  canvas: HTMLCanvasElement,
-  ctx: CanvasRenderingContext2D
-) {
-  // set height&width of canvas
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-
-  // TODO handle removal?
-  window.addEventListener('resize', onResize);
-
-  function onResize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-
-  onResize();
-
-  // scene constants
-  const BOID_AMOUNT = 200;
-  // const BOID_RADIUS = 5;
-
-  // setup scene
-  const boids: Boid[] = []
-  for (let i = 0; i < BOID_AMOUNT; i++) {
-    boids.push(new Boid(
-      getRandomInt(0, width),
-      getRandomInt(0, height),
-      3,
-      0.05,
-    ))
-  }
-
-  function render(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.clearRect(0, 0, width, height);
-
-    for (let boid of boids){
-      boid.flock(boids);
-      boid.boundaries();
-      boid.update();
-
-      ctx.beginPath();
-      ctx.fillStyle = 'white';
-      ctx.stroke()
-
-      const {x, y} = boid.position;
-
-      // ctx.arc(x, y, 6, 0, 2 * Math.PI)
-
-      let angle = boid.velocity.getAngle();
-      var headlen = 15;
-
-      ctx.moveTo(x, y);
-      ctx.lineTo(x-headlen*Math.cos(angle-Math.PI/7),
-                 y-headlen*Math.sin(angle-Math.PI/7));
-      ctx.lineTo(x-headlen*Math.cos(angle+Math.PI/7),
-                 y-headlen*Math.sin(angle+Math.PI/7));
-      ctx.lineTo(x, y);
-      ctx.lineTo(x-headlen*Math.cos(angle-Math.PI/7),
-                 y-headlen*Math.sin(angle-Math.PI/7));
-
-      ctx.fill();
-      ctx.closePath();
-    }
-
-    ctx.restore();
-    window.requestAnimationFrame(() => render(ctx));
-  }
-  render(ctx);
-}
-
 export default function FlockingBoids() {
+  const refCanvas = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
-    const canvas: HTMLCanvasElement | null = document.querySelector('#canvas');
+    const canvas = refCanvas.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvasAnimation(canvas, ctx);
+    // set height&width of canvas
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    // TODO handle removal?
+    window.addEventListener('resize', onResize);
+
+    function onResize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      if (!canvas) return;
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    onResize();
+
+    // scene constants
+    const BOID_AMOUNT = 200;
+    // const BOID_RADIUS = 5;
+
+    // setup scene
+    const boids: Boid[] = []
+    for (let i = 0; i < BOID_AMOUNT; i++) {
+      boids.push(new Boid(
+        getRandomInt(0, width),
+        getRandomInt(0, height),
+        3,
+        0.05,
+      ))
+    }
+
+
+    function render(ctx: CanvasRenderingContext2D){
+      ctx.save();
+      ctx.clearRect(0, 0, width, height);
+
+      for (let boid of boids){
+        boid.flock(boids);
+        boid.boundaries();
+        boid.update();
+
+        ctx.beginPath();
+        ctx.fillStyle = 'white';
+        ctx.stroke()
+
+        const {x, y} = boid.position;
+
+        // ctx.arc(x, y, 6, 0, 2 * Math.PI)
+
+        let angle = boid.velocity.getAngle();
+        var headlen = 15;
+
+        ctx.moveTo(x, y);
+        ctx.lineTo(x-headlen*Math.cos(angle-Math.PI/7),
+                   y-headlen*Math.sin(angle-Math.PI/7));
+        ctx.lineTo(x-headlen*Math.cos(angle+Math.PI/7),
+                   y-headlen*Math.sin(angle+Math.PI/7));
+        ctx.lineTo(x, y);
+        ctx.lineTo(x-headlen*Math.cos(angle-Math.PI/7),
+                   y-headlen*Math.sin(angle-Math.PI/7));
+
+        ctx.fill();
+        ctx.closePath();
+      }
+      ctx.restore();
+
+      animationRender = window.requestAnimationFrame(() => render(ctx));
+    }
+
+    let animationRender = window.requestAnimationFrame(() => render(ctx));
+    return () => window.cancelAnimationFrame(animationRender)
   });
 
-  return <canvas id="canvas" className="canvas" />;
+  return <canvas id="canvas" className="canvas" ref={refCanvas} />;
 }
 
