@@ -137,6 +137,79 @@ class Boid {
   }
 
   flock(boids: Boid[]) {
+    // O(n)
+    let seperate = new Vector(0, 0);
+    let alignment = new Vector(0, 0);
+    let cohesion = new Vector(0, 0);
+
+    let seperateCount = 0;
+    let cohesionCount = 0;
+    let alignmentCount = 0;
+
+    const FLOCK_SEPARATION = 45;
+    const FLOCK_COHESION = 80;
+    const FLOCK_ALIGNMENT = 80;
+
+    for (let other of boids) {
+      // seperation
+      let d = this.position.dup().dist(other.position);
+      if (this != other && d < FLOCK_SEPARATION) {
+        let diff = this.position.dup().sub(other.position);
+        diff.normalize();
+        diff.div(d);
+        seperate.add(diff);
+        seperateCount++;
+      }
+      // cohesion
+      if (this !== other && d > 0 && d < FLOCK_COHESION) {
+        cohesion.add(other.position);
+        cohesionCount++;
+      }
+      // alignment
+      if (this !== other && d > 0 && d < FLOCK_ALIGNMENT) {
+        alignment.add(other.velocity);
+        alignmentCount++;
+      }
+    }
+
+    // seperation
+    if (seperateCount > 0) {
+      seperate.div(seperateCount);
+    }
+    if (seperate.getMag() > 0) {
+      seperate.normalize();
+      seperate.mult(this.maxspeed);
+      seperate.sub(this.velocity);
+      seperate.limit(this.maxforce);
+    }
+
+    // cohesion
+    if (cohesionCount > 0) {
+      cohesion.div(cohesionCount);
+      cohesion = this.seek(cohesion);
+    }
+
+    // alignment
+    if (alignmentCount > 0){
+      alignment.div(alignmentCount);
+      alignment.normalize();
+      alignment.mult(this.maxspeed);
+      alignment.sub(this.velocity);
+      alignment.limit(this.maxforce);
+    }
+
+    // weight behaviour
+    seperate.mult(1.5);
+    alignment.mult(1);
+    cohesion.mult(1);
+
+    this.applyForce(seperate);
+    this.applyForce(alignment);
+    this.applyForce(cohesion);
+  }
+
+  flockOld(boids: Boid[]) {
+    // O(3n)
     const seperate = this.seperate(boids);
     const alignment = this.alignment(boids);
     const cohesion = this.cohesion(boids);
@@ -272,7 +345,7 @@ export default function FlockingBoids() {
     onResize();
 
     // scene constants
-    const BOID_AMOUNT = 200;
+    const BOID_AMOUNT = 600;
     // const BOID_RADIUS = 5;
 
     // setup scene
