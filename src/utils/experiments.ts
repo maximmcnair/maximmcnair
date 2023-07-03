@@ -2,6 +2,15 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'WebGL',
+    slug: 'webgl',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-06-webgl/index.tsx'
+  },
+
+  {
     category: 'Blender',
     thumb: '/experiments/feb-10.png',
     published: true
@@ -53,20 +62,20 @@ export const experiments: Experiment[] = [
     video: '/experiments/dec-15.mp4',
     published: true
   },
-  {
-    title: 'WebGL',
-    slug: 'webgl',
-    category: 'webgl',
-    thumb: '',
-    published: false,
-    src: '2023-03-webgl.tsx'
-  },
-  {
-    title: 'Canvas Collab',
-    slug: 'canvas-collab',
-    category: 'Canvas 2d',
-    thumb: '/experiments/canvas-collab.jpg',
-    published: false,
-    src: 'canvas-collab.tsx'
-  },
+  // {
+  //   title: 'WebGL',
+  //   slug: 'webgl',
+  //   category: 'webgl',
+  //   thumb: '',
+  //   published: false,
+  //   src: '2023-03-webgl.tsx'
+  // },
+  // {
+  //   title: 'Canvas Collab',
+  //   slug: 'canvas-collab',
+  //   category: 'Canvas 2d',
+  //   thumb: '/experiments/canvas-collab.jpg',
+  //   published: false,
+  //   src: 'canvas-collab.tsx'
+  // },
 ];
