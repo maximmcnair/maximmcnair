@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 interface UseWebGLOptions {
+  width: number;
+  height: number;
   onInit: (
     GL: WebGL2RenderingContext | null,
     canvas: HTMLCanvasElement,
@@ -13,14 +15,16 @@ const useWebGL = (options: UseWebGLOptions) => {
 
   useEffect(() => {
     if (options.onInit) {
+      // setSize({ width: window.innerWidth, height: window.innerHeight });
       const canvas = canvasRef.current as HTMLCanvasElement;
-      const GL = canvas.getContext('webgl2');
+      // const GL = canvas.getContext('webgl2');
+      const GL = canvas.getContext('webgl2', {preserveDrawingBuffer: true});
 
-      // set height&width of canvas
+      // set height & width of canvas
+      canvas.width = options.width;
+      canvas.height = options.height;
       // canvas.width = window.innerWidth;
       // canvas.height = window.innerHeight;
-      canvas.width = 300;
-      canvas.height = 150;
 
       options.onInit(GL, canvas);
     }
@@ -28,8 +32,9 @@ const useWebGL = (options: UseWebGLOptions) => {
     return () => options.onExit && options.onExit();
   }, [canvasRef]);
 
+  // return [<canvas ref={canvasRef} width={size.width} height={size.height}/>];
   return [
-    <canvas ref={canvasRef} />,
+    <canvas ref={canvasRef} width={options.width} height={options.height}/>
   ];
 };
 

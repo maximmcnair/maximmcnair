@@ -2,6 +2,14 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'Filters & Effects',
+    slug: 'webgl-filters-effects',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-filters-effects/index.tsx'
+  },
+  {
     title: 'WebGL',
     slug: 'webgl',
     category: 'webgl',

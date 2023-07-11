@@ -4,7 +4,7 @@ import {
   createShader,
   createProgramFromSources,
   resizeCanvasToDisplaySize,
-} from './webgl';
+} from '@/utils/webgl';
 
 const vertShader = `#version 300 es
 precision highp float;

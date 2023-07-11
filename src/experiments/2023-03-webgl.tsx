@@ -62,7 +62,7 @@ void main() {
 function createShader(
   gl: WebGL2RenderingContext,
   type: number,
-  src: string
+  src: string,
 ): WebGLShader | undefined {
   const shader: WebGLShader | null = gl.createShader(type);
   if (!shader) return;
@@ -79,7 +79,7 @@ function createShader(
 function createProgram(
   gl: WebGL2RenderingContext,
   vertexShader: WebGLShader,
-  fragShader: WebGLShader
+  fragShader: WebGLShader,
 ): WebGLProgram | undefined {
   const program: WebGLProgram | null = gl.createProgram();
   if (!program) throw Error('Failed to create WebGLProgram');
@@ -96,7 +96,7 @@ function createProgram(
 function createProgramFromSources(
   gl: WebGL2RenderingContext,
   vertexShaderSrc: string,
-  fragShaderSrc: string
+  fragShaderSrc: string,
 ): WebGLProgram {
   // create GLSL shaders, upload the GLSL source, compile the shaders
   const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSrc);
@@ -113,7 +113,7 @@ function createProgramFromSources(
 
 function canvasAnimation(
   canvas: HTMLCanvasElement,
-  gl: WebGL2RenderingContext
+  gl: WebGL2RenderingContext,
 ) {
   const program = createProgramFromSources(gl, vertexShaderSrc, fragShaderSrc);
 
@@ -123,7 +123,7 @@ function canvasAnimation(
   // look up uniform locations
   const resolutionUniformLocation = gl.getUniformLocation(
     program,
-    'u_resolution'
+    'u_resolution',
   );
   const colorLocation = gl.getUniformLocation(program, 'u_color');
 
@@ -154,7 +154,7 @@ function canvasAnimation(
     type,
     normalize,
     stride,
-    offset
+    offset,
   );
 
   resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement);
@@ -184,7 +184,7 @@ function canvasAnimation(
       randomInt(300),
       randomInt(300),
       randomInt(300),
-      randomInt(300)
+      randomInt(300),
     );
 
     // Set a random color.
@@ -210,7 +210,7 @@ function setRectangle(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
 ) {
   const x1 = x;
   const x2 = x + width;
@@ -219,7 +219,7 @@ function setRectangle(
   gl.bufferData(
     gl.ARRAY_BUFFER,
     new Float32Array([x1, y1, x2, y1, x1, y2, x1, y2, x2, y1, x2, y2]),
-    gl.STATIC_DRAW
+    gl.STATIC_DRAW,
   );
 }
 
@@ -227,7 +227,7 @@ export default function WebGL() {
   useEffect(() => {
     const canvas: HTMLCanvasElement | null = document.querySelector('#canvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('webgl2', {preserveDrawingBuffer: true});
+    const ctx = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
     if (!ctx) return;
 
     // set height&width of canvas
@@ -237,5 +237,5 @@ export default function WebGL() {
     canvasAnimation(canvas, ctx);
   });
 
-  return <canvas id="canvas" className="canvas" />;
+  return <canvas id='canvas' className='canvas' />;
 }

@@ -38,7 +38,6 @@
     "@types/gl-react": "^3.15.4",
     "@types/gl-react-dom": "^3.15.4",
     "@types/react-highlight": "^0.12.5",
-    "glsl-shader-loader": "^0.1.6",
     "husky": "^8.0.0"
   }
 }
