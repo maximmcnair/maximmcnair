@@ -35,31 +35,31 @@ function convolutionDraw(
   // const uPhoto = gl.getUniformLocation(program, 'textureID');
   // gl.uniform1i(uPhoto, 0);
 
-  function computeKernelWeight(kernel: number[]) {
-    var weight = kernel.reduce(function (prev, curr) {
-      return prev + curr;
-    });
-    return weight <= 0 ? 1 : weight;
-  }
-
-  var kernelLocation = gl.getUniformLocation(program, 'u_kernel[0]');
-  var kernelWeightLocation = gl.getUniformLocation(program, 'u_kernelWeight');
-  // prettier-ignore
-  const gaussianBlur = [
-    0.045, 0.122, 0.045,
-    0.122, 0.332, 0.122,
-    0.045, 0.122, 0.045,
-    
-    // 0, 0, 0,
-    // 0, 1, 0,
-    // 0, 0, 0,
-
-     // -2, -1,  0,
-     // -1,  1,  1,
-     //  0,  1,  2,
-  ];
-  gl.uniform1fv(kernelLocation, gaussianBlur);
-  gl.uniform1f(kernelWeightLocation, computeKernelWeight(gaussianBlur));
+  // function computeKernelWeight(kernel: number[]) {
+  //   var weight = kernel.reduce(function (prev, curr) {
+  //     return prev + curr;
+  //   });
+  //   return weight <= 0 ? 1 : weight;
+  // }
+  //
+  // var kernelLocation = gl.getUniformLocation(program, 'u_kernel[0]');
+  // var kernelWeightLocation = gl.getUniformLocation(program, 'u_kernelWeight');
+  // // prettier-ignore
+  // const gaussianBlur = [
+  //   0.045, 0.122, 0.045,
+  //   0.122, 0.332, 0.122,
+  //   0.045, 0.122, 0.045,
+  //   
+  //   // 0, 0, 0,
+  //   // 0, 1, 0,
+  //   // 0, 0, 0,
+  //
+  //    // -2, -1,  0,
+  //    // -1,  1,  1,
+  //    //  0,  1,  2,
+  // ];
+  // gl.uniform1fv(kernelLocation, gaussianBlur);
+  // gl.uniform1f(kernelWeightLocation, computeKernelWeight(gaussianBlur));
 
   return {
     uRes,

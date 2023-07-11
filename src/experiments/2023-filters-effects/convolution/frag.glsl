@@ -4,8 +4,8 @@ precision highp float;
 uniform vec2 u_resolution;
 uniform sampler2D u_image;
 
-uniform float u_kernel[9];
-uniform float u_kernelWeight;
+// uniform float u_kernel[9];
+// uniform float u_kernelWeight;
 
 out vec4 outColor;
 
@@ -67,7 +67,6 @@ void main() {
   // vec4 texel = texture(u_image, uv);
   // outColor = texel; 
 
-
   // vec4 colorSum =
   //     texture(u_image, uv + onePixel * vec2(-1, -1)) * u_kernel[0] +
   //     texture(u_image, uv + onePixel * vec2( 0, -1)) * u_kernel[1] +
@@ -81,11 +80,11 @@ void main() {
   //
   // outColor = vec4((colorSum / u_kernelWeight).rgb, 1);
 
-  outColor = blur13(u_image, uv, u_resolution, vec2(1.0, 1.0));
-  // outColor = blur9(u_image, uv, u_resolution, vec2(1.0, 1.0));
+  outColor = blur13(u_image, uv, u_resolution, vec2(4.0));
+  // outColor = blur9(u_image, uv, u_resolution, vec2(1.0));
   // outColor = blur5(u_image, uv, u_resolution, vec2(1.0, 1.0));
   // outColor = vec4(0.1, 1.0, 1.0, 1.0);
 
-  vec4 g = grain(outColor, uv);
-  outColor = mix(outColor, g, g.a);
+  // vec4 g = grain(outColor, uv);
+  // outColor = mix(outColor, g, g.a);
 }

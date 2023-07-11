@@ -13,6 +13,7 @@ import styles from './filters-effects.module.css';
 
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
+import { write } from 'fs';
 
 const filters = [
   {
@@ -172,7 +173,6 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     }
 
     // gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    //
 
     /* ===== Program ===== */
     const { filtersProgram } = filtersSetup(gl, canvas, config);
@@ -181,7 +181,12 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
 
     const { convolutionProgram } = convolutionSetup(gl, canvas, config);
     bindVertices(gl, canvas, config, convolutionProgram);
-    const convolutionProps = convolutionDraw(gl, canvas, config, convolutionProgram);
+    const convolutionProps = convolutionDraw(
+      gl,
+      canvas,
+      config,
+      convolutionProgram,
+    );
 
     /* ===== Image Texture ===== */
     const imageTexture = createAndSetupTexture(gl);
@@ -193,7 +198,7 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     /* ===== Buffer Textures ===== */
     var textures: WebGLTexture[] = [];
     var framebuffers: WebGLFramebuffer[] = [];
-    for (var ii = 0; ii < 1; ++ii) {
+    for (var ii = 0; ii < 2; ++ii) {
       var texture = createAndSetupTexture(gl);
       textures.push(texture);
 
@@ -252,15 +257,17 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     }
 
     let frame: number;
+    let time = 0;
     /* ===== Animate LOOP ===== */
     const loop = () => {
+      time += 0.01;
       if (!gl) return;
-      console.log('draw');
 
       gl.clearColor(1, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
 
-      let framebufferCount = 0;
+      let writeBuffer = 0;
+      let readBuffer = 1;
 
       /* ===== Image ===== */
       gl.useProgram(filtersProgram);
@@ -273,77 +280,55 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       // draw
       setFramebuffer(
         gl,
-        framebuffers[framebufferCount],
+        framebuffers[writeBuffer],
         filterProps.uRes,
         image.width,
         image.height,
       );
       // drawWithKernel
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
-  
+
       // Bind output texture as input texture!!!!
-      gl.bindTexture(gl.TEXTURE_2D, textures[framebufferCount]);
-
-      framebufferCount++;
 
       /* ===== Convolution ===== */
       gl.useProgram(convolutionProgram);
-      // Tell the shader to get the texture from texture unit 0
-      const conImageLocation = gl.getUniformLocation(convolutionProgram, 'u_image');
-      gl.uniform1i(conImageLocation, 0);
-      // draw
-      // NOTE we're rendering last section to canvas
-      setFramebuffer(
-        gl,
-        framebuffers[framebufferCount],
-        convolutionProps.uRes,
-        image.width,
-        image.height,
+      const conImageLocation = gl.getUniformLocation(
+        convolutionProgram,
+        'u_image',
       );
-      // setFramebuffer(
-      //   gl,
-      //   // framebuffers[framebufferCount], // NOTE we're rendering last section to canvas
-      //   null,
-      //   convolutionProps.uRes,
-      //   gl.canvas.width,
-      //   gl.canvas.height,
-      // );
-      gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+      let iterations = 8;
+      for (var i = 0; i < iterations; i++) {
+        // swap buffers
+        const temp = writeBuffer;
+        writeBuffer = readBuffer;
+        readBuffer = temp;
+        //
+        gl.uniform1i(conImageLocation, 0);
+        // draw
+        setFramebuffer(
+          gl,
+          framebuffers[writeBuffer],
+          convolutionProps.uRes,
+          image.width,
+          image.height,
+        );
+        // gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      framebufferCount++;
-
-      /* ===== Convolution ===== */
-      gl.useProgram(convolutionProgram);
-      // Tell the shader to get the texture from texture unit 0
-      // const conImageLocation = gl.getUniformLocation(convolutionProgram, 'u_image');
-      gl.uniform1i(conImageLocation, 0);
-      // draw
-      // NOTE we're rendering last section to canvas
-      setFramebuffer(
-        gl,
-        framebuffers[framebufferCount],
-        convolutionProps.uRes,
-        image.width,
-        image.height,
-      );
-      // setFramebuffer(
-      //   gl,
-      //   // framebuffers[framebufferCount], // NOTE we're rendering last section to canvas
-      //   null,
-      //   convolutionProps.uRes,
-      //   gl.canvas.width,
-      //   gl.canvas.height,
-      // );
-      gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+        gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
+      }
 
       /* ===== Render to canvas ===== */
-      setFramebuffer(gl, null, convolutionProps.uRes, gl.canvas.width, gl.canvas.height);
+      setFramebuffer(
+        gl,
+        null,
+        // filterProps.uRes,
+        convolutionProps.uRes,
+        gl.canvas.width,
+        gl.canvas.height,
+      );
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // setFramebuffer(gl, null, filterProps.uRes, gl.canvas.width, gl.canvas.height);
-      // gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
-
-    // TODO
       // frame = requestAnimationFrame(loop);
     };
 
