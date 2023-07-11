@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   webpack: (config) => {
     config.module.rules.push({
-      test: /\.(glsl)$/,
+      test: /\.(frag|vert|glsl)$/,
       type: 'asset/source'
     })
     return config
