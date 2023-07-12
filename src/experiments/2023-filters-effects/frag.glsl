@@ -88,10 +88,10 @@ void main() {
   // vec4 h = hue(gl_FragColor, u_hue);
   // gl_FragColor = mix(gl_FragColor, h, h.a);
 
-  // vec4 hi = vec4(0.9, 0.1, 0.3, 1.0);
-  // vec4 lo = vec4(0.9, 0.8, 0.2, 1.0);
-  // vec4 d = duotone(gl_FragColor, lo, hi);
-  // gl_FragColor = mix(gl_FragColor, d, d.a);
+  vec4 hi = vec4(0.9, 0.1, 0.3, 1.0);
+  vec4 lo = vec4(0.9, 0.8, 0.2, 1.0);
+  vec4 d = duotone(gl_FragColor, lo, hi);
+  gl_FragColor = mix(gl_FragColor, d, d.a);
 
   vec4 v = vignette(uv, u_vignette);
   gl_FragColor = mix(gl_FragColor, v, v.a);

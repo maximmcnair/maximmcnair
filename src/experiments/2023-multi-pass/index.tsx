@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { Config } from './types';
-import {
-  loadImage,
-  createAndSetupTexture,
-} from './utils';
+import { loadImage, createAndSetupTexture } from './utils';
 import styles from './filters-effects.module.css';
 
 import { filtersSetup, filtersDraw } from './filters/';
@@ -14,9 +11,9 @@ const filters = [
   {
     name: 'Brightness',
     key: 'Brightness',
-    min: -1,
-    max: 1,
-    step: 0.01,
+    min: -0.4,
+    max: 0.4,
+    step: 0.1,
   },
   // {
   //   name: 'Zoom',
@@ -28,44 +25,44 @@ const filters = [
   {
     name: 'Contrast',
     key: 'Contrast',
-    min: -1,
-    max: 1,
-    step: 0.01,
+    min: -0.3,
+    max: 0.7,
+    step: 0.1,
   },
   {
     name: 'Exposure',
     key: 'Exposure',
-    min: -1,
-    max: 1,
-    step: 0.01,
+    min: -0.6,
+    max: 0.5,
+    step: 0.1,
   },
   {
     name: 'Saturation',
     key: 'Saturation',
     min: -1,
     max: 1,
-    step: 0.01,
+    step: 0.1,
   },
   {
     name: 'Grain',
     key: 'Grain',
     min: 0,
     max: 0.2,
-    step: 0.01,
+    step: 0.02,
   },
   {
     name: 'Pixelate',
     key: 'Pixelate',
-    min: 0.001,
-    max: 400,
-    step: 0.001,
+    min: 0.011,
+    max: 100,
+    step: 0.1,
   },
   {
     name: 'Vignette',
     key: 'Vignette',
     min: 0,
-    max: 1,
-    step: 0.01,
+    max: 0.3,
+    step: 0.05,
   },
   {
     name: 'Blur',
@@ -74,21 +71,20 @@ const filters = [
     max: 8,
     step: 1,
   },
-  // Disabled
   {
     name: 'Duotone',
     key: 'Duotone',
     min: 0,
     max: 1,
-    step: 0.01,
-    disabled: true,
+    step: 1,
   },
+  // Disabled
   {
     name: 'Hue',
     key: 'Hue',
     min: 0,
     max: 1,
-    step: 0.01,
+    step: 0.1,
     disabled: true,
   },
 ];
@@ -262,11 +258,10 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     let time = 0;
     /* ===== Animate LOOP ===== */
     const loop = () => {
-      console.log('loop');
       time += 0.01;
       if (!gl) return;
 
-      gl.clearColor(1, 0, 0, 1);
+      gl.clearColor(0, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
 
       let writeBuffer = 0;
@@ -298,7 +293,6 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       let iterations = config.Blur;
 
       if (iterations) {
-        // console.log('running convolution');
         gl.useProgram(convolutionProgram);
         const conImageLocation = gl.getUniformLocation(
           convolutionProgram,
@@ -340,7 +334,7 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       );
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      frame = requestAnimationFrame(loop);
+      // frame = requestAnimationFrame(loop);
     };
 
     loop();
@@ -415,30 +409,32 @@ export default function WebGL() {
         )}
       </div>
       <section className={styles.filters}>
-        {filters.map(f => (
-          <label
-            className={styles.filter}
-            data-disabled={f.disabled}
-            key={f.name}
-          >
-            <span>{f.name}</span>
-            <input
-              className={styles.filterinput}
-              type='range'
-              min={f.min}
-              max={f.max}
-              step={f.step}
-              // @ts-ignore
-              value={config[f.key]}
-              onChange={evt =>
-                setConfig(c => ({
-                  ...c,
-                  [f.key]: parseFloat(evt.target.value),
-                }))
-              }
-            />
-          </label>
-        ))}
+        <div className={styles.filterscontent}>
+          {filters.map(f => (
+            <label
+              className={styles.filter}
+              data-disabled={f.disabled}
+              key={f.name}
+            >
+              <span>{f.name}</span>
+              <input
+                className={styles.filterinput}
+                type='range'
+                min={f.min}
+                max={f.max}
+                step={f.step}
+                // @ts-ignore
+                value={config[f.key]}
+                onChange={evt =>
+                  setConfig(c => ({
+                    ...c,
+                    [f.key]: parseFloat(evt.target.value),
+                  }))
+                }
+              />
+            </label>
+          ))}
+        </div>
       </section>
     </section>
   );

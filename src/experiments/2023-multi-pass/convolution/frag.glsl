@@ -62,7 +62,7 @@ void main() {
 	// vec2 uv = gl_FragCoord.xy;
 	vec2 uv = gl_FragCoord.xy/u_resolution;
  //  gl_FragColor = vec4(uv.y, uv.x, 1.0, 1.0);
-  vec2 onePixel = vec2(1) / vec2(textureSize(u_image, 0));
+  // vec2 onePixel = vec2(1) / vec2(textureSize(u_image, 0));
 
   // vec4 texel = texture(u_image, uv);
   // outColor = texel; 

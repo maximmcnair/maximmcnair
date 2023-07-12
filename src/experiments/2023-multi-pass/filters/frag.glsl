@@ -89,15 +89,18 @@ void main() {
   vec4 offset = u_brightnessOffset + u_contrastOffset;
   vec4 filtered = vec4(matrix * texel + offset);
   outColor = filtered;
+
   // outColor = mix(outColor, filtered, filtered.a);
 
   // vec4 h = hue(outColor, u_hue);
   // outColor = mix(outColor, h, h.a);
 
-  // vec4 hi = vec4(0.9, 0.1, 0.3, 1.0);
-  // vec4 lo = vec4(0.9, 0.8, 0.2, 1.0);
-  // vec4 d = duotone(outColor, lo, hi);
+  vec4 hi = vec4(0.9, 0.1, 0.3, 1.0);
+  vec4 lo = vec4(0.9, 0.8, 0.2, 1.0);
+  vec4 d = duotone(outColor, lo, hi);
   // outColor = mix(outColor, d, d.a);
+  outColor = mix(outColor, d, u_duotone);
+  // outColor = vec4(outColor.x, outColor.y, outColor.z, 1.0);
 
   vec4 v = vignette(uv, u_vignette);
   outColor = mix(outColor, v, v.a);
