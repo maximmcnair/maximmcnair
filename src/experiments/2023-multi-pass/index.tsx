@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { mat4 } from 'gl-matrix';
 
 import { Config } from './types';
-import { loadImage, createAndSetupTexture } from './utils';
+import { loadImage, createAndSetupTexture, mapLinear } from './utils';
 import styles from './filters-effects.module.css';
 
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
+import { cameraSetup, cameraDraw } from './camera/';
 
 const filters = [
   {
@@ -186,6 +188,15 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       convolutionProgram,
     );
 
+    const { cameraProgram } = cameraSetup(gl, canvas, config);
+    bindVertices(gl, canvas, config, cameraProgram);
+    const cameraProps = cameraDraw(
+      gl,
+      canvas,
+      config,
+      cameraProgram,
+    );
+
     /* ===== Image Texture ===== */
     const imageTexture = createAndSetupTexture(gl);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
@@ -322,13 +333,71 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       }
 
       /* ===== Render to canvas ===== */
+      // setFramebuffer(
+      //   gl,
+      //   null,
+      //   // If iterations is more than 0 then convolution run last
+      //   iterations > 0 ? convolutionProps.uRes : filterProps.uRes,
+      //   // filterProps.uRes,
+      //   // convolutionProps.uRes,
+      //   gl.canvas.width,
+      //   gl.canvas.height,
+      // );
+      // gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+      
+      gl.useProgram(cameraProgram);
+      const cameraImageLocation = gl.getUniformLocation(
+        cameraProgram,
+        'u_image',
+      );
+
+      // Matrix
+      const modelMatrix = mat4.create();
+      mat4.translate(modelMatrix, modelMatrix, [
+        config.model.x,
+        config.model.y,
+        config.model.z,
+      ]);
+      // const xRotateRad = mapLinear(mousePos.y, 0, window.innerHeight, 0, 0.05);
+      // mat4.rotateX(modelMatrix, modelMatrix, xRotateRad);
+      // const yRotateRad = mapLinear(mousePos.x, 0, window.innerWidth, 0, 0.05);
+      // mat4.rotateY(modelMatrix, modelMatrix, yRotateRad);
+      const cameraMatrix = mat4.create();
+      mat4.translate(cameraMatrix, cameraMatrix, [
+        config.camera.x,
+        config.camera.y,
+        config.camera.z,
+      ]);
+      const projectionMatrix = mat4.create();
+      mat4.perspective(
+        projectionMatrix,
+        // ((config.FOVAngle * Math.PI) / config.FOVRadius) * (1 - config.zoom),
+        (config.FOVAngle * Math.PI) / config.FOVRadius,
+        //canvas.width / canvas.height, // aspect ratio
+        gl.canvas.width / gl.canvas.height, // aspect ratio
+        1e-3, // near cull
+        Infinity, // far cull
+      );
+      // mat4.ortho(
+      //   projectionMatrix, // out
+      //   -1.0 * zoom, // left
+      //   1.0 * zoom, // right
+      //   -1.0 * zoom, // bottom
+      //   1.0 * zoom, // top
+      //   0.1, // near cull
+      //   100, // far cull
+      // );
+      const mvMatrix = mat4.create();
+      const mvpMatrix = mat4.create();
+      mat4.invert(cameraMatrix, cameraMatrix);
+      mat4.multiply(mvMatrix, cameraMatrix, modelMatrix);
+      mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix);
+      gl.uniformMatrix4fv(cameraProps.uMatrix, false, mvpMatrix);
+
       setFramebuffer(
         gl,
         null,
-        // If iterations is more than 0 then convolution run last
-        iterations > 0 ? convolutionProps.uRes : filterProps.uRes,
-        // filterProps.uRes,
-        // convolutionProps.uRes,
+        cameraProps.uRes,
         gl.canvas.width,
         gl.canvas.height,
       );
