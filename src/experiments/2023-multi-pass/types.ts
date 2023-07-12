@@ -22,9 +22,10 @@ export interface Config {
   Exposure: number;
   Saturation: number;
   Hue: number;
-  // filters
+  // effects
   Grain: number;
   Pixelate: number;
   Vignette: number;
   Duotone: number;
+  Blur: number;
 }

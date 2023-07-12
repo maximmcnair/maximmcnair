@@ -1,6 +1,9 @@
 import { createProgramFromSources } from '@/utils/webgl';
 import { Config } from '../types';
+
+// @ts-ignore
 import vertShader from './vert.glsl';
+// @ts-ignore
 import fragShader from './frag.glsl';
 
 function convolutionSetup(
@@ -32,6 +35,7 @@ function convolutionDraw(
   const uRes = gl.getUniformLocation(program, 'u_resolution');
   if (!uRes) throw Error('u_res location not created');
   gl.uniform2f(uRes, canvas.width, canvas.height);
+
   // const uPhoto = gl.getUniformLocation(program, 'textureID');
   // gl.uniform1i(uPhoto, 0);
 

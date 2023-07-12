@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface UseWebGLOptions {
   width: number;
@@ -34,7 +34,7 @@ const useWebGL = (options: UseWebGLOptions) => {
 
   // return [<canvas ref={canvasRef} width={size.width} height={size.height}/>];
   return [
-    <canvas ref={canvasRef} width={options.width} height={options.height}/>
+    <canvas ref={canvasRef} width={options.width} height={options.height} key={1} />
   ];
 };
 

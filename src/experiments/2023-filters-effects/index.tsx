@@ -1,18 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { mat4, vec4 } from 'gl-matrix';
 
-import useWebGL from '@/hooks/useWebGL';
-import {
-  resizeCanvasToDisplaySize,
-  createProgramFromSources,
-  loadTexture,
-} from '@/utils/webgl';
+import { createProgramFromSources, loadTexture } from '@/utils/webgl';
 import styles from './filters-effects.module.css';
 
+// @ts-ignore
 import vertShader from './vert.glsl';
+// @ts-ignore
 import fragShader from './frag.glsl';
 
-// async function loadImage(src: string): Promise<HTMLImageElement> {
 async function loadImage(src: string): Promise<number> {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -156,9 +152,6 @@ function setup(
   gl.vertexAttribPointer(uvLocation, 2, gl.FLOAT, false, 0, 0);
 
   /* ===== Photo Texture ===== */
-  // const { texture, aspectRatio } = await loadTexture(gl, `/flowers.jpg`);
-  // const { texture, aspectRatio } = await loadTexture(gl, `/flowers.jpg`);
-  // setTexture(gl, texture, aspectRatio);
   loadTexture(gl, '/flowers.jpg').then(({ texture, aspectRatio }) => {
     setTexture(gl, texture, aspectRatio);
     config.camera = { x: 0, y: 0, z: 0.6 };
@@ -326,9 +319,8 @@ function setup(
   }
   updateHue(config.Hue);
 
-  /* ===== Effects - rain ===== */
+  /* ===== Effects - Grain ===== */
   const uGrainAmount = gl.getUniformLocation(program, 'u_grain_amount');
-  console.log(config.Grain);
   gl.uniform1f(uGrainAmount, config.Grain);
 
   /* ===== Effects - Pixelate ===== */
@@ -483,8 +475,8 @@ function Canvas({ size, config, aspectRatio }: CanvasProps) {
     let mousePos: Position = { x: 0, y: 0 };
 
     const handleMouseMove = (evt: MouseEvent) => {
-    //   mousePos.x = evt.clientX || evt.pageX;
-    //   mousePos.y = evt.clientY || evt.pageY;
+      //   mousePos.x = evt.clientX || evt.pageX;
+      //   mousePos.y = evt.clientY || evt.pageY;
     };
     window.addEventListener('mousemove', handleMouseMove);
 
@@ -527,7 +519,7 @@ function Canvas({ size, config, aspectRatio }: CanvasProps) {
       mat4.perspective(
         projectionMatrix,
         // ((config.FOVAngle * Math.PI) / config.FOVRadius) * (1 - config.zoom),
-        ((config.FOVAngle * Math.PI) / config.FOVRadius),
+        (config.FOVAngle * Math.PI) / config.FOVRadius,
         //canvas.width / canvas.height, // aspect ratio
         gl.canvas.width / gl.canvas.height, // aspect ratio
         1e-3, // near cull
@@ -628,6 +620,7 @@ export default function WebGL() {
               min={f.min}
               max={f.max}
               step={f.step}
+              // @ts-ignore
               value={config[f.key]}
               onChange={evt =>
                 setConfig(c => ({

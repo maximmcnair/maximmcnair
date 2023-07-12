@@ -1,19 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { mat4, vec4 } from 'gl-matrix';
 
-import { Vec3, Position, Config } from './types';
+import { Config } from './types';
 import {
   loadImage,
-  mapLinear,
   createAndSetupTexture,
-  // createPingpong,
 } from './utils';
-import { createProgramFromSources, loadTexture } from '@/utils/webgl';
 import styles from './filters-effects.module.css';
 
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
-import { write } from 'fs';
 
 const filters = [
   {
@@ -73,6 +68,14 @@ const filters = [
     step: 0.01,
   },
   {
+    name: 'Blur',
+    key: 'Blur',
+    min: 0,
+    max: 8,
+    step: 1,
+  },
+  // Disabled
+  {
     name: 'Duotone',
     key: 'Duotone',
     min: 0,
@@ -80,7 +83,6 @@ const filters = [
     step: 0.01,
     disabled: true,
   },
-  // Disabled
   {
     name: 'Hue',
     key: 'Hue',
@@ -260,6 +262,7 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     let time = 0;
     /* ===== Animate LOOP ===== */
     const loop = () => {
+      console.log('loop');
       time += 0.01;
       if (!gl) return;
 
@@ -289,47 +292,55 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
       // Bind output texture as input texture!!!!
+      gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
 
       /* ===== Convolution ===== */
-      gl.useProgram(convolutionProgram);
-      const conImageLocation = gl.getUniformLocation(
-        convolutionProgram,
-        'u_image',
-      );
-      let iterations = 8;
-      for (var i = 0; i < iterations; i++) {
-        // swap buffers
-        const temp = writeBuffer;
-        writeBuffer = readBuffer;
-        readBuffer = temp;
-        //
-        gl.uniform1i(conImageLocation, 0);
-        // draw
-        setFramebuffer(
-          gl,
-          framebuffers[writeBuffer],
-          convolutionProps.uRes,
-          image.width,
-          image.height,
-        );
-        // gl.bindTexture(gl.TEXTURE_2D, null);
-        gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+      let iterations = config.Blur;
 
-        gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
+      if (iterations) {
+        // console.log('running convolution');
+        gl.useProgram(convolutionProgram);
+        const conImageLocation = gl.getUniformLocation(
+          convolutionProgram,
+          'u_image',
+        );
+
+        for (var i = 0; i < iterations; i++) {
+          // swap buffers
+          const temp = writeBuffer;
+          writeBuffer = readBuffer;
+          readBuffer = temp;
+          //
+          gl.uniform1i(conImageLocation, 0);
+          // draw
+          setFramebuffer(
+            gl,
+            framebuffers[writeBuffer],
+            convolutionProps.uRes,
+            image.width,
+            image.height,
+          );
+          // gl.bindTexture(gl.TEXTURE_2D, null);
+          gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
+
+          gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
+        }
       }
 
       /* ===== Render to canvas ===== */
       setFramebuffer(
         gl,
         null,
+        // If iterations is more than 0 then convolution run last
+        iterations > 0 ? convolutionProps.uRes : filterProps.uRes,
         // filterProps.uRes,
-        convolutionProps.uRes,
+        // convolutionProps.uRes,
         gl.canvas.width,
         gl.canvas.height,
       );
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // frame = requestAnimationFrame(loop);
+      frame = requestAnimationFrame(loop);
     };
 
     loop();
@@ -373,6 +384,7 @@ export default function WebGL() {
     Pixelate: 0.001,
     Vignette: 0,
     Duotone: 0,
+    Blur: 0,
   });
 
   const [image, setImage] = useState<HTMLImageElement>();
@@ -416,6 +428,7 @@ export default function WebGL() {
               min={f.min}
               max={f.max}
               step={f.step}
+              // @ts-ignore
               value={config[f.key]}
               onChange={evt =>
                 setConfig(c => ({
