@@ -95,7 +95,4 @@ void main() {
 
   vec4 v = vignette(uv, u_vignette);
   gl_FragColor = mix(gl_FragColor, v, v.a);
-
-  vec4 g = grain(gl_FragColor, uv);
-  gl_FragColor = mix(gl_FragColor, g, g.a);
 }

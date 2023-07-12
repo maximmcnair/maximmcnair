@@ -1,478 +1,206 @@
-"use strict";
+  // resizeCanvasToDisplaySize(canvas);
 
-var vertexShaderSource = `#version 300 es
+  /* ===== Program ===== */
+  const program = createProgramFromSources(gl, vertShader, fragShader);
 
-// an attribute is an input (in) to a vertex shader.
-// It will receive data from a buffer
-in vec2 a_position;
-in vec2 a_texCoord;
 
-// Used to pass in the resolution of the canvas
-uniform vec2 u_resolution;
-uniform float u_flipY;
+  // const texture = await loadTexture(gl, `/flowers.jpg`);
+  // const texture = await loadTexture(gl, "/point_blank.JPG");
+  // const texture = await loadTexture(gl, "/space-odyssey.jpg");
+  // const texture = await loadTexture(gl, `/default_brick.png`);
+  // const { texture, aspectRatio } = await loadTexture(gl, "/point_blank.JPG");
+  // setTexture(gl, texture, aspectRatio);
 
-// Used to pass the texture coordinates to the fragment shader
-out vec2 v_texCoord;
-
-// all shaders have a main function
-void main() {
-
-  // convert the position from pixels to 0.0 to 1.0
-  vec2 zeroToOne = a_position / u_resolution;
-
-  // convert from 0->1 to 0->2
-  vec2 zeroToTwo = zeroToOne * 2.0;
-
-  // convert from 0->2 to -1->+1 (clipspace)
-  vec2 clipSpace = zeroToTwo - 1.0;
-
-  gl_Position = vec4(clipSpace * vec2(1, u_flipY), 0, 1);
-
-  // pass the texCoord to the fragment shader
-  // The GPU will interpolate this value between points.
-  v_texCoord = a_texCoord;
-}
-`;
-
-var fragmentShaderSource = `#version 300 es
-
-// fragment shaders don't have a default precision so we need
-// to pick one. highp is a good default. It means "high precision"
-precision highp float;
-
-// our texture
-uniform sampler2D u_image;
-
-// the convolution kernal data
-uniform float u_kernel[9];
-uniform float u_kernelWeight;
-
-// the texCoords passed in from the vertex shader.
-in vec2 v_texCoord;
-
-// we need to declare an output for the fragment shader
-out vec4 outColor;
-
-void main() {
-  vec2 onePixel = vec2(1) / vec2(textureSize(u_image, 0));
-
-  vec4 colorSum =
-      texture(u_image, v_texCoord + onePixel * vec2(-1, -1)) * u_kernel[0] +
-      texture(u_image, v_texCoord + onePixel * vec2( 0, -1)) * u_kernel[1] +
-      texture(u_image, v_texCoord + onePixel * vec2( 1, -1)) * u_kernel[2] +
-      texture(u_image, v_texCoord + onePixel * vec2(-1,  0)) * u_kernel[3] +
-      texture(u_image, v_texCoord + onePixel * vec2( 0,  0)) * u_kernel[4] +
-      texture(u_image, v_texCoord + onePixel * vec2( 1,  0)) * u_kernel[5] +
-      texture(u_image, v_texCoord + onePixel * vec2(-1,  1)) * u_kernel[6] +
-      texture(u_image, v_texCoord + onePixel * vec2( 0,  1)) * u_kernel[7] +
-      texture(u_image, v_texCoord + onePixel * vec2( 1,  1)) * u_kernel[8] ;
-  outColor = vec4((colorSum / u_kernelWeight).rgb, 1);
-}
-`;
-
-function main() {
-  var image = new Image();
-  image.src = "https://webgl2fundamentals.org/webgl/resources/leaves.jpg";  // MUST BE SAME DOMAIN!!!
-  image.onload = function() {
-    render(image);
-  };
-}
-
-function render(image) {
-  // Get A WebGL context
-  /** @type {HTMLCanvasElement} */
-  var canvas = document.querySelector("#canvas");
-  var gl = canvas.getContext("webgl2");
-  if (!gl) {
-    return;
-  }
-
-  // setup GLSL program
-  var program = webglUtils.createProgramFromSources(gl,
-      [vertexShaderSource, fragmentShaderSource]);
-
-  // look up where the vertex data needs to go.
-  var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
-  var texCoordAttributeLocation = gl.getAttribLocation(program, "a_texCoord");
-
-  // lookup uniforms
-  var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
-  var imageLocation = gl.getUniformLocation(program, "u_image");
-  var kernelLocation = gl.getUniformLocation(program, "u_kernel[0]");
-  var kernelWeightLocation = gl.getUniformLocation(program, "u_kernelWeight");
-  var flipYLocation = gl.getUniformLocation(program, "u_flipY");
-
-  // Create a vertex array object (attribute state)
-  var vao = gl.createVertexArray();
-
-  // and make it the one we're currently working with
-  gl.bindVertexArray(vao);
-
-  // Create a buffer and put a single pixel space rectangle in
-  // it (2 triangles)
-  var positionBuffer = gl.createBuffer();
-
-  // Turn on the attribute
-  gl.enableVertexAttribArray(positionAttributeLocation);
-
-  // Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = positionBuffer)
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-  // Tell the attribute how to get data out of positionBuffer (ARRAY_BUFFER)
-  var size = 2;          // 2 components per iteration
-  var type = gl.FLOAT;   // the data is 32bit floats
-  var normalize = false; // don't normalize the data
-  var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-  var offset = 0;        // start at the beginning of the buffer
-  gl.vertexAttribPointer(
-      positionAttributeLocation, size, type, normalize, stride, offset);
-
-  // provide texture coordinates for the rectangle.
-  var texCoordBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, texCoordBuffer);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      0.0,  0.0,
-      1.0,  0.0,
-      0.0,  1.0,
-      0.0,  1.0,
-      1.0,  0.0,
-      1.0,  1.0,
-  ]), gl.STATIC_DRAW);
-
-  // Turn on the attribute
-  gl.enableVertexAttribArray(texCoordAttributeLocation);
-
-  // Tell the attribute how to get data out of texCoordBuffer (ARRAY_BUFFER)
-  var size = 2;          // 2 components per iteration
-  var type = gl.FLOAT;   // the data is 32bit floats
-  var normalize = false; // don't normalize the data
-  var stride = 0;        // 0 = move forward size * sizeof(type) each iteration to get the next position
-  var offset = 0;        // start at the beginning of the buffer
-  gl.vertexAttribPointer(
-      texCoordAttributeLocation, size, type, normalize, stride, offset);
-
-  function createAndSetupTexture(gl) {
-    var texture = gl.createTexture();
+  function setTexture(
+    gl: WebGL2RenderingContext,
+    texture: WebGLTexture,
+    aspectRatio: number,
+  ) {
+    gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_2D, texture);
-
-    // Set up texture so we can render any size image and so we are
-    // working with pixels.
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    return texture;
+    // set correct aspect ratio
+    config['photo-x-top'] = aspectRatio;
+    config['photo-x-bottom'] = -1;
+    config['photo-y-right'] = 1;
+    config['photo-y-left'] = -1;
+    // TODO update model x & y
+    const modelXOffset = Math.abs(1 - aspectRatio);
+    // console.log(aspectRatio, modelXOffset);
+    config.model.x = -(modelXOffset / 2);
+    updatePhotoVertices(gl, config);
   }
 
-  // Create a texture and put the image in it.
-  var originalImageTexture = createAndSetupTexture(gl);
+  // useProgram must come before uniforms!
+  gl.useProgram(program);
+  // gl.enable(gl.DEPTH_TEST);
 
-  // Upload the image into the texture.
-  var mipLevel = 0;               // the largest mip
-  var internalFormat = gl.RGBA;   // format we want in the texture
-  var srcFormat = gl.RGBA;        // format of data we are supplying
-  var srcType = gl.UNSIGNED_BYTE; // type of data we are supplying
-  gl.texImage2D(gl.TEXTURE_2D,
-                mipLevel,
-                internalFormat,
-                srcFormat,
-                srcType,
-                image);
+  /* ===== Uniforms ===== */
+  const uRes = gl.getUniformLocation(program, 'u_resolution');
+  gl.uniform2f(uRes, canvas.width, canvas.height);
+  const uPhoto = gl.getUniformLocation(program, 'textureID');
+  gl.uniform1i(uPhoto, 0);
 
-  // create 2 textures and attach them to framebuffers.
-  var textures = [];
-  var framebuffers = [];
-  for (var ii = 0; ii < 2; ++ii) {
-    var texture = createAndSetupTexture(gl);
-    textures.push(texture);
-
-    // make the texture the same size as the image
-    var mipLevel = 0;               // the largest mip
-    var internalFormat = gl.RGBA;   // format we want in the texture
-    var border = 0;                 // must be 0
-    var srcFormat = gl.RGBA;        // format of data we are supplying
-    var srcType = gl.UNSIGNED_BYTE; // type of data we are supplying
-    var data = null;                // no data = create a blank texture
-    gl.texImage2D(
-        gl.TEXTURE_2D, mipLevel, internalFormat, image.width, image.height, border,
-        srcFormat, srcType, data);
-
-    // Create a framebuffer
-    var fbo = gl.createFramebuffer();
-    framebuffers.push(fbo);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-
-    // Attach a texture to it.
-    var attachmentPoint = gl.COLOR_ATTACHMENT0;
-    gl.framebufferTexture2D(
-        gl.FRAMEBUFFER, attachmentPoint, gl.TEXTURE_2D, texture, mipLevel);
+  enum Cursor {
+    grab = 'grab',
+    grabbing = 'grabbing',
   }
 
+  let zoom = 1;
+  // canvas.style.cursor = Cursor.grab;
+  // window.addEventListener("wheel", (evt) => {
+  //   zoom = clamp(zoom + evt.deltaY * 0.001, 0.1, 3);
+  // });
+  // let isDragging = false;
+  // canvas.addEventListener("mousedown", () => {
+  //   canvas.style.cursor = Cursor.grabbing;
+  //   isDragging = true;
+  // });
+  // canvas.addEventListener("mouseup", () => {
+  //   canvas.style.cursor = Cursor.grab;
+  //   isDragging = false;
+  // });
+  // canvas.addEventListener("mousemove", (evt) => {
+  //   if (isDragging) {
+  //     // console.log(evt.movementX, evt.movementY);
+  //     config.camera.x -= evt.movementX * 0.001;
+  //     config.camera.y += evt.movementY * 0.001;
+  //   }
+  // });
 
-  // Bind the position buffer so gl.bufferData that will be called
-  // in setRectangle puts data in the position buffer
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  /* ===== Filters ===== */
 
-  // Set a rectangle the same size as the image.
-  setRectangle(gl, 0, 0, image.width, image.height);
-
-  // Define several convolution kernels
-  var kernels = {
-    normal: [
-      0, 0, 0,
-      0, 1, 0,
-      0, 0, 0,
-    ],
-    gaussianBlur: [
-      0.045, 0.122, 0.045,
-      0.122, 0.332, 0.122,
-      0.045, 0.122, 0.045,
-    ],
-    gaussianBlur2: [
-      1, 2, 1,
-      2, 4, 2,
-      1, 2, 1,
-    ],
-    gaussianBlur3: [
-      0, 1, 0,
-      1, 1, 1,
-      0, 1, 0,
-    ],
-    unsharpen: [
-      -1, -1, -1,
-      -1,  9, -1,
-      -1, -1, -1,
-    ],
-    sharpness: [
-       0, -1,  0,
-      -1,  5, -1,
-       0, -1,  0,
-    ],
-    sharpen: [
-       -1, -1, -1,
-       -1, 16, -1,
-       -1, -1, -1,
-    ],
-    edgeDetect: [
-       -0.125, -0.125, -0.125,
-       -0.125,  1,     -0.125,
-       -0.125, -0.125, -0.125,
-    ],
-    edgeDetect2: [
-       -1, -1, -1,
-       -1,  8, -1,
-       -1, -1, -1,
-    ],
-    edgeDetect3: [
-       -5, 0, 0,
-        0, 0, 0,
-        0, 0, 5,
-    ],
-    edgeDetect4: [
-       -1, -1, -1,
-        0,  0,  0,
-        1,  1,  1,
-    ],
-    edgeDetect5: [
-       -1, -1, -1,
-        2,  2,  2,
-       -1, -1, -1,
-    ],
-    edgeDetect6: [
-       -5, -5, -5,
-       -5, 39, -5,
-       -5, -5, -5,
-    ],
-    sobelHorizontal: [
-        1,  2,  1,
-        0,  0,  0,
-       -1, -2, -1,
-    ],
-    sobelVertical: [
-        1,  0, -1,
-        2,  0, -2,
-        1,  0, -1,
-    ],
-    previtHorizontal: [
-        1,  1,  1,
-        0,  0,  0,
-       -1, -1, -1,
-    ],
-    previtVertical: [
-        1,  0, -1,
-        1,  0, -1,
-        1,  0, -1,
-    ],
-    boxBlur: [
-        0.111, 0.111, 0.111,
-        0.111, 0.111, 0.111,
-        0.111, 0.111, 0.111,
-    ],
-    triangleBlur: [
-        0.0625, 0.125, 0.0625,
-        0.125,  0.25,  0.125,
-        0.0625, 0.125, 0.0625,
-    ],
-    emboss: [
-       -2, -1,  0,
-       -1,  1,  1,
-        0,  1,  2,
-    ],
-  };
-
-  var effects = [
-    { name: "normal", on: true },
-    { name: "gaussianBlur", },
-    { name: "gaussianBlur2", on: true },
-    { name: "gaussianBlur3", on: true },
-    { name: "unsharpen", },
-    { name: "sharpness", },
-    { name: "sharpen", },
-    { name: "edgeDetect", },
-    { name: "edgeDetect2", },
-    { name: "edgeDetect3", },
-    { name: "edgeDetect4", },
-    { name: "edgeDetect5", },
-    { name: "edgeDetect6", },
-    { name: "sobelHorizontal", },
-    { name: "sobelVertical", },
-    { name: "previtHorizontal", },
-    { name: "previtVertical", },
-    { name: "boxBlur", },
-    { name: "triangleBlur", },
-    { name: "emboss", },
-  ];
-
-  // Setup a ui.
-  var ui = document.querySelector("#ui");
-  var table = document.createElement("table");
-  var tbody = document.createElement("tbody");
-  for (var ii = 0; ii < effects.length; ++ii) {
-    var effect = effects[ii];
-    var tr = document.createElement("tr");
-    var td = document.createElement("td");
-    var chk = document.createElement("input");
-    chk.value = effect.name;
-    chk.type = "checkbox";
-    if (effect.on) {
-      chk.checked = "true";
-    }
-    chk.onchange = drawEffects;
-    td.appendChild(chk);
-    td.appendChild(document.createTextNode(effect.name));
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-  }
-  table.appendChild(tbody);
-  ui.appendChild(table);
-  $("#ui table").tableDnD({onDrop: drawEffects});
-
-  // TODO - here
-  drawEffects();
-
-  function computeKernelWeight(kernel) {
-    var weight = kernel.reduce(function(prev, curr) {
-        return prev + curr;
-    });
-    return weight <= 0 ? 1 : weight;
+  /* ===== Filter - Brightness ===== */
+  const uBrightnessMatrix = gl.getUniformLocation(
+    program,
+    'u_brightnessMatrix',
+  );
+  const brightnessMatrix = mat4.create();
+  gl.uniformMatrix4fv(uBrightnessMatrix, false, brightnessMatrix);
+  const uBrightnessOffset = gl.getUniformLocation(
+    program,
+    'u_brightnessOffset',
+  );
+  const brightnessOffset = vec4.create();
+  gl.uniform4f(
+    uBrightnessOffset,
+    brightnessOffset[0],
+    brightnessOffset[1],
+    brightnessOffset[2],
+    brightnessOffset[3],
+  );
+  function updateBrightness(brightness: number) {
+    if (!gl) return;
+    // brightness between -1 and 1
+    // gl.uniformMatrix4fv(uBrightnessMatrix, false, brightnessMatrix);
+    vec4.set(brightnessOffset, brightness, brightness, brightness, 0);
+    gl.uniform4f(
+      uBrightnessOffset,
+      brightnessOffset[0],
+      brightnessOffset[1],
+      brightnessOffset[2],
+      brightnessOffset[3],
+    );
   }
 
-  function drawEffects() {
-    webglUtils.resizeCanvasToDisplaySize(gl.canvas);
-
-    // Tell WebGL how to convert from clip space to pixels
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-    // Clear the canvas
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    // Tell it to use our program (pair of shaders)
-    gl.useProgram(program);
-
-    // Bind the attribute/buffer set we want.
-    gl.bindVertexArray(vao);
-
-    // start with the original image on unit 0
-    gl.activeTexture(gl.TEXTURE0 + 0);
-    gl.bindTexture(gl.TEXTURE_2D, originalImageTexture);
-
-    // Tell the shader to get the texture from texture unit 0
-    gl.uniform1i(imageLocation, 0);
-
-    // don't y flip images while drawing to the textures
-    gl.uniform1f(flipYLocation, 1);
-
-    // loop through each effect we want to apply.
-    var count = 0;
-    for (var ii = 0; ii < tbody.rows.length; ++ii) {
-      var checkbox = tbody.rows[ii].firstChild.firstChild;
-      if (checkbox.checked) {
-        // Setup to draw into one of the framebuffers.
-        setFramebuffer(framebuffers[count % 2], image.width, image.height);
-
-        drawWithKernel(checkbox.value);
-
-        // for the next draw, use the texture we just rendered to.
-        gl.bindTexture(gl.TEXTURE_2D, textures[count % 2]);
-
-        // increment count so we use the other texture next time.
-        ++count;
-      }
-    }
-
-    // finally draw the result to the canvas.
-    gl.uniform1f(flipYLocation, -1);  // need to y flip for canvas
-
-    setFramebuffer(null, gl.canvas.width, gl.canvas.height);
-
-    // Clear the canvas
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    drawWithKernel("normal");
+  /* ===== Filter - Contrast ===== */
+  const uContrastMatrix = gl.getUniformLocation(program, 'u_contrastMatrix');
+  const contrastMatrix = mat4.create();
+  gl.uniformMatrix4fv(uContrastMatrix, false, contrastMatrix);
+  const uContrastOffset = gl.getUniformLocation(program, 'u_contrastOffset');
+  const contrastOffset = vec4.create();
+  gl.uniform4f(
+    uContrastOffset,
+    contrastOffset[0],
+    contrastOffset[1],
+    contrastOffset[2],
+    contrastOffset[3],
+  );
+  function updateContrast(contrast: number) {
+    if (!gl) return;
+    // contrast between -1 and 1
+    const c = 1 + contrast;
+    const o = 0.5 * (1 - c);
+    // prettier-ignore
+    mat4.transpose(contrastMatrix, [
+			c, 0, 0, 0,
+			0, c, 0, 0,
+			0, 0, c, 0,
+			0, 0, 0, 1,
+    ]);
+    gl.uniformMatrix4fv(uContrastMatrix, false, contrastMatrix);
+    vec4.set(contrastOffset, o, o, o, 0);
+    gl.uniform4f(uContrastOffset, o, o, o, 0);
   }
 
-  function setFramebuffer(fbo, width, height) {
-    // make this the framebuffer we are rendering to.
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-
-    // Tell the shader the resolution of the framebuffer.
-    gl.uniform2f(resolutionLocation, width, height);
-
-    // Tell WebGL how to convert from clip space to pixels
-    gl.viewport(0, 0, width, height);
+  /* ===== Filter - Exposure ===== */
+  const uExposureMatrix = gl.getUniformLocation(program, 'u_exposureMatrix');
+  const exposureMatrix = mat4.create();
+  gl.uniformMatrix4fv(uExposureMatrix, false, exposureMatrix);
+  function updateExposure(exposure: number) {
+    if (!gl) return;
+    // Exposure between -1 and 1
+    const e = 1 + exposure;
+    // prettier-ignore
+    mat4.transpose(exposureMatrix, [
+      e, 0, 0, 0,
+      0, e, 0, 0,
+      0, 0, e, 0,
+      0, 0, 0, 1,
+    ]);
+    gl.uniformMatrix4fv(uExposureMatrix, false, exposureMatrix);
   }
 
-  function drawWithKernel(name) {
-    // set the kernel and it's weight
-    gl.uniform1fv(kernelLocation, kernels[name]);
-    gl.uniform1f(kernelWeightLocation, computeKernelWeight(kernels[name]));
+  /* ===== Filter - Saturation ===== */
+  const uSaturationMatrix = gl.getUniformLocation(
+    program,
+    'u_saturationMatrix',
+  );
+  const saturationMatrix = mat4.create();
+  gl.uniformMatrix4fv(uSaturationMatrix, false, saturationMatrix);
+  function updateSaturation(saturation: number) {
+    if (!gl) return;
+    // Saturation between -1 and 1
+    const s = 1 + saturation;
 
-    // Draw the rectangle.
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    var count = 6;
-    gl.drawArrays(primitiveType, offset, count);
+    // https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    const lr = 0.2126;
+    const lg = 0.7152;
+    const lb = 0.0722;
+
+    const sr = (1 - s) * lr;
+    const sg = (1 - s) * lg;
+    const sb = (1 - s) * lb;
+
+    // prettier-ignore
+    mat4.transpose(saturationMatrix, [
+      sr + s, sg    , sb    , 0,
+      sr    , sg + s, sb    , 0,
+      sr    , sg    , sb + s, 0,
+      0     , 0     , 0     , 1,
+    ]);
+    gl.uniformMatrix4fv(uSaturationMatrix, false, saturationMatrix);
   }
-}
+  /* ===== Filter - Hue ===== */
+  const uHue = gl.getUniformLocation(program, 'u_hue');
+  gl.uniform1f(uHue, config.Hue);
+  function updateHue(hue: number) {
+    if (!gl) return;
+    gl.uniform1f(uHue, hue);
+  }
 
-function setRectangle(gl, x, y, width, height) {
-  var x1 = x;
-  var x2 = x + width;
-  var y1 = y;
-  var y2 = y + height;
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-     x1, y1,
-     x2, y1,
-     x1, y2,
-     x1, y2,
-     x2, y1,
-     x2, y2,
-  ]), gl.STATIC_DRAW);
-}
+  /* ===== Effects - Grain ===== */
+  const uGrainAmount = gl.getUniformLocation(program, 'u_grain_amount');
+  gl.uniform1f(uGrainAmount, config.grainAmount);
 
-$(function(){
-  main();
-});
+  /* ===== Effects - Pixelate ===== */
+  const uPixelateAmount = gl.getUniformLocation(program, 'u_pixelate');
+  gl.uniform1f(uPixelateAmount, config.pixelate);
+
+
+  /* ===== Controls ===== */
+  updateBrightness(config.Brightness);
+  updateContrast(config.Contrast);
+  updateExposure(config.Exposure);
+  updateSaturation(config.Saturation);
+  updateHue(config.Hue);
 

@@ -2,6 +2,14 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'Multi Pass',
+    slug: 'webgl-multi-pass',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-multi-pass/index.tsx'
+  },
+  {
     title: 'Filters & Effects',
     slug: 'webgl-filters-effects',
     category: 'webgl',

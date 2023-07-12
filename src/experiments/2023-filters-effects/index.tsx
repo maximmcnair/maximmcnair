@@ -1,19 +1,354 @@
 import { useEffect, useRef, useState } from 'react';
 import { mat4, vec4 } from 'gl-matrix';
 
-import { Vec3, Position, Config } from './types';
+import useWebGL from '@/hooks/useWebGL';
 import {
-  loadImage,
-  mapLinear,
-  createAndSetupTexture,
-  // createPingpong,
-} from './utils';
-import { createProgramFromSources, loadTexture } from '@/utils/webgl';
+  resizeCanvasToDisplaySize,
+  createProgramFromSources,
+  loadTexture,
+} from '@/utils/webgl';
 import styles from './filters-effects.module.css';
 
-import { filtersSetup, filtersDraw } from './filters/';
-import { convolutionSetup, convolutionDraw } from './convolution/';
-import { write } from 'fs';
+import vertShader from './vert.glsl';
+import fragShader from './frag.glsl';
+
+// async function loadImage(src: string): Promise<HTMLImageElement> {
+async function loadImage(src: string): Promise<number> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = src;
+    image.onload = function () {
+      resolve(image.width / image.height);
+    };
+    image.onerror = function () {
+      reject();
+    };
+  });
+}
+
+type Vec3 = { x: number; y: number; z: number };
+
+const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+const clamp = (a: number, min: number = 0, max: number = 1) =>
+  Math.min(max, Math.max(min, a));
+const invlerp = (x: number, y: number, a: number) => clamp((a - x) / (y - x));
+const range = (x1: number, y1: number, x2: number, y2: number, a: number) =>
+  lerp(x2, y2, invlerp(x1, y1, a));
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface Config {
+  // View
+  FOVAngle: number;
+  FOVRadius: number;
+  'photo-x-top': number;
+  'photo-x-bottom': number;
+  'photo-y-left': number;
+  'photo-y-right': number;
+  model: Vec3;
+  camera: Vec3;
+  zoom: number;
+  // filters
+  Brightness: number;
+  Contrast: number;
+  Exposure: number;
+  Saturation: number;
+  Hue: number;
+  // filters
+  Grain: number;
+  Pixelate: number;
+  Vignette: number;
+  Duotone: number;
+}
+
+// async function setup(
+function setup(
+  gl: WebGL2RenderingContext,
+  canvas: HTMLCanvasElement,
+  config: Config,
+) {
+  /* ===== Program ===== */
+  const program = createProgramFromSources(gl, vertShader, fragShader);
+
+  /* ===== Vertices ===== */
+  function buildPhotoVertexData(
+    xTop: number,
+    xBottom: number,
+    yLeft: number,
+    yRight: number,
+  ) {
+    const topLeft = [xTop, yLeft, 0];
+    const topRight = [xTop, yRight, 0];
+    const bottomLeft = [xBottom, yLeft, 0];
+    const bottomRight = [xBottom, yRight, 0];
+
+    return [
+      ...topRight,
+      ...bottomRight,
+      ...bottomLeft,
+
+      ...topLeft,
+      ...topRight,
+      ...bottomLeft,
+    ];
+  }
+
+  // prettier-ignore
+  let vertexData = buildPhotoVertexData(
+    config['photo-x-top'],
+    config['photo-x-bottom'],
+    config['photo-y-left'],
+    config['photo-y-right'],
+  );
+  // prettier-ignore
+  const uvData = [
+    // -90%
+    // 1, 1, // top right
+    // 1, 0, // bottom right
+    // 0, 0, // bottom left
+    // 0, 1, // top left
+    // 1, 1, // top right
+    // 0, 0, // bottom left
+    // 0%
+    1, 0, // top right -> bottom right 
+    0, 0, // bottom right -> bottom left
+    0, 1, // bottom left -> top left
+    1, 1, // top left -> top right 
+    1, 0, // top right -> bottom right
+    0, 1, // bottom left -> top left
+  ];
+
+  const positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexData), gl.STATIC_DRAW);
+  const positionLocation = gl.getAttribLocation(program, `position`);
+  gl.enableVertexAttribArray(positionLocation);
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+
+  function updatePhotoVertices(gl: WebGL2RenderingContext, config: Config) {
+    vertexData = buildPhotoVertexData(
+      config['photo-x-top'],
+      config['photo-x-bottom'],
+      config['photo-y-left'],
+      config['photo-y-right'],
+    );
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array(vertexData),
+      gl.STATIC_DRAW,
+    );
+    gl.enableVertexAttribArray(positionLocation);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+  }
+
+  const uvBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvData), gl.STATIC_DRAW);
+  const uvLocation = gl.getAttribLocation(program, `uv`);
+  gl.enableVertexAttribArray(uvLocation);
+  gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+  gl.vertexAttribPointer(uvLocation, 2, gl.FLOAT, false, 0, 0);
+
+  /* ===== Photo Texture ===== */
+  // const { texture, aspectRatio } = await loadTexture(gl, `/flowers.jpg`);
+  // const { texture, aspectRatio } = await loadTexture(gl, `/flowers.jpg`);
+  // setTexture(gl, texture, aspectRatio);
+  loadTexture(gl, '/flowers.jpg').then(({ texture, aspectRatio }) => {
+    setTexture(gl, texture, aspectRatio);
+    config.camera = { x: 0, y: 0, z: 0.6 };
+    // zoom = 1;
+  });
+
+  function setTexture(
+    gl: WebGL2RenderingContext,
+    texture: WebGLTexture,
+    aspectRatio: number,
+  ) {
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    // set correct aspect ratio
+    config['photo-x-top'] = aspectRatio;
+    config['photo-x-bottom'] = -1;
+    config['photo-y-right'] = 1;
+    config['photo-y-left'] = -1;
+    // TODO update model x & y
+    const modelXOffset = Math.abs(1 - aspectRatio);
+    // console.log(aspectRatio, modelXOffset);
+    config.model.x = -(modelXOffset / 2);
+    updatePhotoVertices(gl, config);
+  }
+
+  // useProgram must come before uniforms!
+  gl.useProgram(program);
+
+  /* ===== Uniforms ===== */
+  const uRes = gl.getUniformLocation(program, 'u_resolution');
+  gl.uniform2f(uRes, canvas.width, canvas.height);
+  const uPhoto = gl.getUniformLocation(program, 'textureID');
+  gl.uniform1i(uPhoto, 0);
+
+  /* ===== Camera ===== */
+  const uMatrix = gl.getUniformLocation(program, `matrix`);
+  const mvMatrix = mat4.create();
+  const mvpMatrix = mat4.create();
+  gl.uniformMatrix4fv(uMatrix, false, mvpMatrix);
+
+  /* ===== Filters ===== */
+
+  /* ===== Filter - Brightness ===== */
+  const uBrightnessMatrix = gl.getUniformLocation(
+    program,
+    'u_brightnessMatrix',
+  );
+  const brightnessMatrix = mat4.create();
+  gl.uniformMatrix4fv(uBrightnessMatrix, false, brightnessMatrix);
+  const uBrightnessOffset = gl.getUniformLocation(
+    program,
+    'u_brightnessOffset',
+  );
+  const brightnessOffset = vec4.create();
+  gl.uniform4f(
+    uBrightnessOffset,
+    brightnessOffset[0],
+    brightnessOffset[1],
+    brightnessOffset[2],
+    brightnessOffset[3],
+  );
+  function updateBrightness(brightness: number) {
+    if (!gl) return;
+    // brightness between -1 and 1
+    // gl.uniformMatrix4fv(uBrightnessMatrix, false, brightnessMatrix);
+    vec4.set(brightnessOffset, brightness, brightness, brightness, 0);
+    gl.uniform4f(
+      uBrightnessOffset,
+      brightnessOffset[0],
+      brightnessOffset[1],
+      brightnessOffset[2],
+      brightnessOffset[3],
+    );
+  }
+  updateBrightness(config.Brightness);
+
+  /* ===== Filter - Contrast ===== */
+  const uContrastMatrix = gl.getUniformLocation(program, 'u_contrastMatrix');
+  const contrastMatrix = mat4.create();
+  gl.uniformMatrix4fv(uContrastMatrix, false, contrastMatrix);
+  const uContrastOffset = gl.getUniformLocation(program, 'u_contrastOffset');
+  const contrastOffset = vec4.create();
+  gl.uniform4f(
+    uContrastOffset,
+    contrastOffset[0],
+    contrastOffset[1],
+    contrastOffset[2],
+    contrastOffset[3],
+  );
+  function updateContrast(contrast: number) {
+    if (!gl) return;
+    // contrast between -1 and 1
+    const c = 1 + contrast;
+    const o = 0.5 * (1 - c);
+    // prettier-ignore
+    mat4.transpose(contrastMatrix, [
+			c, 0, 0, 0,
+			0, c, 0, 0,
+			0, 0, c, 0,
+			0, 0, 0, 1,
+    ]);
+    gl.uniformMatrix4fv(uContrastMatrix, false, contrastMatrix);
+    vec4.set(contrastOffset, o, o, o, 0);
+    gl.uniform4f(uContrastOffset, o, o, o, 0);
+  }
+  updateContrast(config.Contrast);
+
+  /* ===== Filter - Exposure ===== */
+  const uExposureMatrix = gl.getUniformLocation(program, 'u_exposureMatrix');
+  const exposureMatrix = mat4.create();
+  gl.uniformMatrix4fv(uExposureMatrix, false, exposureMatrix);
+  function updateExposure(exposure: number) {
+    if (!gl) return;
+    // Exposure between -1 and 1
+    const e = 1 + exposure;
+    // prettier-ignore
+    mat4.transpose(exposureMatrix, [
+      e, 0, 0, 0,
+      0, e, 0, 0,
+      0, 0, e, 0,
+      0, 0, 0, 1,
+    ]);
+    gl.uniformMatrix4fv(uExposureMatrix, false, exposureMatrix);
+  }
+  updateExposure(config.Exposure);
+
+  /* ===== Filter - Saturation ===== */
+  const uSaturationMatrix = gl.getUniformLocation(
+    program,
+    'u_saturationMatrix',
+  );
+  const saturationMatrix = mat4.create();
+  gl.uniformMatrix4fv(uSaturationMatrix, false, saturationMatrix);
+  function updateSaturation(saturation: number) {
+    if (!gl) return;
+    // Saturation between -1 and 1
+    const s = 1 + saturation;
+
+    // https://www.w3.org/TR/WCAG20/#relativeluminancedef
+    const lr = 0.2126;
+    const lg = 0.7152;
+    const lb = 0.0722;
+
+    const sr = (1 - s) * lr;
+    const sg = (1 - s) * lg;
+    const sb = (1 - s) * lb;
+
+    // prettier-ignore
+    mat4.transpose(saturationMatrix, [
+      sr + s, sg    , sb    , 0,
+      sr    , sg + s, sb    , 0,
+      sr    , sg    , sb + s, 0,
+      0     , 0     , 0     , 1,
+    ]);
+    gl.uniformMatrix4fv(uSaturationMatrix, false, saturationMatrix);
+  }
+  updateSaturation(config.Saturation);
+
+  /* ===== Filter - Hue ===== */
+  const uHue = gl.getUniformLocation(program, 'u_hue');
+  gl.uniform1f(uHue, config.Hue);
+  function updateHue(hue: number) {
+    if (!gl) return;
+    gl.uniform1f(uHue, hue);
+  }
+  updateHue(config.Hue);
+
+  /* ===== Effects - rain ===== */
+  const uGrainAmount = gl.getUniformLocation(program, 'u_grain_amount');
+  console.log(config.Grain);
+  gl.uniform1f(uGrainAmount, config.Grain);
+
+  /* ===== Effects - Pixelate ===== */
+  const uPixelateAmount = gl.getUniformLocation(program, 'u_pixelate');
+  gl.uniform1f(uPixelateAmount, config.Pixelate);
+
+  /* ===== Effects - Vignette ===== */
+  const uVignetteAmount = gl.getUniformLocation(program, 'u_vignette');
+  gl.uniform1f(uVignetteAmount, config.Vignette);
+
+  /* ===== Effects - Duotone ===== */
+  const uDuotoneAmount = gl.getUniformLocation(program, 'u_duotone');
+  gl.uniform1f(uDuotoneAmount, config.Duotone);
+
+  // end of render function
+  return {
+    uMatrix,
+    vertexData,
+  };
+}
 
 const filters = [
   {
@@ -94,13 +429,44 @@ const filters = [
 interface CanvasProps {
   size: { width: number; height: number };
   config: Config;
-  image: HTMLImageElement;
   aspectRatio: number;
 }
 
-function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
+function Canvas({ size, config, aspectRatio }: CanvasProps) {
   // function Canvas({ config, aspectRatio }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // const [mousePos, setMousePos] = useState<Position>({ x: 0, y: 0 });
+  //
+  // useEffect(() => {
+  //   const handleMouseMove = (evt: MouseEvent) => {
+  //     setMousePos({
+  //       x: evt.clientX || evt.pageX,
+  //       y: evt.clientY || evt.pageY,
+  //     });
+  //   };
+  //   window.addEventListener('mousemove', handleMouseMove);
+  //   return () => window.removeEventListener('mousemove', handleMouseMove);
+  // }, []);
+  //
+  // console.log(mousePos);
+
+  // const [size, setSize] = useState({ width: 0, height: 0 });
+  // useEffect(() => {
+  //   function onWindowResize() {
+  //     console.log('onWindowResize');
+  //     setSize({ width: window.innerWidth, height: window.innerHeight });
+  //     console.log({ width: window.innerWidth, height: window.innerHeight });
+  //     const ctx = canvasRef.current?.getContext('webgl2');
+  //     if (ctx) {
+  //       ctx.canvas.width = window.innerWidth;
+  //       ctx.canvas.height = window.innerHeight;
+  //       console.log('*', size);
+  //     }
+  //   }
+  //   onWindowResize();
+  //   window.addEventListener('resize', onWindowResize);
+  //   return () => window.removeEventListener('resize', onWindowResize);
+  // }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current as HTMLCanvasElement;
@@ -112,233 +478,87 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
 
     if (!gl) return;
 
-    function buildPhotoVertexData(
-      xTop: number,
-      xBottom: number,
-      yLeft: number,
-      yRight: number,
-    ) {
-      const topLeft = [xTop, yLeft, 0];
-      const topRight = [xTop, yRight, 0];
-      const bottomLeft = [xBottom, yLeft, 0];
-      const bottomRight = [xBottom, yRight, 0];
+    const { uMatrix, vertexData } = setup(gl, canvas, config);
 
-      return [
-        ...topRight,
-        ...bottomRight,
-        ...bottomLeft,
+    let mousePos: Position = { x: 0, y: 0 };
 
-        ...topLeft,
-        ...topRight,
-        ...bottomLeft,
-      ];
-    }
-
-    /* ===== Vertices ===== */
-    const corners = {
-      'top-left': [1, -1, 0],
-      'top-right': [1, 1, 0],
-      'bottom-left': [-1, -1, 0],
-      'bottom-right': [-1, 1, 0],
+    const handleMouseMove = (evt: MouseEvent) => {
+    //   mousePos.x = evt.clientX || evt.pageX;
+    //   mousePos.y = evt.clientY || evt.pageY;
     };
+    window.addEventListener('mousemove', handleMouseMove);
 
-    // prettier-ignore
-    const vertexData = [
-      ...corners['top-right'],
-      ...corners['bottom-right'],
-      ...corners['bottom-left'],
-
-      ...corners['top-left'],
-      ...corners['top-right'],
-      ...corners['bottom-left'],
-    ];
-
-    function bindVertices(
-      gl: WebGL2RenderingContext,
-      canvas: HTMLCanvasElement,
-      config: Config,
-      program: WebGLProgram,
+    console.log(config.zoom);
+    function mapLinear(
+      x: number,
+      a1: number,
+      a2: number,
+      b1: number,
+      b2: number,
     ) {
-      const positionBuffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array(vertexData),
-        gl.STATIC_DRAW,
-      );
-      const positionLocation = gl.getAttribLocation(program, `position`);
-      gl.enableVertexAttribArray(positionLocation);
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
-    }
-
-    // gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-    /* ===== Program ===== */
-    const { filtersProgram } = filtersSetup(gl, canvas, config);
-    bindVertices(gl, canvas, config, filtersProgram);
-    const filterProps = filtersDraw(gl, canvas, config, filtersProgram);
-
-    const { convolutionProgram } = convolutionSetup(gl, canvas, config);
-    bindVertices(gl, canvas, config, convolutionProgram);
-    const convolutionProps = convolutionDraw(
-      gl,
-      canvas,
-      config,
-      convolutionProgram,
-    );
-
-    /* ===== Image Texture ===== */
-    const imageTexture = createAndSetupTexture(gl);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    gl.bindTexture(gl.TEXTURE_2D, null);
-    // TODO check this doesn't cause issues!!!
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-    /* ===== Buffer Textures ===== */
-    var textures: WebGLTexture[] = [];
-    var framebuffers: WebGLFramebuffer[] = [];
-    for (var ii = 0; ii < 2; ++ii) {
-      var texture = createAndSetupTexture(gl);
-      textures.push(texture);
-
-      // make the texture the same size as the image
-      var mipLevel = 0; // the largest mip
-      var internalFormat = gl.RGBA; // format we want in the texture
-      var border = 0; // must be 0
-      var srcFormat = gl.RGBA; // format of data we are supplying
-      var srcType = gl.UNSIGNED_BYTE; // type of data we are supplying
-      var data = null; // no data = create a blank texture
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        mipLevel,
-        internalFormat,
-        image.width,
-        image.height,
-        border,
-        srcFormat,
-        srcType,
-        data,
-      );
-
-      // Create a framebuffer
-      var fbo = gl.createFramebuffer();
-      if (!fbo) throw Error('Framebuffer creation failed');
-      framebuffers.push(fbo);
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-
-      // Attach a texture to it.
-      var attachmentPoint = gl.COLOR_ATTACHMENT0;
-      gl.framebufferTexture2D(
-        gl.FRAMEBUFFER,
-        attachmentPoint,
-        gl.TEXTURE_2D,
-        texture,
-        mipLevel,
-      );
-
-      // set to null to avoid "GL_INVALID_OPERATION: Feedback loop formed between Framebuffer and active Texture."
-      gl.bindTexture(gl.TEXTURE_2D, null);
-    }
-
-    function setFramebuffer(
-      gl: WebGL2RenderingContext,
-      fbo: WebGLBuffer | null,
-      uResolutionLocation: WebGLUniformLocation,
-      width: number,
-      height: number,
-    ) {
-      // make this the framebuffer we are rendering to.
-      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-      // Tell the shader the resolution of the framebuffer.
-      gl.uniform2f(uResolutionLocation, width, height);
-      // Tell WebGL how to convert from clip space to pixels
-      gl.viewport(0, 0, width, height);
+      return b1 + ((x - a1) * (b2 - b1)) / (a2 - a1);
     }
 
     let frame: number;
-    let time = 0;
     /* ===== Animate LOOP ===== */
     const loop = () => {
-      time += 0.01;
       if (!gl) return;
-
-      gl.clearColor(1, 0, 0, 1);
       gl.clear(gl.COLOR_BUFFER_BIT);
+      // gl.clearColor(0, 0, 0, 1);
+      // Matrix
+      const modelMatrix = mat4.create();
+      mat4.translate(modelMatrix, modelMatrix, [
+        config.model.x,
+        config.model.y,
+        config.model.z,
+      ]);
 
-      let writeBuffer = 0;
-      let readBuffer = 1;
-
-      /* ===== Image ===== */
-      gl.useProgram(filtersProgram);
-      const imageLocation = gl.getUniformLocation(filtersProgram, 'u_image');
-      gl.uniform1i(imageLocation, 0);
-      // start with the original image on unit 0
-      gl.activeTexture(gl.TEXTURE0 + 0);
-      gl.bindTexture(gl.TEXTURE_2D, imageTexture);
-      // Tell the shader to get the texture from texture unit 0
-      // draw
-      setFramebuffer(
-        gl,
-        framebuffers[writeBuffer],
-        filterProps.uRes,
-        image.width,
-        image.height,
+      const xRotateRad = mapLinear(mousePos.y, 0, window.innerHeight, 0, 0.05);
+      mat4.rotateX(modelMatrix, modelMatrix, xRotateRad);
+      const yRotateRad = mapLinear(mousePos.x, 0, window.innerWidth, 0, 0.05);
+      mat4.rotateY(modelMatrix, modelMatrix, yRotateRad);
+      const cameraMatrix = mat4.create();
+      mat4.translate(cameraMatrix, cameraMatrix, [
+        config.camera.x,
+        config.camera.y,
+        config.camera.z,
+      ]);
+      const projectionMatrix = mat4.create();
+      mat4.perspective(
+        projectionMatrix,
+        // ((config.FOVAngle * Math.PI) / config.FOVRadius) * (1 - config.zoom),
+        ((config.FOVAngle * Math.PI) / config.FOVRadius),
+        //canvas.width / canvas.height, // aspect ratio
+        gl.canvas.width / gl.canvas.height, // aspect ratio
+        1e-3, // near cull
+        Infinity, // far cull
       );
-      // drawWithKernel
+      // mat4.ortho(
+      //   projectionMatrix, // out
+      //   -1.0 * zoom, // left
+      //   1.0 * zoom, // right
+      //   -1.0 * zoom, // bottom
+      //   1.0 * zoom, // top
+      //   0.1, // near cull
+      //   100, // far cull
+      // );
+      const mvMatrix = mat4.create();
+      const mvpMatrix = mat4.create();
+      mat4.invert(cameraMatrix, cameraMatrix);
+      mat4.multiply(mvMatrix, cameraMatrix, modelMatrix);
+      mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix);
+      gl.uniformMatrix4fv(uMatrix, false, mvpMatrix);
+      // Draw
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // Bind output texture as input texture!!!!
-
-      /* ===== Convolution ===== */
-      gl.useProgram(convolutionProgram);
-      const conImageLocation = gl.getUniformLocation(
-        convolutionProgram,
-        'u_image',
-      );
-      let iterations = 8;
-      for (var i = 0; i < iterations; i++) {
-        // swap buffers
-        const temp = writeBuffer;
-        writeBuffer = readBuffer;
-        readBuffer = temp;
-        //
-        gl.uniform1i(conImageLocation, 0);
-        // draw
-        setFramebuffer(
-          gl,
-          framebuffers[writeBuffer],
-          convolutionProps.uRes,
-          image.width,
-          image.height,
-        );
-        // gl.bindTexture(gl.TEXTURE_2D, null);
-        gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
-
-        gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
-      }
-
-      /* ===== Render to canvas ===== */
-      setFramebuffer(
-        gl,
-        null,
-        // filterProps.uRes,
-        convolutionProps.uRes,
-        gl.canvas.width,
-        gl.canvas.height,
-      );
-      gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
-
-      // frame = requestAnimationFrame(loop);
+      frame = requestAnimationFrame(loop);
     };
 
     loop();
 
-    // window.addEventListener('mousemove', handleMouseMove);
-
     return () => {
       cancelAnimationFrame(frame);
-      // window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, [canvasRef, config, aspectRatio, size]);
 
@@ -375,15 +595,12 @@ export default function WebGL() {
     Duotone: 0,
   });
 
-  const [image, setImage] = useState<HTMLImageElement>();
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [aspectRatio, setAspectRatio] = useState(0);
 
   useEffect(() => {
     async function loadImageAndSetSize() {
-      const image = await loadImage('/flowers.jpg');
-      const aspectRatio = image.width / image.height;
-      setImage(image);
+      const aspectRatio = await loadImage('/flowers.jpg');
       setAspectRatio(aspectRatio);
       setSize({ width: window.innerWidth, height: window.innerHeight });
     }
@@ -393,13 +610,8 @@ export default function WebGL() {
   return (
     <section>
       <div className={styles.wrapper}>
-        {image && size.width && size.height && (
-          <Canvas
-            image={image}
-            size={size}
-            config={config}
-            aspectRatio={aspectRatio}
-          />
+        {size.width && size.height && (
+          <Canvas size={size} config={config} aspectRatio={aspectRatio} />
         )}
       </div>
       <section className={styles.filters}>

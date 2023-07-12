@@ -6,7 +6,7 @@ attribute vec2 uv;
 
 uniform mat4 matrix;
 
-varying vec2 vUV;
+// varying vec2 vUV;
 
 void main() {
   vUV = uv;
