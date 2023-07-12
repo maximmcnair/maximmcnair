@@ -95,11 +95,9 @@ interface CanvasProps {
   size: { width: number; height: number };
   config: Config;
   image: HTMLImageElement;
-  aspectRatio: number;
 }
 
-function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
-  // function Canvas({ config, aspectRatio }: CanvasProps) {
+function Canvas({ size, config, image }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -112,27 +110,6 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
 
     if (!gl) return;
 
-    function buildPhotoVertexData(
-      xTop: number,
-      xBottom: number,
-      yLeft: number,
-      yRight: number,
-    ) {
-      const topLeft = [xTop, yLeft, 0];
-      const topRight = [xTop, yRight, 0];
-      const bottomLeft = [xBottom, yLeft, 0];
-      const bottomRight = [xBottom, yRight, 0];
-
-      return [
-        ...topRight,
-        ...bottomRight,
-        ...bottomLeft,
-
-        ...topLeft,
-        ...topRight,
-        ...bottomLeft,
-      ];
-    }
 
     /* ===== Vertices ===== */
     const corners = {
@@ -141,8 +118,6 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       'bottom-left': [-1, -1, 0],
       'bottom-right': [-1, 1, 0],
     };
-
-    // prettier-ignore
     const vertexData = [
       ...corners['top-right'],
       ...corners['bottom-right'],
@@ -189,20 +164,16 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     );
 
     const { cameraProgram } = cameraSetup(gl, canvas, config);
-    bindVertices(gl, canvas, config, cameraProgram);
-    const cameraProps = cameraDraw(
-      gl,
-      canvas,
-      config,
-      cameraProgram,
-    );
+    // bindVertices(gl, canvas, config, cameraProgram);
+    // NOTE cameraProgram has own vertices
+    const cameraProps = cameraDraw(gl, canvas, config, cameraProgram);
 
     /* ===== Image Texture ===== */
     const imageTexture = createAndSetupTexture(gl);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
     gl.bindTexture(gl.TEXTURE_2D, null);
     // TODO check this doesn't cause issues!!!
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
     /* ===== Buffer Textures ===== */
     var textures: WebGLTexture[] = [];
@@ -253,14 +224,14 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
     function setFramebuffer(
       gl: WebGL2RenderingContext,
       fbo: WebGLBuffer | null,
-      uResolutionLocation: WebGLUniformLocation,
+      uResolutionLocation: WebGLUniformLocation | null,
       width: number,
       height: number,
     ) {
       // make this the framebuffer we are rendering to.
       gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
       // Tell the shader the resolution of the framebuffer.
-      gl.uniform2f(uResolutionLocation, width, height);
+      if (uResolutionLocation) gl.uniform2f(uResolutionLocation, width, height);
       // Tell WebGL how to convert from clip space to pixels
       gl.viewport(0, 0, width, height);
     }
@@ -344,60 +315,12 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       //   gl.canvas.height,
       // );
       // gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
-      
+
       gl.useProgram(cameraProgram);
-      const cameraImageLocation = gl.getUniformLocation(
-        cameraProgram,
-        'u_image',
-      );
-
-      // Matrix
-      const modelMatrix = mat4.create();
-      mat4.translate(modelMatrix, modelMatrix, [
-        config.model.x,
-        config.model.y,
-        config.model.z,
-      ]);
-      // const xRotateRad = mapLinear(mousePos.y, 0, window.innerHeight, 0, 0.05);
-      // mat4.rotateX(modelMatrix, modelMatrix, xRotateRad);
-      // const yRotateRad = mapLinear(mousePos.x, 0, window.innerWidth, 0, 0.05);
-      // mat4.rotateY(modelMatrix, modelMatrix, yRotateRad);
-      const cameraMatrix = mat4.create();
-      mat4.translate(cameraMatrix, cameraMatrix, [
-        config.camera.x,
-        config.camera.y,
-        config.camera.z,
-      ]);
-      const projectionMatrix = mat4.create();
-      mat4.perspective(
-        projectionMatrix,
-        // ((config.FOVAngle * Math.PI) / config.FOVRadius) * (1 - config.zoom),
-        (config.FOVAngle * Math.PI) / config.FOVRadius,
-        //canvas.width / canvas.height, // aspect ratio
-        gl.canvas.width / gl.canvas.height, // aspect ratio
-        1e-3, // near cull
-        Infinity, // far cull
-      );
-      // mat4.ortho(
-      //   projectionMatrix, // out
-      //   -1.0 * zoom, // left
-      //   1.0 * zoom, // right
-      //   -1.0 * zoom, // bottom
-      //   1.0 * zoom, // top
-      //   0.1, // near cull
-      //   100, // far cull
-      // );
-      const mvMatrix = mat4.create();
-      const mvpMatrix = mat4.create();
-      mat4.invert(cameraMatrix, cameraMatrix);
-      mat4.multiply(mvMatrix, cameraMatrix, modelMatrix);
-      mat4.multiply(mvpMatrix, projectionMatrix, mvMatrix);
-      gl.uniformMatrix4fv(cameraProps.uMatrix, false, mvpMatrix);
-
       setFramebuffer(
         gl,
         null,
-        cameraProps.uRes,
+        null,
         gl.canvas.width,
         gl.canvas.height,
       );
@@ -414,7 +337,7 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       cancelAnimationFrame(frame);
       // window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, config, aspectRatio, size, image]);
+  }, [canvasRef, config, size, image]);
 
   return <canvas ref={canvasRef} width={size.width} height={size.height} />;
 }
@@ -452,14 +375,24 @@ export default function WebGL() {
 
   const [image, setImage] = useState<HTMLImageElement>();
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const [aspectRatio, setAspectRatio] = useState(0);
 
   useEffect(() => {
     async function loadImageAndSetSize() {
       const image = await loadImage('/flowers.jpg');
       const aspectRatio = image.width / image.height;
       setImage(image);
-      setAspectRatio(aspectRatio);
+      // set aspect ratio
+      const modelXOffset = Math.abs(1 - aspectRatio);
+      setConfig(c => ({
+        ...c,
+        'photo-x-top': aspectRatio,
+        model: {
+          ...c.model,
+          x: -(modelXOffset / 2)
+        }
+      }))
+
+      // set size
       setSize({ width: window.innerWidth, height: window.innerHeight });
     }
     loadImageAndSetSize();
@@ -473,7 +406,6 @@ export default function WebGL() {
             image={image}
             size={size}
             config={config}
-            aspectRatio={aspectRatio}
           />
         )}
       </div>
