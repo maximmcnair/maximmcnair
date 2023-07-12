@@ -351,7 +351,7 @@ function Canvas({ size, config, image, aspectRatio }: CanvasProps) {
       cancelAnimationFrame(frame);
       // window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, config, aspectRatio, size]);
+  }, [canvasRef, config, aspectRatio, size, image]);
 
   return <canvas ref={canvasRef} width={size.width} height={size.height} />;
 }
