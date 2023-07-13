@@ -33,14 +33,6 @@ export const experiments: Experiment[] = [
     published: false,
     src: '2023-filters-effects/index.tsx'
   },
-  {
-    title: 'WebGL',
-    slug: 'webgl',
-    category: 'webgl',
-    thumb: '',
-    published: false,
-    src: '2023-06-webgl/index.tsx'
-  },
 
   {
     category: 'Blender',
