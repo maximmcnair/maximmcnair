@@ -2,6 +2,39 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'WebGL Shader Grid',
+    slug: 'webgl-shader-grid',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-webgl-shader-grid/index.tsx'
+  },
+  {
+    title: 'WebGL Shader Base',
+    slug: 'webgl-shader-base',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-webgl-shader-base/index.tsx'
+  },
+  {
+    title: 'Multi Pass',
+    slug: 'webgl-multi-pass',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-multi-pass/index.tsx'
+  },
+  {
+    title: 'Filters & Effects',
+    slug: 'webgl-filters-effects',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-filters-effects/index.tsx'
+  },
+
+  {
     category: 'Blender',
     thumb: '/experiments/feb-10.png',
     published: true
@@ -53,20 +86,20 @@ export const experiments: Experiment[] = [
     video: '/experiments/dec-15.mp4',
     published: true
   },
-  {
-    title: 'WebGL',
-    slug: 'webgl',
-    category: 'webgl',
-    thumb: '',
-    published: false,
-    src: '2023-03-webgl.tsx'
-  },
-  {
-    title: 'Canvas Collab',
-    slug: 'canvas-collab',
-    category: 'Canvas 2d',
-    thumb: '/experiments/canvas-collab.jpg',
-    published: false,
-    src: 'canvas-collab.tsx'
-  },
+  // {
+  //   title: 'WebGL',
+  //   slug: 'webgl',
+  //   category: 'webgl',
+  //   thumb: '',
+  //   published: false,
+  //   src: '2023-03-webgl.tsx'
+  // },
+  // {
+  //   title: 'Canvas Collab',
+  //   slug: 'canvas-collab',
+  //   category: 'Canvas 2d',
+  //   thumb: '/experiments/canvas-collab.jpg',
+  //   published: false,
+  //   src: 'canvas-collab.tsx'
+  // },
 ];
