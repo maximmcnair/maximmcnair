@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { createProgramFromSources } from '@/utils/webgl';
+import { Position } from '@/types';
 import styles from './styles.module.css';
 
 // @ts-ignore
 import vertShader from './vert.glsl';
 // @ts-ignore
 import fragShader from './frag.glsl';
-
-interface Position {
-  x: number;
-  y: number;
-}
 
 export default function WebGLShader() {
   const [size, setSize] = useState({ width: 0, height: 0 });

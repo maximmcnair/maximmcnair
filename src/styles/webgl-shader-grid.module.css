@@ -1,0 +1,26 @@
+.container {
+  max-width: 1200px;
+  margin: 100px auto 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 15px 10px;
+}
+
+.shader {
+  position: relative;
+}
+
+.shader::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 0;
+  padding-bottom: calc(100% / 1);
+}
+
+.shader canvas {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+}

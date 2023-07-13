@@ -2,6 +2,14 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'WebGL Shader Grid',
+    slug: 'webgl-shader-grid',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-webgl-shader-grid/index.tsx'
+  },
+  {
     title: 'WebGL Shader Base',
     slug: 'webgl-shader-base',
     category: 'webgl',

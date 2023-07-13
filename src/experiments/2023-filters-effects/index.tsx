@@ -475,8 +475,8 @@ function Canvas({ size, config, aspectRatio }: CanvasProps) {
     let mousePos: Position = { x: 0, y: 0 };
 
     const handleMouseMove = (evt: MouseEvent) => {
-      //   mousePos.x = evt.clientX || evt.pageX;
-      //   mousePos.y = evt.clientY || evt.pageY;
+        // mousePos.x = evt.clientX || evt.pageX;
+        // mousePos.y = evt.clientY || evt.pageY;
     };
     window.addEventListener('mousemove', handleMouseMove);
 

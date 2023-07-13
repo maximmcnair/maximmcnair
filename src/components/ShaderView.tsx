@@ -1,24 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useEffect, useRef, useState } from 'react';
 
 import { createProgramFromSources } from '@/utils/webgl';
-import styles from './styles.module.css';
+import { Position } from '@/types';
+import styles from './ShaderView.module.css';
 
 // @ts-ignore
-import vertShader from './vert.glsl';
+import vertDefault from './ShaderDefaultVert.glsl';
 // @ts-ignore
-import fragShader from './frag.glsl';
+import fragDefault from './ShaderDefaultFrag.glsl';
 
-interface Position {
-  x: number;
-  y: number;
+interface Props {
+  vert?: string;
+  frag?: string;
+  title: string;
+  className: string;
 }
 
-export default function WebGLShader() {
+export default function ShaderView({ frag, vert, title, className }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    setSize({ width: window.innerWidth, height: window.innerHeight });
+  useLayoutEffect(() => {
+    if (!containerRef.current) return;
+    const { offsetWidth, offsetHeight } = containerRef.current;
+    setSize({
+      width: offsetWidth,
+      height: offsetHeight,
+    });
   }, []);
 
   useEffect(() => {
@@ -33,7 +42,11 @@ export default function WebGLShader() {
     if (!gl) return;
 
     /* ===== Program ===== */
-    const program = createProgramFromSources(gl, vertShader, fragShader);
+    const program = createProgramFromSources(
+      gl,
+      vert || vertDefault,
+      frag || fragDefault,
+    );
 
     /* ===== Vertices ===== */
     const corners = {
@@ -118,9 +131,9 @@ export default function WebGLShader() {
   }, [canvasRef, size]);
 
   return (
-    <section className={styles.shader}>
+    <section className={className} ref={containerRef}>
       {size.width && size.height && (
-        <canvas ref={canvasRef} width={size.width} height={size.height} />
+          <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}
     </section>
   );
