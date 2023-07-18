@@ -2,6 +2,14 @@ import { Experiment } from '@/types';
 
 export const experiments: Experiment[] = [
   {
+    title: 'WebGL Grainy Textures',
+    slug: 'webgl-grainy-textures',
+    category: 'webgl',
+    thumb: '',
+    published: false,
+    src: '2023-grainy-textures/index.tsx'
+  },
+  {
     title: 'WebGL Shader Grid',
     slug: 'webgl-shader-grid',
     category: 'webgl',

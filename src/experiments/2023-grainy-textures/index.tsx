@@ -9,88 +9,6 @@ import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
 import { cameraSetup, cameraDraw } from './camera/';
 
-const filters = [
-  {
-    name: 'Brightness',
-    key: 'Brightness',
-    min: -0.4,
-    max: 0.4,
-    step: 0.1,
-  },
-  // {
-  //   name: 'Zoom',
-  //   key: 'zoom',
-  //   min: 0.1,
-  //   max: 0.89,
-  //   step: 0.01,
-  // },
-  {
-    name: 'Contrast',
-    key: 'Contrast',
-    min: -0.3,
-    max: 0.7,
-    step: 0.1,
-  },
-  {
-    name: 'Exposure',
-    key: 'Exposure',
-    min: -0.6,
-    max: 0.5,
-    step: 0.1,
-  },
-  {
-    name: 'Saturation',
-    key: 'Saturation',
-    min: -1,
-    max: 1,
-    step: 0.1,
-  },
-  {
-    name: 'Grain',
-    key: 'Grain',
-    min: 0,
-    max: 0.2,
-    step: 0.02,
-  },
-  {
-    name: 'Pixelate',
-    key: 'Pixelate',
-    min: 0.011,
-    max: 100,
-    step: 0.1,
-  },
-  {
-    name: 'Vignette',
-    key: 'Vignette',
-    min: 0,
-    max: 0.3,
-    step: 0.05,
-  },
-  {
-    name: 'Blur',
-    key: 'Blur',
-    min: 0,
-    max: 8,
-    step: 1,
-  },
-  {
-    name: 'Duotone',
-    key: 'Duotone',
-    min: 0,
-    max: 1,
-    step: 1,
-  },
-  // Disabled
-  {
-    name: 'Hue',
-    key: 'Hue',
-    min: 0,
-    max: 1,
-    step: 0.1,
-    disabled: true,
-  },
-];
-
 interface CanvasProps {
   size: { width: number; height: number };
   config: Config;
@@ -250,6 +168,12 @@ function Canvas({ size, config, image }: CanvasProps) {
 
       /* ===== Image ===== */
       gl.useProgram(filtersProgram);
+
+      // update time uniform
+      gl.uniform1f(filterProps.uTime, time);
+
+      console.log(time);
+
       const imageLocation = gl.getUniformLocation(filtersProgram, 'u_image');
       gl.uniform1i(imageLocation, 0);
       // start with the original image on unit 0
@@ -319,7 +243,7 @@ function Canvas({ size, config, image }: CanvasProps) {
       setFramebuffer(gl, null, null, gl.canvas.width, gl.canvas.height);
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // frame = requestAnimationFrame(loop);
+      frame = requestAnimationFrame(loop);
     };
 
     loop();
@@ -363,7 +287,7 @@ export default function WebGL() {
     Pixelate: 0.001,
     Vignette: 0,
     Duotone: 0,
-    Blur: 0,
+    Blur: 40,
   });
 
   const [image, setImage] = useState<HTMLImageElement>();
@@ -398,32 +322,6 @@ export default function WebGL() {
           <Canvas image={image} size={size} config={config} />
         )}
       </div>
-      <section className="filters">
-        <div className="filterscontent">
-          {filters.map(f => (
-            <label
-              className="filter"
-              data-disabled={f.disabled}
-              key={f.name}
-            >
-              <span>{f.name}</span>
-              <Range 
-                min={f.min}
-                max={f.max}
-                step={f.step}
-                // @ts-ignore
-                value={config[f.key]}
-                onChange={val =>
-                  setConfig(c => ({
-                    ...c,
-                    [f.key]: val,
-                  }))
-                }
-              />
-            </label>
-          ))}
-        </div>
-      </section>
     </section>
   );
 }
