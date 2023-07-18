@@ -6,12 +6,21 @@
   font-display: block;
 }
 
+/* Fraunces */
+@font-face {
+  src: url('/Fraunces.woff2') format('woff2');
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
   /* Typography */
   --typeface-body: 'Epilogue';
+	--typeface-title: 'Fraunces';
 
   /* Colors */
-  --color-white: #f7f7f7;
+  --color-white: #F5F5CF;
   --color-grey: #4d4d4d;
   --color-grey-light: #797979;
   --color-grey-lighter: #cecece;

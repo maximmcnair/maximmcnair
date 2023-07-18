@@ -1,23 +1,4 @@
 #version 300 es
-
-// precision highp float;
-//
-// uniform vec2 u_resolution;
-// uniform float u_time;
-//
-// out vec4 outColor;
-//
-// void main() {
-// 	vec2 uv = gl_FragCoord.xy / u_resolution;
-//   vec3 color = vec3(1.0);
-//
-//   float size = 16.0;
-//
-//   float alpha = 10.0 * sin(floor(uv.y * size) + u_time * 4.0);
-//
-// 	outColor = vec4(uv.x, 1.0, 1.0, alpha);
-// }
-
 precision highp float;
 
 uniform vec2 u_resolution;
@@ -27,10 +8,6 @@ out vec4 outColor;
 
 //https://iquilezles.org/articles/palettes/
 vec3 palette( float t ) {
-    // vec3 a = vec3(0.5);
-    // vec3 b = vec3(0.5);
-    // vec3 c = vec3(1.0);
-    // vec3 b = vec3(0.5);
     vec3 a = vec3(0.1);
     vec3 b = vec3(0.8);
     vec3 c = vec3(0.4);
@@ -45,8 +22,15 @@ float rand(vec2 n) {
 
 void main() {
 	vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / u_resolution.y;
-  uv *= 0.4;
-  uv += 30.0;
+  // uv *= 0.4;
+  // uv += 30.0;
+
+  // sun animation!
+  // uv *= 0.2;
+  // uv += 28.0;
+
+  uv *= 0.2;
+  uv += 26.0;
 
   float grain = rand(100.0 * uv);
 
@@ -58,13 +42,13 @@ void main() {
     );
   }
 
-  // float d = length(uv);
-  // vec3 color = vec3(sin(uv.x) * 0.8);
+  vec3 black = vec3(0.0, 0.0, 0.0);
 
   vec3 colorGrained = palette(uv.x * sin(1.0) + uv.y + grain);
   vec3 color = palette(uv.x * sin(1.0) + uv.y);
 
-  color = mix(colorGrained, color, 0.97);
+  color = mix(colorGrained, color, 0.9);
+  color = mix(black, color, 0.6);
 
   outColor = vec4(color, 1.0);
 }

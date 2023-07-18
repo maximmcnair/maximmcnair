@@ -12,8 +12,8 @@ import fragDefault from './ShaderDefaultFrag.glsl';
 interface Props {
   vert?: string;
   frag?: string;
-  title: string;
-  className: string;
+  title?: string;
+  className?: string;
 }
 
 export default function ShaderView({ frag, vert, title, className }: Props) {
@@ -132,7 +132,7 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
 
   return (
     <section className={className} ref={containerRef}>
-      <span>{title}</span>
+      {title ? <span>{title}</span> : null}
       {size.width && size.height && (
         <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}
