@@ -132,8 +132,9 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
 
   return (
     <section className={className} ref={containerRef}>
+      <span>{title}</span>
       {size.width && size.height && (
-          <canvas ref={canvasRef} width={size.width} height={size.height} />
+        <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}
     </section>
   );
