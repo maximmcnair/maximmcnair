@@ -23,11 +23,21 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
 
   useLayoutEffect(() => {
     if (!containerRef.current) return;
-    const { offsetWidth, offsetHeight } = containerRef.current;
-    setSize({
-      width: offsetWidth,
-      height: offsetHeight,
-    });
+    function handleResize() {
+      if (!containerRef.current) return;
+      const { offsetWidth, offsetHeight } = containerRef.current;
+      setSize({
+        width: offsetWidth,
+        height: offsetHeight,
+      });
+      // const canvas = canvasRef.current as HTMLCanvasElement;
+      // if (!canvas) return;
+      // canvas.width = offsetWidth;
+      // canvas.height = offsetHeight;
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -108,10 +118,14 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
     /* ===== Animate LOOP ===== */
     const loop = () => {
       if (!gl) return;
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // update time
+      // update u_resolution
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+
+      // update u_time
       time += 0.01;
       gl.uniform1f(uTime, time);
 
@@ -133,7 +147,7 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
   return (
     <section className={className} ref={containerRef}>
       {title ? <span>{title}</span> : null}
-      {size.width && size.height && (
+      {!!(size.width && size.height) && (
         <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}
     </section>

@@ -389,6 +389,13 @@ export default function WebGL() {
       setSize({ width: window.innerWidth, height: window.innerHeight });
     }
     loadImageAndSetSize();
+
+    function handleResize() {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (

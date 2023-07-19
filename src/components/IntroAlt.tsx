@@ -21,7 +21,7 @@ export default function Intro(){
           <span className={styles.name}>Maxim McNair</span>
           <h2 className={styles.title}>{'I’m a Product and Graphics Engineer, exploring the intersection of Math, Comp Sci and Design.'}
           </h2>
-          <h2 className={styles.title}>{'This site holds experiments, tools and previous projects.'}
+          <h2 className={styles.title}>{"This site holds experiments, tools and previous projects I've worked on."}
           </h2>
         </div>
 

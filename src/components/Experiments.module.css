@@ -5,17 +5,18 @@
 }
 
 .mainTitle {
-  margin-bottom: 5px;
+  /* margin-bottom: 5px; */
 }
 
 .desc {
   color: var(--color-grey-light);
+  max-width: 600px;
   margin-bottom: 40px;
 }
 
 .list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px
 }
 

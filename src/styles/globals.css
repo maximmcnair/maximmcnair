@@ -20,13 +20,16 @@
 	--typeface-title: 'Fraunces';
 
   /* Colors */
+  --color-cream: #F5F5CF;
   --color-white: #F5F5CF;
+  /* --color-white: #FFFFFF; */
   --color-grey: #4d4d4d;
   --color-grey-light: #797979;
   --color-grey-lighter: #cecece;
   --color-grey-dark: #1d1f20;
   --color-grey-darker: #131515;
-  --color-black: #0d0d0d;
+  /* --color-black: #0d0d0d; */
+  --color-black: #000000;
   --color-gold: #d09f69;
   --color-blue: #332bcc;
   --color-blue-dark: #302b95;
@@ -40,6 +43,9 @@
   --z-intro: 666;
   --z-drawing: 666;
   --z-drawing-bg: 555;
+
+  /* Layout */
+  --layout-width-max: 850px;
 }
 
 /* @media (prefers-color-scheme: dark) { */
@@ -110,6 +116,7 @@ h1,
 
 h2,
 .text_h2 {
+  font-family: var(--typeface-title);
   font-size: 2.074rem;
   line-height: 1.45;
 }
@@ -173,7 +180,8 @@ video::-internal-media-controls-overlay-cast-button {
 /* Container */
 .content {
   display: block;
-  max-width: 700px;
+  /* max-width: 700px; */
+  max-width: var(--layout-width-max);
   margin: 0 auto;
   padding: 20px;
 }
@@ -323,7 +331,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 .canvas-collab {
-  background-color: white;
+  background-color: var(--color-white);
 }
 
 /* Multi Pass */
@@ -352,7 +360,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 .filter span {
   display: block;
-  font-size: 80px;
+  font-size: 60px;
   font-weight: 300;
   opacity: 0.4;
   user-select: none;
@@ -364,6 +372,7 @@ video::-internal-media-controls-overlay-cast-button {
 
 .filter {
   position: relative;
+  width: 100%;
 }
 .filter:hover .range {
   opacity: 1;
@@ -385,12 +394,33 @@ video::-internal-media-controls-overlay-cast-button {
   padding-top: 20px;
   padding-bottom: 20px;
   cursor: pointer;
-  opacity: 0;
-  position: absolute;
-  top: 40px;
-  right: 0px;
-  width: 400px;
+  width: 300px;
   transition: opacity .3s;
+  opacity: 0;
+}
+
+@media (min-width: 860px) {
+  .filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .filter span {
+    display: block;
+    font-size: 60px;
+  }
+  .range {
+    width: 300px;
+  }
+}
+@media (min-width: 1080px) {
+  .filter span {
+    font-size: 80px;
+  }
+  .range {
+    width: 400px;
+  }
 }
 
 .range span {
@@ -401,14 +431,14 @@ video::-internal-media-controls-overlay-cast-button {
   height: 10px;
   background: rgba(13, 13, 13, 0.2);
   backdrop-filter: blur(10px);
-  background: white;
+  background: var(--color-white);
   border-radius: 2px;
 }
 
 .amount {
   height: 10px;
   position: relative;
-  background: white;
+  background: var(--color-white);
   border-radius: 3px;
 }
 
@@ -420,6 +450,6 @@ video::-internal-media-controls-overlay-cast-button {
   position: absolute;
   right: 0px;
   top: -19px;
-  background: white;
+  background: var(--color-white);
 }
 

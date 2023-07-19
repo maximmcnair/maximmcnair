@@ -52,7 +52,8 @@ export default function Work() {
   return (
     <section className={styles.container}>
       <div className="content">
-        <h2>Projects</h2>
+        <h2 className={styles.title}>Projects and Tools</h2>
+        <p className={styles.desc}>{`A preview of various projects I've lead, and tools I've built to help people in their day to day work.`}</p>
 
         {projects.map((p, idx) => (
           <article className={styles.work} key={idx}>
