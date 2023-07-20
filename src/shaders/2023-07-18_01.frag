@@ -47,7 +47,7 @@ void main() {
   vec3 colorGrained = palette(uv.x * sin(1.0) + uv.y + grain);
   vec3 color = palette(uv.x * sin(1.0) + uv.y);
 
-  color = mix(colorGrained, color, 0.9);
+  // color = mix(colorGrained, color, 0.99);
   color = mix(black, color, 0.6);
 
   outColor = vec4(color, 1.0);
