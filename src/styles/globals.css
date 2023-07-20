@@ -45,7 +45,7 @@
   --z-drawing-bg: 555;
 
   /* Layout */
-  --layout-width-max: 850px;
+  --layout-width-max: 750px;
 }
 
 /* @media (prefers-color-scheme: dark) { */
@@ -396,7 +396,6 @@ video::-internal-media-controls-overlay-cast-button {
   cursor: pointer;
   width: 300px;
   transition: opacity .3s;
-  opacity: 0;
 }
 
 @media (min-width: 860px) {

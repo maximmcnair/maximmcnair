@@ -50,11 +50,8 @@
 }
 
 @media (min-width: 600px) {
-  .name {
-    font-size: 20px;
-  }
   .title {
-    font-size: 45px;
+    font-size: 30px;
   }
 }
 
