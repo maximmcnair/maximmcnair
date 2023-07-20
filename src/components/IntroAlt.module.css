@@ -44,6 +44,7 @@
   font-size: 28px;
   font-family: var(--typeface-title);
   font-variation-settings: "opsz" 9, "wght" 320, "SOFT" 0, "WONK" 1;
+  /* color: var(--color-cream); */
   line-height: 1.3;
   /* user-select: none; */
   margin-bottom: 10px;

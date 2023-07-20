@@ -4,6 +4,7 @@
   left: 0px;
   right: 0px;
   display: flex;
+  align-items: center;
   justify-content: center;
   z-index: var(--z-header);
 }
@@ -32,15 +33,15 @@
 
 .title {
   line-height: 28px;
-  font-family: var(--typeface-title);
+  font-family: var(--typeface-body);
   font-size: 18px;
-	font-variation-settings: 'wght' 600;
+	font-variation-settings: 'wght' 500;
 }
 
 .links {
   display: flex;
   font-size: 16px;
-	font-variation-settings: 'wght' 600;
+	font-variation-settings: 'wght' 400;
   gap: 20px;
 }
 
