@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo, useState, MouseEventHandler } from 'react';
-import { mapLinear } from './utils';
+import { mapLinear, clamp } from './utils';
 
 interface Props {
   min: number;
@@ -23,7 +23,7 @@ export function Range({ min, max, step, value, onChange }: Props) {
     const start = x;
     const end = x + width;
     const value = mapLinear(clientX, start, end, min, max);
-    return value;
+    return clamp(value, min, max);
   }
 
   function handleMouseDown(evt: any) {
@@ -31,7 +31,7 @@ export function Range({ min, max, step, value, onChange }: Props) {
     if ($el) {
       setHasClicked(true);
       const val = getValue($el, evt.clientX);
-      setAmount(val);
+      setAmount(clamp(val, min, max));
     }
   }
 
