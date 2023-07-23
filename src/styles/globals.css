@@ -150,6 +150,7 @@ code,
 pre {
   background: #1e1e2e;
   padding: 10px;
+  overflow-x: scroll;
 }
 
 @media (prefers-color-scheme: dark) {
