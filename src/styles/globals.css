@@ -74,8 +74,8 @@ body {
 }
 
 ::selection {
-  color: var(--color-blue);
-  background-color: var(--color-black);
+  color: var(--color-black);
+  background-color: var(--color-white);
 }
 
 a {
@@ -144,6 +144,12 @@ small,
 code,
 .type_code {
   font-family: 'Source Code Pro', monospace;
+}
+
+/* from highlight.js theme */
+pre {
+  background: #1e1e2e;
+  padding: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -292,6 +298,10 @@ video::-internal-media-controls-overlay-cast-button {
 
 .article__content a {
   /* color: var(--color-highlight); */
+}
+
+.article__content pre {
+  margin-bottom: 1.4rem;
 }
 
 .article__content h2:first-child {
@@ -452,3 +462,22 @@ video::-internal-media-controls-overlay-cast-button {
   background: var(--color-white);
 }
 
+/* Article - WebGL Photo filters */
+.article-webgl-photo-filters{
+}
+.article-webgl-photo-filters-canvas{
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+}
+.article-webgl-photo-filters-dials {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.article-webgl-photo-filters-dials strong {
+  display: block;
+  text-align: center;
+}

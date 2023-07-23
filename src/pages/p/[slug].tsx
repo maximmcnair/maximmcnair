@@ -1,4 +1,5 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import format from 'date-fns/format';
@@ -7,6 +8,7 @@ import Highlight from 'react-highlight';
 
 import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
+import { WebGLFilters } from '@/components/WebGLFilters/';
 import { LawOf100 } from '@/components/LawOf100';
 import { Post, Meta } from '@/types';
 
@@ -27,15 +29,15 @@ interface Props {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const slugs: string[] = await getPostSlugs();
-  const paths = slugs.map((slug) => {
+  const paths = slugs.map(slug => {
     return {
-      params: { slug }
+      params: { slug },
     };
   });
   return { paths, fallback: 'blocking' };
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async context => {
   const slug = context?.params?.slug || '';
   const { content, meta } = await getPost(String(slug) || '');
   const mdx = await serialize(content);
@@ -47,44 +49,53 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       meta,
       mdx,
-      posts: posts.filter((p) => p.meta.published && !!p.meta.title)
-    }
+      posts: posts.filter(p => p.meta.published && !!p.meta.title),
+    },
   };
 };
 
 const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
-    <Layout title={meta?.title} desc={meta?.desc}>
-      <article className="article content">
-        <header className="article__header">
-          <h1 className="article__title">{meta?.title}</h1>
-          <strong className="article__date">
-            {meta?.tags?.length > 0 && (
-              <div className="tags">
-                {meta.tags.map((t) => (
-                  <span key={t} className="tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
-            <span className="article-dot">{' • '}</span>
-            {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
-          </strong>
-        </header>
-        <div className="article__content">
-          <MDXRemote
-            {...mdx}
-            components={{
-              pre: Highlight,
-              // @ts-ignore
-              a: AHref,
-              LawOf100: () => <LawOf100 amount={posts.length} />
-            }}
-          />
-        </div>
-      </article>
-    </Layout>
+    <>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="//unpkg.com/@catppuccin/highlightjs/css/catppuccin-mocha.css"
+        />
+      </Head>
+      <Layout title={meta?.title} desc={meta?.desc}>
+        <article className="article content">
+          <header className="article__header">
+            <h1 className="article__title">{meta?.title}</h1>
+            <strong className="article__date">
+              {meta?.tags?.length > 0 && (
+                <div className="tags">
+                  {meta.tags.map(t => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <span className="article-dot">{' • '}</span>
+              {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
+            </strong>
+          </header>
+          <div className="article__content">
+            <MDXRemote
+              {...mdx}
+              components={{
+                pre: Highlight,
+                // @ts-ignore
+                a: AHref,
+                LawOf100: () => <LawOf100 amount={posts.length} />,
+                WebGLFilters,
+              }}
+            />
+          </div>
+        </article>
+      </Layout>
+    </>
   );
 };
 

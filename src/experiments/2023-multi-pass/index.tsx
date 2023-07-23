@@ -9,13 +9,13 @@ import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
 import { cameraSetup, cameraDraw } from './camera/';
 
-const filters = [
+export const filters = [
   {
     name: 'Brightness',
     key: 'Brightness',
     min: -0.4,
     max: 0.4,
-    step: 0.1,
+    step: 0.01,
   },
   // {
   //   name: 'Zoom',
@@ -29,21 +29,21 @@ const filters = [
     key: 'Contrast',
     min: -0.3,
     max: 0.7,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Exposure',
     key: 'Exposure',
     min: -0.6,
     max: 0.5,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Saturation',
     key: 'Saturation',
     min: -1,
     max: 1,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Grain',
@@ -97,7 +97,7 @@ interface CanvasProps {
   image: HTMLImageElement;
 }
 
-function Canvas({ size, config, image }: CanvasProps) {
+export function Canvas({ size, config, image }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

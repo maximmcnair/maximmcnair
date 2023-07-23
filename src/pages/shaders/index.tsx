@@ -2,9 +2,10 @@ import Head from 'next/head';
 import type { NextPage } from 'next';
 
 import Header from '@/components/Header';
-import { getShaders, Shader } from '@/utils/shaders';
+import { getShaders } from '@/utils/shaders';
 import ShaderView from '@/components/ShaderView';
 import styles from '@/styles/webgl-shader-grid.module.css';
+import { Shader } from '@/types';
 
 export async function getStaticProps() {
   const shaders = await getShaders();
@@ -28,7 +29,7 @@ interface Props {
   shaders: Shader[];
 }
 
-const WebGLShaderGrid: NextPage<Props> = ({ shaders }) => {
+const Shaders: NextPage<Props> = ({ shaders }) => {
   return (
     <>
       <Head>
@@ -52,16 +53,18 @@ const WebGLShaderGrid: NextPage<Props> = ({ shaders }) => {
 
       <section className={styles.container}>
         {shaders.map(({ title, frag }) => (
-          <ShaderView
-            frag={frag}
-            className={styles.shader}
-            key={title}
-            title={title}
-          />
+          <a href={`/shaders/${title}`} key={title}>
+            <ShaderView
+              frag={frag}
+              className={styles.shader}
+              key={title}
+              title={title}
+            />
+          </a>
         ))}
       </section>
     </>
   );
 };
 
-export default WebGLShaderGrid;
+export default Shaders;

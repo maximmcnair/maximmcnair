@@ -14,9 +14,10 @@ interface Props {
   frag?: string;
   title?: string;
   className?: string;
+  renderTitle?: boolean;
 }
 
-export default function ShaderView({ frag, vert, title, className }: Props) {
+export default function ShaderView({ frag, vert, title, className, renderTitle = false }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -146,7 +147,7 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
 
   return (
     <section className={className} ref={containerRef}>
-      {title ? <span>{title}</span> : null}
+      {renderTitle ? <span>{title}</span> : null}
       {!!(size.width && size.height) && (
         <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}

@@ -1,0 +1,22 @@
+---
+title: "WebGL - Photo filters and effect"
+publishedOn: "2023-06-15T16:31:05.404Z"
+tags: ["WebGL"]
+published: false
+---
+
+- camera is already doing it behind the scenes
+
+- ~Hue~
+
+Effects:
+- Grain
+- Pixelation
+- Vignette
+- Blur
+- Duotone
+
+We can handle these in the browser with WebGL and glsl fragment shaders. I'm not going to go into the WebGL side of things here as it's too big for a single article. I've used raw WebGL for these experiment but these shaders would easily work with Three.js or another WebGL abstraction.
+
+Since we are increasing the brightness by addition will eventually make every pixel white, Exposure uses multiplication so keeps the darks darker.
+
