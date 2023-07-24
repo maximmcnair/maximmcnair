@@ -2,6 +2,10 @@
   padding-top: 100px;
 }
 
+.work {
+  max-width: 600px;
+}
+
 .title {
   margin-bottom: 10px;
 }
