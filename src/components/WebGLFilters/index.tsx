@@ -368,7 +368,7 @@ export default function WebGL() {
 
     // effects
     Grain: 0,
-    Pixelate: 0.001,
+    Pixelate: 0.011,
     Vignette: 0,
     Duotone: 0,
     Blur: 0,
