@@ -34,6 +34,8 @@
   --color-blue: #332bcc;
   --color-blue-dark: #302b95;
 
+  --color-highlight: var(--color-blue);
+
   /* Z Index */
   --z-header: 999;
   --z-draggable: 888;
@@ -91,8 +93,8 @@ p {
 
 p code {
   background: var(--color-grey-dark);
-  border-radius: 3px;
-  padding: 3px 5px;
+  /* border-radius: 3px; */
+  /* padding: 3px 5px; */
   font-size: 1.05rem;
   font-weight: 600;
 }
@@ -149,7 +151,7 @@ code,
 /* from highlight.js theme */
 pre {
   background: #1e1e2e;
-  padding: 10px;
+  padding: 20px 20px 18px 20px;
   overflow-x: auto;
 }
 
@@ -300,7 +302,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 .article__content a {
-  /* color: var(--color-highlight); */
+  color: var(--color-highlight);
 }
 
 .article__content pre {
@@ -460,7 +462,7 @@ video::-internal-media-controls-overlay-cast-button {
   width: 12px;
   border-radius: 3px;
   position: absolute;
-  right: 0px;
+  right: -6px;
   top: -19px;
   background: var(--color-white);
 }

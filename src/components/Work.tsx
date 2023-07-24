@@ -12,6 +12,13 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: 'WebGL Photo Filters & Effect',
+    desc: `An exploration of achieving common photo filters and effects with WebGL and GLSL. This was later expanded into a series of articles where I break down the GLSL functions.`,
+    src: '/img/work_inmysize.jpg',
+    href: '/webgl-filters-and-effects',
+    tags: ['WebGL', 'GLSL', 'Image processing']
+  },
+  {
     title: 'Nmblr',
     desc: `Nmblr is a real-time collaboration platform for research and discovery in pharma. I led the construction of this greenfield project with a focus on building an interactive and real-time
 app with drag-and-drop functionality throughout.`,

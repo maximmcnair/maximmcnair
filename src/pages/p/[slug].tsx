@@ -8,8 +8,7 @@ import Highlight from 'react-highlight';
 
 import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
-import { WebGLFilters } from '@/components/WebGLFilters/';
-import { LawOf100 } from '@/components/LawOf100';
+import { WebGLFilters } from '@/components/WebGLFilters/Article';
 import { Post, Meta } from '@/types';
 
 // @ts-ignore
@@ -42,14 +41,10 @@ export const getStaticProps: GetStaticProps = async context => {
   const { content, meta } = await getPost(String(slug) || '');
   const mdx = await serialize(content);
 
-  // Get all posts just for LawOf100
-  const posts = await getPosts();
-
   return {
     props: {
       meta,
       mdx,
-      posts: posts.filter(p => p.meta.published && !!p.meta.title),
     },
   };
 };
@@ -88,7 +83,6 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
                 pre: Highlight,
                 // @ts-ignore
                 a: AHref,
-                LawOf100: () => <LawOf100 amount={posts.length} />,
                 WebGLFilters,
               }}
             />

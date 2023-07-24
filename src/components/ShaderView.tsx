@@ -1,4 +1,4 @@
-import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { createProgramFromSources } from '@/utils/webgl';
 import { Position } from '@/types';
@@ -22,7 +22,7 @@ export default function ShaderView({ frag, vert, title, className, renderTitle =
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!containerRef.current) return;
     function handleResize() {
       if (!containerRef.current) return;
