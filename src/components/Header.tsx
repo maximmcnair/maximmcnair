@@ -1,13 +1,17 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styles from './Header.module.css';
 
 const Header: React.FC = () => {
+  const router = useRouter()
+  const hideHeader = router.query.header === 'false';
   function handleScrollTo(evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, anchor: string){
     const $el = document.querySelector('#' + anchor)
     if (!$el) return;
     $el.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
     evt.preventDefault();
   }
+  if (hideHeader) return null;
   return (
     <header className={styles.header}>
       <div className={styles.content}>
