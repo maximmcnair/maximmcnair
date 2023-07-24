@@ -64,14 +64,14 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="about">
           <Intro />
         </section>
-        <section id="experiments">
-          <Experiments />
-        </section>
         <section id="work">
           <Work />
         </section>
         <section id="articles">
           <Articles posts={posts} />
+        </section>
+        <section id="experiments">
+          <Experiments />
         </section>
       </main>
     </>
