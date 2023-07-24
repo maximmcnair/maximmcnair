@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import { createProgramFromSources } from '@/utils/webgl';
 import { Position } from '@/types';
-import styles from './ShaderView.module.css';
 
 // @ts-ignore
 import vertDefault from './ShaderDefaultVert.glsl';
@@ -143,7 +142,7 @@ export default function ShaderView({ frag, vert, title, className, renderTitle =
       cancelAnimationFrame(frame);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, size]);
+  }, [canvasRef, size, frag, vert]);
 
   return (
     <section className={className} ref={containerRef}>

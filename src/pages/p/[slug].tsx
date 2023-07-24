@@ -1,12 +1,11 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Highlight from 'react-highlight';
 
-import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
+import { getPostSlugs, getPost } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
 import { Post, Meta } from '@/types';

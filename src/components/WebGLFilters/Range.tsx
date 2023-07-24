@@ -1,4 +1,4 @@
-import { useEffect, useRef, useMemo, useState, MouseEventHandler } from 'react';
+import { useEffect, useCallback, useRef, useMemo, useState } from 'react';
 import { mapLinear, clamp } from './utils';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
   onChange: (val: number) => void;
 }
 
-export function Range({ min, max, step, value, onChange }: Props) {
+export function Range({ min, max, value, onChange }: Props) {
   const elRef = useRef<HTMLDivElement>(null);
   const [amount, setAmount] = useState(value);
   const [hasClicked, setHasClicked] = useState(false);
@@ -18,13 +18,16 @@ export function Range({ min, max, step, value, onChange }: Props) {
     setAmount(value);
   }, [value]);
 
-  function getValue($el: DOMRect, clientX: number) {
-    const { x, width } = $el;
-    const start = x;
-    const end = x + width;
-    const value = mapLinear(clientX, start, end, min, max);
-    return clamp(value, min, max);
-  }
+  const getValue = useCallback(
+    ($el: DOMRect, clientX: number) => {
+      const { x, width } = $el;
+      const start = x;
+      const end = x + width;
+      const value = mapLinear(clientX, start, end, min, max);
+      return clamp(value, min, max);
+    },
+    [min, max],
+  );
 
   function handleMouseDown(evt: any) {
     const $el = elRef.current?.getBoundingClientRect();
@@ -66,7 +69,7 @@ export function Range({ min, max, step, value, onChange }: Props) {
       window.removeEventListener('mousemove', handleWindowMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [hasClicked, setHasClicked]);
+  }, [hasClicked, setHasClicked, getValue, onChange]);
 
   return (
     <div ref={elRef} onMouseDown={handleMouseDown} className="range">
