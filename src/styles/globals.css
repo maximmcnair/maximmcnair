@@ -189,7 +189,6 @@ video::-internal-media-controls-overlay-cast-button {
 /* Container */
 .content {
   display: block;
-  /* max-width: 700px; */
   max-width: var(--layout-width-max);
   margin: 0 auto;
   padding: 20px;
@@ -359,19 +358,26 @@ video::-internal-media-controls-overlay-cast-button {
   z-index: 0;
 }
 .filters {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  padding: 100px;
-  padding-top: 300px;
-  z-index: 1;
+  padding-top: 100px;
+  height: 100vh;
   overflow-y: scroll;
+}
+@media (min-width: 560px) {
+  .filters {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 100px;
+    padding-top: 300px;
+    z-index: 1;
+  }
 }
 .filterscontent {
   margin: 0 auto;
-  max-width: 1200px;
+  padding: 0px 28px;
+  max-width: var(--layout-width-max);
 }
 .filter span {
   display: block;
@@ -425,15 +431,7 @@ video::-internal-media-controls-overlay-cast-button {
     font-size: 60px;
   }
   .range {
-    width: 300px;
-  }
-}
-@media (min-width: 1080px) {
-  .filter span {
-    font-size: 80px;
-  }
-  .range {
-    width: 400px;
+    width: 250px;
   }
 }
 
@@ -442,28 +440,28 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 .potential {
-  height: 10px;
+  height: 8px;
   background: rgba(13, 13, 13, 0.2);
   backdrop-filter: blur(10px);
   background: var(--color-white);
-  border-radius: 2px;
+  border-radius: 6px;
 }
 
 .amount {
-  height: 10px;
+  height: 8px;
   position: relative;
   background: var(--color-white);
-  border-radius: 3px;
+  border-radius: 6px;
 }
 
 .amount::after {
   content: '';
   height: 50px;
-  width: 12px;
+  width: 8px;
   border-radius: 3px;
   position: absolute;
-  right: -6px;
-  top: -19px;
+  right: -5px;
+  top: -20px;
   background: var(--color-white);
 }
 

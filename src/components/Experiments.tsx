@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 import styles from './Experiments.module.css';
 import { experiments } from '@/utils/experiments';
@@ -37,7 +37,7 @@ const Experiments: React.FC = () => {
                   ) : (
                     <>
                       {p.thumb ? (
-                        <Image src={p.thumb} alt={p.title || ''} />
+                        <img src={p.thumb} alt={p.title || ''} />
                       ) : null}
                     </>
                   )}
