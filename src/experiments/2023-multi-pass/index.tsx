@@ -1,15 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { mat4 } from 'gl-matrix';
 
 import { Config } from './types';
-import { loadImage, createAndSetupTexture, mapLinear } from './utils';
+import { loadImage, createAndSetupTexture } from './utils';
 
 import { Range } from './Range';
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
 import { cameraSetup, cameraDraw } from './camera/';
 
-export const filters = [
+export interface Filter {
+  name: string;
+  key: string;
+  min: number;
+  max: number;
+  step: number;
+  disabled?: boolean;
+}
+
+export const filters: Filter[] = [
   {
     name: 'Brightness',
     key: 'Brightness',
@@ -408,13 +416,9 @@ export default function WebGL() {
       <section className="filters">
         <div className="filterscontent">
           {filters.map(f => (
-            <label
-              className="filter"
-              data-disabled={f.disabled}
-              key={f.name}
-            >
+            <label className="filter" data-disabled={f.disabled} key={f.name}>
               <span>{f.name}</span>
-              <Range 
+              <Range
                 min={f.min}
                 max={f.max}
                 step={f.step}

@@ -1,20 +1,12 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, useMemo } from 'react';
 
 import { Config } from '@/experiments/2023-multi-pass/types';
 import { loadImage } from '@/experiments/2023-multi-pass/utils';
 
-import { Canvas, filters } from '@/experiments/2023-multi-pass/';
-
-enum Step {
-  'Intro',
-  'Brightness',
-  'Exposure',
-  'Contrast',
-  'Saturation',
-}
+import { Canvas, filters, Filter } from '@/experiments/2023-multi-pass/';
 
 interface Props {
-  step: Step;
+  step: string;
 }
 
 export function WebGLFilters({ step }: Props) {
@@ -86,32 +78,37 @@ export function WebGLFilters({ step }: Props) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // @ts-ignore
-  const f = filters.find(f => f.key === step);
+  // update filters
+  const stepFilters: Filter[] = useMemo(() => {
+    if (step === 'Intro') return [];
+    if (['Brightness', 'Exposure', 'Contrast', 'Saturation'].includes(step)){
+      return filters.filter(f => f.key === step);
+    }
+    if (step === 'Article1') {
+      return filters.filter(f => {
+        return ['Brightness', 'Exposure', 'Contrast', 'Saturation'].includes(f.key)
+      });
+    }
+    return [];
+  }, [step]);
 
   return (
     <section className="article-webgl-photo-filters">
       <section className="article-webgl-photo-filters-dials">
-        {!!f ? (
-          <label>
-            <strong>{step}</strong>
-            <input
-              min={f.min}
-              max={f.max}
-              type="range"
-              step={f.step}
-              // @ts-ignore
-              value={config[f.key]}
-              onChange={evt => {
-                const val = evt.target.value;
-                setConfig(c => ({
-                  ...c,
-                  [f.key]: parseFloat(val),
-                }));
-              }}
-            />
-          </label>
-        ) : null}
+        {stepFilters.map(f => (
+          <Input
+            key={f.key}
+            f={f}
+            // @ts-ignore
+            value={config[f.key]}
+            handleUpdate={val => {
+              setConfig(c => ({
+                ...c,
+                [f.key]: val,
+              }));
+            }}
+          />
+        ))}
       </section>
       <section
         className="article-webgl-photo-filters-canvas"
@@ -122,5 +119,30 @@ export function WebGLFilters({ step }: Props) {
         )}
       </section>
     </section>
+  );
+}
+
+interface PropsInput {
+  f: Filter;
+  value: number;
+  handleUpdate: (val: number) => void;
+}
+
+function Input({ f, value, handleUpdate }: PropsInput) {
+  return (
+    <label>
+      <strong>{f.name}</strong>
+      <input
+        min={f.min}
+        max={f.max}
+        type="range"
+        step={f.step}
+        value={value}
+        onChange={evt => {
+          const val = evt.target.value;
+          handleUpdate(parseFloat(val));
+        }}
+      />
+    </label>
   );
 }
