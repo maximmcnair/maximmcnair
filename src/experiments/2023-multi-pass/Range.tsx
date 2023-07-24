@@ -66,7 +66,7 @@ export function Range({ min, max, step, value, onChange }: Props) {
       window.removeEventListener('mousemove', handleWindowMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [hasClicked, setHasClicked]);
+  }, [hasClicked, setHasClicked, getValue, onChange]);
 
   return (
     <div ref={elRef} onMouseDown={handleMouseDown} className="range">
