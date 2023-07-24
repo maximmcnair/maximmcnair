@@ -52,12 +52,6 @@ export const getStaticProps: GetStaticProps = async context => {
 const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
     <>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="//unpkg.com/@catppuccin/highlightjs/css/catppuccin-mocha.css"
-        />
-      </Head>
       <Layout title={meta?.title} desc={meta?.desc}>
         <article className="article content">
           <header className="article__header">
