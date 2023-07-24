@@ -376,7 +376,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 .filterscontent {
   margin: 0 auto;
-  padding: 0px 28px;
+  padding: 0px 20px;
   max-width: var(--layout-width-max);
 }
 .filter span {

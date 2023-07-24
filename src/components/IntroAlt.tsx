@@ -26,7 +26,7 @@ export default function Intro() {
           </h2>
           <h2 className={styles.title}>
             {
-              "This site holds experiments, tools and previous projects I've worked on."
+              "Scroll down for experiments, tools and previous projects I've worked on."
             }
           </h2>
         </div>
