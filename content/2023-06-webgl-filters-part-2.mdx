@@ -33,16 +33,21 @@ vec4 grain(vec4 fragColor, vec2 uv){
 }
 ```
 
-```glsl
-```
+<WebGLFilters step="Grain" />
 
 ## Vignette
 
-Vignetting is a reduction of an image's brightness or saturation towards its edges. While this is often an undesired effect in photography, due to wrong settings or issues with the lens, it can be used to lead the viewers eye to the center (or another position) in the image.
+Vignetting is a reduction of an image's brightness or saturation towards its edges. While this is often an undesired effect in photography, due to wrong settings or issues with the lens. It can be used to lead the viewers eye to the center (or another position) in the image.
 
-This is a very easily effect to over do when adding to an image.
+```glsl
+vec4 vignette(vec2 uv, float strength){
+  float d = length(uv - 0.5) * -1.0;
+  vec4 overlay = vec4(d, d, d, strength);
+  return overlay;
+}
+```
 
-
+<WebGLFilters step="Vignette" />
 
 In the next article we'll take a look into two more effects pixelation and duotone.
 

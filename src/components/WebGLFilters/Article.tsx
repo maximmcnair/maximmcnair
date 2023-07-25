@@ -78,7 +78,7 @@ export function WebGLFilters({ step }: Props) {
   // update filters
   const stepFilters: Filter[] = useMemo(() => {
     if (step === 'Intro') return [];
-    if (['Brightness', 'Exposure', 'Contrast', 'Saturation'].includes(step)){
+    if (['Brightness', 'Exposure', 'Contrast', 'Saturation', 'Vignette', 'Grain'].includes(step)){
       return filters.filter(f => f.key === step);
     }
     if (step === 'Article1') {

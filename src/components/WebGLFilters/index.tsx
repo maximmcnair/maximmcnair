@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { Config } from './types';
 import { loadImage, createAndSetupTexture } from './utils';
@@ -344,6 +345,9 @@ export function Canvas({ size, config, image }: CanvasProps) {
 }
 
 export default function WebGL() {
+  const router = useRouter();
+  const isPreview = router.query.preview === 'true';
+
   const [config, setConfig] = useState<Config>({
     // View
     FOVAngle: 75,
@@ -413,7 +417,7 @@ export default function WebGL() {
           <Canvas image={image} size={size} config={config} />
         )}
       </div>
-      <section className="filters">
+      <section className={`filters ${isPreview ? 'filters-preview' : ''}`}>
         <div className="filterscontent">
           {filters.map(f => (
             <label className="filter" data-disabled={f.disabled} key={f.name}>

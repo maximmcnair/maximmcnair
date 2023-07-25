@@ -28,8 +28,8 @@
   --color-grey-lighter: #cecece;
   --color-grey-dark: #1d1f20;
   --color-grey-darker: #131515;
-  /* --color-black: #0d0d0d; */
   --color-black: #000000;
+  --color-black-off: #0d0d0d;
   --color-gold: #d09f69;
   --color-blue: #332bcc;
   --color-blue-dark: #302b95;
@@ -304,6 +304,12 @@ video::-internal-media-controls-overlay-cast-button {
   color: var(--color-highlight);
 }
 
+.article__content iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
 .article__content pre {
   margin-bottom: 1.4rem;
 }
@@ -356,6 +362,7 @@ video::-internal-media-controls-overlay-cast-button {
   left: 0px;
   right: 0px;
   z-index: 0;
+  background: var(--color-black-off);
 }
 .filters {
   padding-top: 100px;
@@ -372,6 +379,10 @@ video::-internal-media-controls-overlay-cast-button {
     padding: 100px;
     padding-top: 300px;
     z-index: 1;
+  }
+  .filters-preview {
+    padding: 0px;
+    padding-top: 100px;
   }
 }
 .filterscontent {
