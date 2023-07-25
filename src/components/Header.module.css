@@ -4,6 +4,7 @@
   left: 0px;
   right: 0px;
   display: flex;
+  align-items: center;
   justify-content: center;
   z-index: var(--z-header);
 }
@@ -11,7 +12,8 @@
 .content {
   display: block;
   width: 100%;
-  max-width: 700px;
+  /* max-width: 700px; */
+  max-width: var(--layout-width-max);
   margin: 0px 20px;
   padding: 15px 20px 10px 20px;
   background: rgba(13, 13, 13, 0.2);
@@ -31,14 +33,15 @@
 
 .title {
   line-height: 28px;
+  font-family: var(--typeface-body);
   font-size: 18px;
-	font-variation-settings: 'wght' 600;
+	font-variation-settings: 'wght' 500;
 }
 
 .links {
   display: flex;
   font-size: 16px;
-	font-variation-settings: 'wght' 600;
+	font-variation-settings: 'wght' 400;
   gap: 20px;
 }
 

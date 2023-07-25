@@ -12,8 +12,8 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 // const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
-// const clamp = (a: number, min: number = 0, max: number = 1) =>
-//   Math.min(max, Math.max(min, a));
+export const clamp = (a: number, min: number = 0, max: number = 1) =>
+  Math.min(max, Math.max(min, a));
 // const invlerp = (x: number, y: number, a: number) => clamp((a - x) / (y - x));
 // const range = (x1: number, y1: number, x2: number, y2: number, a: number) =>
 //   lerp(x2, y2, invlerp(x1, y1, a));

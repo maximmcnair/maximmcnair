@@ -1,21 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
-import { mat4 } from 'gl-matrix';
 
 import { Config } from './types';
-import { loadImage, createAndSetupTexture, mapLinear } from './utils';
+import { loadImage, createAndSetupTexture } from './utils';
 
-import { Range } from './Range';
+import { Range } from '@/components/WebGLFilters/Range';
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
 import { cameraSetup, cameraDraw } from './camera/';
 
-const filters = [
+export interface Filter {
+  name: string;
+  key: string;
+  min: number;
+  max: number;
+  step: number;
+  disabled?: boolean;
+}
+
+export const filters: Filter[] = [
   {
     name: 'Brightness',
     key: 'Brightness',
     min: -0.4,
     max: 0.4,
-    step: 0.1,
+    step: 0.01,
   },
   // {
   //   name: 'Zoom',
@@ -29,21 +37,21 @@ const filters = [
     key: 'Contrast',
     min: -0.3,
     max: 0.7,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Exposure',
     key: 'Exposure',
     min: -0.6,
     max: 0.5,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Saturation',
     key: 'Saturation',
     min: -1,
     max: 1,
-    step: 0.1,
+    step: 0.01,
   },
   {
     name: 'Grain',
@@ -97,7 +105,7 @@ interface CanvasProps {
   image: HTMLImageElement;
 }
 
-function Canvas({ size, config, image }: CanvasProps) {
+export function Canvas({ size, config, image }: CanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -389,6 +397,13 @@ export default function WebGL() {
       setSize({ width: window.innerWidth, height: window.innerHeight });
     }
     loadImageAndSetSize();
+
+    function handleResize() {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return (
@@ -401,13 +416,9 @@ export default function WebGL() {
       <section className="filters">
         <div className="filterscontent">
           {filters.map(f => (
-            <label
-              className="filter"
-              data-disabled={f.disabled}
-              key={f.name}
-            >
+            <label className="filter" data-disabled={f.disabled} key={f.name}>
               <span>{f.name}</span>
-              <Range 
+              <Range
                 min={f.min}
                 max={f.max}
                 step={f.step}

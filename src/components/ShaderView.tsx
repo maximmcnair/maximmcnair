@@ -1,8 +1,7 @@
-import { useLayoutEffect, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { createProgramFromSources } from '@/utils/webgl';
 import { Position } from '@/types';
-import styles from './ShaderView.module.css';
 
 // @ts-ignore
 import vertDefault from './ShaderDefaultVert.glsl';
@@ -12,22 +11,33 @@ import fragDefault from './ShaderDefaultFrag.glsl';
 interface Props {
   vert?: string;
   frag?: string;
-  title: string;
-  className: string;
+  title?: string;
+  className?: string;
+  renderTitle?: boolean;
 }
 
-export default function ShaderView({ frag, vert, title, className }: Props) {
+export default function ShaderView({ frag, vert, title, className, renderTitle = false }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!containerRef.current) return;
-    const { offsetWidth, offsetHeight } = containerRef.current;
-    setSize({
-      width: offsetWidth,
-      height: offsetHeight,
-    });
+    function handleResize() {
+      if (!containerRef.current) return;
+      const { offsetWidth, offsetHeight } = containerRef.current;
+      setSize({
+        width: offsetWidth,
+        height: offsetHeight,
+      });
+      // const canvas = canvasRef.current as HTMLCanvasElement;
+      // if (!canvas) return;
+      // canvas.width = offsetWidth;
+      // canvas.height = offsetHeight;
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
@@ -108,10 +118,14 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
     /* ===== Animate LOOP ===== */
     const loop = () => {
       if (!gl) return;
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
 
-      // update time
+      // update u_resolution
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+
+      // update u_time
       time += 0.01;
       gl.uniform1f(uTime, time);
 
@@ -128,12 +142,12 @@ export default function ShaderView({ frag, vert, title, className }: Props) {
       cancelAnimationFrame(frame);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [canvasRef, size]);
+  }, [canvasRef, size, frag, vert]);
 
   return (
     <section className={className} ref={containerRef}>
-      <span>{title}</span>
-      {size.width && size.height && (
+      {renderTitle ? <span>{title}</span> : null}
+      {!!(size.width && size.height) && (
         <canvas ref={canvasRef} width={size.width} height={size.height} />
       )}
     </section>

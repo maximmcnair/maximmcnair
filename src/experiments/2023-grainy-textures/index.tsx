@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { mat4 } from 'gl-matrix';
 
 import { Config } from './types';
-import { loadImage, createAndSetupTexture, mapLinear } from './utils';
+import { loadImage, createAndSetupTexture } from './utils';
 
-import { Range } from './Range';
 import { filtersSetup, filtersDraw } from './filters/';
 import { convolutionSetup, convolutionDraw } from './convolution/';
 import { cameraSetup, cameraDraw } from './camera/';

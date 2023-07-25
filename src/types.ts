@@ -28,3 +28,9 @@ export interface Position {
   y: number;
 }
 
+export interface Shader {
+  title: string;
+  frag: string;
+}
+
+

@@ -1,0 +1,53 @@
+---
+title: "WebGL Photos - Film Grain & Vignette"
+series: "WebGL Photo filters & effects"
+publishedOn: "2023-06-16T16:31:05.404Z"
+tags: ["WebGL"]
+published: true
+---
+
+In the [previous article](/p/2023-06-webgl-filters-part-1) we ran through the basic of GLSL and common color correction functions for editing a photo such as Brightness, Exposure...
+
+In this article we'll cover two effects for adding analog feel to our images. Grain and Vignette.
+
+## Film Grain
+
+Film grain is an optical effect created from the presence of small particles of metallic silver or dye clouds in the liquid when developing film stock. 
+
+Note that this is different from the image noise that can appear in a photo taken on a digital camera, which there are many different types of. I might write a more in depth article around this in the future.
+
+We can simulate this effect with a grain function.
+
+```glsl
+float rand(vec2 co){
+  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec4 grain(vec4 fragColor, vec2 uv){
+  vec4 color = fragColor;
+  float diff = (rand(uv) - 0.0) * u_grain_amount;
+  color.r += diff;
+  color.g += diff;
+  color.b += diff;
+  return color;
+}
+```
+
+<WebGLFilters step="Grain" />
+
+## Vignette
+
+Vignetting is a reduction of an image's brightness or saturation towards its edges. While this is often an undesired effect in photography, due to wrong settings or issues with the lens. It can be used to lead the viewers eye to the center (or another position) in the image.
+
+```glsl
+vec4 vignette(vec2 uv, float strength){
+  float d = length(uv - 0.5) * -1.0;
+  vec4 overlay = vec4(d, d, d, strength);
+  return overlay;
+}
+```
+
+<WebGLFilters step="Vignette" />
+
+In the next article we'll take a look into two more effects pixelation and duotone.
+
