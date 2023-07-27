@@ -8,6 +8,8 @@ import Highlight from 'react-highlight';
 import { getPostSlugs, getPost } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
+import { Duotone } from '@/components/WebGLFilters/Duotone';
+import { ColorVec4 } from '@/components/ColorVec4';
 import { Post, Meta } from '@/types';
 
 // @ts-ignore
@@ -77,6 +79,8 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
                 // @ts-ignore
                 a: AHref,
                 WebGLFilters,
+                ColorVec4,
+                Duotone,
               }}
             />
           </div>

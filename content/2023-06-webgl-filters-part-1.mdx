@@ -1,8 +1,8 @@
 ---
-title: "WebGL Photos - Color correction"
-series: "WebGL Photo filters & effects"
+title: "WebGL photos - Color correction"
+series: "WebGL image editing"
 publishedOn: "2023-06-15T16:31:05.404Z"
-tags: ["WebGL"]
+tags: ["WebGL", "Image Processing"]
 published: true
 ---
 
@@ -33,11 +33,9 @@ A brief recap:
 ### GLSL colors
 Colors in GLSL are a 4 value vector, containing the red, green, blue, alpha channels. These map to the rgba values you know in CSS, but are 0.0 to 1.0 instead of 0 to 255.
 
-Black in CSS: `rgba(0, 0, 0, 255);` <br/>
-Black in GLSL: `vec4(0.0, 0.0, 0.0, 1.0);` 
+To build a feel for how these relate to each other have a play around with the values below with your arrow keys:
 
-White in CSS: `rgba(255, 255, 255, 255);` <br/>
-White in GLSL: `vec4(1.0, 1.0, 1.0, 1.0);`
+<ColorVec4 color={[255, 0, 0, 255]} />
 
 ## Our foundational shader
 
@@ -146,9 +144,9 @@ vec4 saturation(vec4 color, float value) {
 
 <WebGLFilters step="Saturation" />
 
-## All together
+## Let's try a blend 
 
-<iframe title="WebGL Photo - filters & effects" src="/webgl-filters-and-effects?header=false&preview=true" />
+<WebGLFilters step="Article1" />
 
 With just these four functions we can start to edit our image quite dramatically and they give us the power to fix a lot of issues that can arise when taking photos.
 

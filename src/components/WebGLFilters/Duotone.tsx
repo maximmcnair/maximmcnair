@@ -1,14 +1,24 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 
 import { Config } from './types';
-import { loadImage } from './utils';
+import { loadImage, HEXtoRGBAVec4 } from './utils';
 import { Canvas, filters, Filter } from './index';
+
+const ranges = [
+  ['#ffffff', '#000000'],
+  ['#f43d1f', '#240851'],
+  ['#fef445', '#f439b5'],
+  ['#42ed0b', '#5e215c'],
+  ['#d24b51', '#36455a'],
+  ['#01bdac', '#00229d'],
+];
 
 interface Props {
   step: string;
 }
 
-export function WebGLFilters({ step }: Props) {
+export function Duotone({ step }: Props) {
+  const [activeColorIdx, setActiveColorIdx] = useState(0);
   const [config, setConfig] = useState<Config>({
     // View
     FOVAngle: 75,
@@ -35,17 +45,37 @@ export function WebGLFilters({ step }: Props) {
     Grain: 0,
     Pixelate: 0.001,
     Vignette: 0,
-    Duotone: 0,
+    Duotone: 1,
     Blur: 0,
 
     // duotone
-    DuotoneHigh: [0, 0, 0, 0],
-    DuotoneLow: [0, 0, 0, 0],
+    DuotoneHigh: HEXtoRGBAVec4(ranges[activeColorIdx][0]),
+    DuotoneLow: HEXtoRGBAVec4(ranges[activeColorIdx][1]),
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [image, setImage] = useState<HTMLImageElement>();
   const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    setConfig(c => ({
+      ...c,
+      DuotoneHigh: HEXtoRGBAVec4(ranges[activeColorIdx][0]),
+      DuotoneLow: HEXtoRGBAVec4(ranges[activeColorIdx][1]),
+    }));
+  }, [activeColorIdx]);
+
+  useEffect(() => {
+    function updateColorIdx() {
+      if (activeColorIdx < ranges.length - 1) {
+        setActiveColorIdx(activeColorIdx + 1);
+      } else {
+        setActiveColorIdx(0);
+      }
+    }
+    let id = setInterval(updateColorIdx, 2000);
+    return () => clearInterval(id);
+  }, [activeColorIdx, setActiveColorIdx]);
 
   useEffect(() => {
     async function loadImageAndSetSize() {
@@ -82,12 +112,23 @@ export function WebGLFilters({ step }: Props) {
   // update filters
   const stepFilters: Filter[] = useMemo(() => {
     if (step === 'Intro') return [];
-    if (['Brightness', 'Exposure', 'Contrast', 'Saturation', 'Vignette', 'Grain'].includes(step)){
+    if (
+      [
+        'Brightness',
+        'Exposure',
+        'Contrast',
+        'Saturation',
+        'Vignette',
+        'Grain',
+      ].includes(step)
+    ) {
       return filters.filter(f => f.key === step);
     }
     if (step === 'Article1') {
       return filters.filter(f => {
-        return ['Brightness', 'Exposure', 'Contrast', 'Saturation'].includes(f.key)
+        return ['Brightness', 'Exposure', 'Contrast', 'Saturation'].includes(
+          f.key,
+        );
       });
     }
     return [];
@@ -96,6 +137,29 @@ export function WebGLFilters({ step }: Props) {
   return (
     <section className="article-webgl-photo-filters">
       <section className="article-webgl-photo-filters-dials">
+        <div className="article__webgl__duotone-colors">
+          {ranges.map((r, idx) => (
+            <div
+              key={idx}
+              className={`article__webgl__duotone-range ${
+                idx === activeColorIdx
+                  ? 'article__webgl__duotone-range--active'
+                  : ''
+              }`}
+              onClick={() => setActiveColorIdx(idx)}
+            >
+              <div
+                className="article__webgl__duotone-color"
+                style={{ backgroundColor: r[0] }}
+              />
+              <div
+                className="article__webgl__duotone-color"
+                style={{ backgroundColor: r[1] }}
+              />
+            </div>
+          ))}
+        </div>
+
         {stepFilters.map(f => (
           <Input
             key={f.key}

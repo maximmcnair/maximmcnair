@@ -1,0 +1,36 @@
+---
+title: "WebGL photos - Duotone with Gradient maps"
+series: "WebGL image editing"
+publishedOn: "2023-06-17T16:31:05.404Z"
+tags: ["WebGL", "Image Processing"]
+published: true
+---
+
+Duotone is a great effect that has, while predating digital software, seen a boost in popularity in the last fews years. The Spotify ad campaign that was plasted all across London a few years comes to mind.
+
+Click on the color pairs below to see what happens to this image:
+
+<Duotone />
+
+I'm going to run through a simple method to create a Duotone effect by using a gradient map on a black and white image.
+
+First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in the [first part of this series](/p/2023-06-webgl-filters-part-1) to create one.
+
+```glsl
+vec4 desaturated(vec4 color) {
+  // sRGB colorspace luminosity factor
+  vec3 lumFactor = vec3(0.2126, 0.7152, 0.0722);
+  vec3 rgb = vec3(dot(color, luminosityFactor));
+  return vec4(rgb, color.a);
+}
+```
+
+Now we have a black and white (desaturated) image, we want to map black to our low color and white to our high color.
+
+```glsl
+vec4 duotone(vec4 fragColor, vec4 lowcolor, vec4 highcolor) {
+  vec4 desaturated = desaturated(fragColor);
+  return mix(lowcolor, highcolor, desaturated);
+}
+```
+

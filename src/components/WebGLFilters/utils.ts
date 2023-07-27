@@ -1,3 +1,5 @@
+import { Vec4 } from './types';
+
 export async function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
@@ -11,12 +13,12 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-// const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
+const lerp = (x: number, y: number, a: number) => x * (1 - a) + y * a;
 export const clamp = (a: number, min: number = 0, max: number = 1) =>
   Math.min(max, Math.max(min, a));
-// const invlerp = (x: number, y: number, a: number) => clamp((a - x) / (y - x));
-// const range = (x1: number, y1: number, x2: number, y2: number, a: number) =>
-//   lerp(x2, y2, invlerp(x1, y1, a));
+const invlerp = (x: number, y: number, a: number) => clamp((a - x) / (y - x));
+const range = (x1: number, y1: number, x2: number, y2: number, a: number) =>
+  lerp(x2, y2, invlerp(x1, y1, a));
 
 export function mapLinear(
   x: number,
@@ -82,3 +84,17 @@ export function createAndSetupTexture(
 //
 //   return { textures, framebuffers };
 // }
+
+export function HEXtoRGBAVec4(hexCode: string, opacity: number = 1): Vec4 {
+  let hex = hexCode.replace('#', '');
+
+  if (hex.length === 3) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+  }
+
+  const r = range(0, 250, 0, 1, parseInt(hex.substring(0, 2), 16));
+  const g = range(0, 250, 0, 1, parseInt(hex.substring(2, 4), 16));
+  const b = range(0, 250, 0, 1, parseInt(hex.substring(4, 6), 16));
+
+  return [r, g, b, opacity];
+}

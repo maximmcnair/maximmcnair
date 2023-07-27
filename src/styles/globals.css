@@ -114,6 +114,7 @@ h1,
 .text_h1 {
   margin-top: 0;
   font-size: 2.488rem;
+  font-family: var(--typeface-title);
 }
 
 h2,
@@ -126,6 +127,7 @@ h2,
 h3,
 .text_h3 {
   font-size: 1.728rem;
+  font-weight: 400;
 }
 
 h4,
@@ -245,7 +247,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 .article {
-  margin-top: 80px;
+  margin-top: 60px;
 }
 
 .article-prev {
@@ -280,13 +282,13 @@ video::-internal-media-controls-overlay-cast-button {
 .article__date {
   display: flex;
   color: var(--color-grey-light);
-  margin-bottom: 20px;
 }
 
 .article__header {
   /* opacity: 0; */
   /* animation: fadeIn 0.5s 0.3s; */
   /* animation-fill-mode: forwards; */
+  margin-bottom: 20px;
 }
 
 .article__content {
@@ -494,4 +496,68 @@ video::-internal-media-controls-overlay-cast-button {
 .article-webgl-photo-filters-dials strong {
   display: block;
   text-align: center;
+}
+
+/* Color vec 4 */ 
+.color-vec4{
+  background-color: var(--color-black-off);
+  display: flex;
+  flex-direction: row;
+}
+.color-vec4__color{
+  width: 200px;
+  height: 200px;
+}
+.color-vec4__picker{
+  padding: 15px;
+}
+.color-vec4__picker strong {
+  display: block;
+}
+.color-vec4__picker input {
+  border: none;
+  /* background-color: transparent; */
+  width: 50px;
+  text-align: right;
+}
+.color-vec4__picker input:focused {
+  border: none;
+  /* background-color: transparent; */
+}
+.color-vec4__picker_value{
+  margin-bottom: 20px;
+}
+
+/* Duotone */
+.article__webgl__duotone-colors{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.article__webgl__duotone-range{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  position: relative;
+}
+.article__webgl__duotone-range::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -5px;
+  right: -5px;
+  z-index: 0;
+  background-color: transparent;
+  transition: .3s;
+}
+.article__webgl__duotone-range--active::after {
+  background-color: var(--color-grey);
+}
+.article__webgl__duotone-color{
+  width: 50px;
+  height: 50px;
+  display: block;
+  z-index: 1;
 }

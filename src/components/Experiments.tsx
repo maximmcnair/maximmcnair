@@ -12,7 +12,7 @@ const Experiments: React.FC = () => {
       <div className="content">
         <h2 className={styles.mainTitle}>Experiments</h2>
         <p className={styles.desc}>
-          A collection of experiments in Canvas 2d, WebGL and Blender. Click
+          A collection of experiments in WebGL, WebGPU, Three.js, Canvas 2d and Blender. Click
           through to view interactive experiments.
         </p>
 

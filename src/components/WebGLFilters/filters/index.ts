@@ -172,9 +172,15 @@ function filtersDraw(
   /* ===== Effects - Duotone ===== */
   const uDuotoneAmount = gl.getUniformLocation(program, 'u_duotone');
   gl.uniform1f(uDuotoneAmount, config.Duotone);
+  const uDuotoneHigh = gl.getUniformLocation(program, "u_duotone_hi");
+  gl.uniform4fv(uDuotoneHigh, config.DuotoneHigh);
+  const uDuotoneLow = gl.getUniformLocation(program, "u_duotone_lo");
+  gl.uniform4fv(uDuotoneLow, config.DuotoneLow);
   
   return {
-    uRes
+    uRes,
+    uDuotoneHigh,
+    uDuotoneLow,
   }
 }
 

@@ -1,0 +1,21 @@
+---
+title: "WebGL Photos - Pixelate"
+series: "WebGL Photo filters & effects"
+publishedOn: "2023-06-17T16:31:05.404Z"
+tags: ["WebGL"]
+published: false
+---
+
+```glsl
+vec4 pixelate(float size, vec2 uv) {
+  float dx = size / u_resolution.x;
+  float dy = size / u_resolution.y;
+  float x = dx * (floor(uv.x / dx) + 0.5);
+  float y = dy * (floor(uv.y / dy) + 0.5);
+  return texture(
+    u_image,
+    vec2(x, y)
+  );
+}
+```
+
