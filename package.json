@@ -35,11 +35,15 @@
     "remark-math": "^5.1.1",
     "styled-components": "^5.3.6",
     "three": "^0.150.1",
-    "typescript": "4.9.5",
     "uid": "^2.0.1"
   },
   "devDependencies": {
     "@types/dat.gui": "^0.7.7",
+    "tweakpane": "^3.1.10",
+    "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "@tweakpane/core": "^1.1.9",
     "@types/gl-react": "^3.15.4",
     "@types/gl-react-dom": "^3.15.4",
     "@types/react-highlight": "^0.12.5",

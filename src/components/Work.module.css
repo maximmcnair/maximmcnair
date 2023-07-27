@@ -3,6 +3,20 @@
 }
 
 .work {
+  max-width: 600px;
+}
+
+.title {
+  margin-bottom: 10px;
+}
+
+.desc {
+  color: var(--color-grey-light);
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.work {
   display: block;
   /* opacity: 0; */
   /* animation: fadeIn 0.5s 2s; */

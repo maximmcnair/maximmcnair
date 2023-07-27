@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import { getPosts } from '@/utils/posts';
 import { Post } from '@/types';
 import Header from '@/components/Header';
-import Intro from '@/components/Intro';
+import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
 import Articles from '@/components/Articles';
 import Experiments from '@/components/Experiments';
@@ -15,15 +15,15 @@ export async function getStaticProps() {
   return {
     props: {
       posts: posts
-        .filter((p) => p.meta.published)
+        .filter(p => p.meta.published)
         .sort((a, b) =>
           a.meta.publishedOn > b.meta.publishedOn
             ? -1
             : a.meta.publishedOn < b.meta.publishedOn
             ? 1
-            : 0
-        )
-    }
+            : 0,
+        ),
+    },
   };
 }
 
@@ -49,6 +49,13 @@ const Home: NextPage<Props> = ({ posts }) => {
           type="font/woff2"
           crossOrigin="use-credentials"
         />
+        <link
+          rel="preload"
+          href="/typefaces/Fraunces.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="use-credentials"
+        />
       </Head>
 
       <Header />
@@ -60,11 +67,11 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="work">
           <Work />
         </section>
-        <section id="experiments">
-          <Experiments />
-        </section>
         <section id="articles">
           <Articles posts={posts} />
+        </section>
+        <section id="experiments">
+          <Experiments />
         </section>
       </main>
     </>

@@ -22,3 +22,15 @@ export interface Experiment {
   published: boolean;
   src?: string;
 }
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface Shader {
+  title: string;
+  frag: string;
+}
+
+
