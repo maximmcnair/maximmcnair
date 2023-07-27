@@ -149,16 +149,16 @@ function canvasAnimation(
     // }
 
     // prettier-ignore
-    const translateMatrix = mat4.fromValues(
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      0, 0, 0, 1,
-    );
+    // const translateMatrix = mat4.fromValues(
+    //   1, 0, 0, 0,
+    //   0, 1, 0, 0,
+    //   0, 0, 1, 0,
+    //   0, 0, 0, 1,
+    // );
 
     // Create our transformMatrix
     let transformMatrix = mat4.create();
-    mat4.multiply(transformMatrix, transformMatrix, translateMatrix);
+    // mat4.multiply(transformMatrix, transformMatrix, translateMatrix);
     mat4.rotateZ(transformMatrix, transformMatrix, -30);
     mat4.rotateX(transformMatrix, transformMatrix, -90);
     mat4.rotateY(transformMatrix, transformMatrix, frame);

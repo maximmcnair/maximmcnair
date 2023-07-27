@@ -1,12 +1,16 @@
 import type { NextPage, GetStaticPaths, GetStaticProps } from 'next';
 import { serialize } from 'next-mdx-remote/serialize';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Highlight from 'react-highlight';
+import Head from 'next/head';
 
 import { getPostSlugs, getPost } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
+import { MathGrid } from '@/components/MathGrid';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
 import { Duotone } from '@/components/WebGLFilters/Duotone';
 import { ColorVec4 } from '@/components/ColorVec4';
@@ -40,7 +44,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async context => {
   const slug = context?.params?.slug || '';
   const { content, meta } = await getPost(String(slug) || '');
-  const mdx = await serialize(content);
+  const mdx = await serialize(content, {
+    mdxOptions: {
+      remarkPlugins: [remarkMath],
+      rehypePlugins: [rehypeKatex],
+    },
+  });
 
   return {
     props: {
@@ -52,41 +61,50 @@ export const getStaticProps: GetStaticProps = async context => {
 
 const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
-    <>
-      <Layout title={meta?.title} desc={meta?.desc}>
-        <article className="article content">
-          <header className="article__header">
-            <h1 className="article__title">{meta?.title}</h1>
-            <strong className="article__date">
-              {meta?.tags?.length > 0 && (
-                <div className="tags">
-                  {meta.tags.map(t => (
-                    <span key={t} className="tag">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              )}
-              <span className="article-dot">{' • '}</span>
-              {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
-            </strong>
-          </header>
-          <div className="article__content">
-            <MDXRemote
-              {...mdx}
-              components={{
-                pre: Highlight,
-                // @ts-ignore
-                a: AHref,
-                WebGLFilters,
-                ColorVec4,
-                Duotone,
-              }}
-            />
-          </div>
-        </article>
-      </Layout>
-    </>
+    <Layout title={meta?.title} desc={meta?.desc}>
+      <article className="article content">
+        <Head>
+          <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css"
+            integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM"
+            crossOrigin="anonymous"
+          />
+        </Head>
+
+        <header className="article__header">
+          <h1 className="article__title">{meta?.title}</h1>
+          <strong className="article__date">
+            {meta?.tags?.length > 0 && (
+              <div className="tags">
+                {meta.tags.map(t => (
+                  <span key={t} className="tag">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
+            <span className="article-dot">{' • '}</span>
+            {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
+          </strong>
+        </header>
+        <div className="article__content">
+          <MDXRemote
+            {...mdx}
+            components={{
+              pre: Highlight,
+              small: ({ children }) => <small>{children}</small>,
+              // @ts-ignore
+              a: AHref,
+              MathGrid,
+              WebGLFilters,
+              ColorVec4,
+              Duotone,
+            }}
+          />
+        </div>
+      </article>
+    </Layout>
   );
 };
 

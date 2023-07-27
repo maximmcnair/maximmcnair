@@ -143,6 +143,7 @@ h5,
 small,
 .text_small {
   font-size: 0.833rem;
+  color: var(--color-grey-light);
 }
 
 code,
@@ -282,9 +283,13 @@ video::-internal-media-controls-overlay-cast-button {
 .article__date {
   display: flex;
   color: var(--color-grey-light);
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .article__header {
+  margin-bottom: 25px;
   /* opacity: 0; */
   /* animation: fadeIn 0.5s 0.3s; */
   /* animation-fill-mode: forwards; */
@@ -322,7 +327,6 @@ video::-internal-media-controls-overlay-cast-button {
 
 .article-dot {
   color: var(--color-grey-light);
-  display: inline-block;
   padding: 0px 7px;
 }
 
@@ -344,11 +348,20 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 /* Experiments */
+canvas{
+  display: block;
+  width: 100%;
+}
+
 .canvas {
   background-color: var(--color-black);
   position: absolute;
   top: 0px;
   left: 0px;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
   z-index: var(--z-canvas);
 }
 
@@ -498,6 +511,7 @@ video::-internal-media-controls-overlay-cast-button {
   text-align: center;
 }
 
+<<<<<<< HEAD
 /* Color vec 4 */ 
 .color-vec4{
   background-color: var(--color-black-off);
@@ -555,9 +569,36 @@ video::-internal-media-controls-overlay-cast-button {
 .article__webgl__duotone-range--active::after {
   background-color: var(--color-grey);
 }
+
 .article__webgl__duotone-color{
   width: 50px;
   height: 50px;
   display: block;
   z-index: 1;
+}
+
+/* three-js */
+.obit-controls-gizmo {
+	position: absolute;
+	top: 2em;
+	right: 2em;
+  z-index: 1000;
+  background-color: #FFF0;
+  border-radius: 100%;
+  transition: background-color .15s linear;
+  cursor: pointer;
+}
+
+.obit-controls-gizmo.dragging, .obit-controls-gizmo:hover  {
+  background-color: #FFF3;
+}
+
+.obit-controls-gizmo.inactive {
+  pointer-events: none;
+  background-color: #FFF0 !important; 
+}
+
+.dg.a {
+  float: left !important;
+  margin-left: 2em !important;
 }
