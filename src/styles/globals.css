@@ -535,7 +535,9 @@ canvas{
 .article__webgl__duotone-colors{
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 5px;
+  margin-top: 60px;
 }
 .article__webgl__duotone-range{
   display: flex;
