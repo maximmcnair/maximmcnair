@@ -11,8 +11,14 @@
 
 .articles{
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+}
+
+@media (min-width: 460px) {
+  .articles{
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .article{
@@ -42,10 +48,36 @@
   bottom: 6px;
   left: -5px;
   right: 0px;
-  max-width: 200px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
   border-radius: 0px 3px 3px 0px;
   transform: translateZ(20px);
   pointer-events: none;
+  max-width: 180px;
 }
 
+@media (min-width: 460px) {
+  .article{
+    height: 250px;
+  }
+  .image{
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 600px) {
+  .article{
+    height: 280px;
+  }
+  .image{
+    max-width: 180px;
+  }
+}
+
+@media (min-width: 660px) {
+  .article{
+    height: 310px;
+  }
+  .image{
+    max-width: 200px;
+  }
+}
