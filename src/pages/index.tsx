@@ -7,8 +7,8 @@ import Header from '@/components/Header';
 // import Intro from '@/components/Intro';
 import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
-// import Articles from '@/components/Articles';
-import Articles from '@/components/ArticlesAlt';
+// import Articles from '@/components/Articles__old';
+import Articles from '@/components/Articles';
 import Experiments from '@/components/Experiments';
 // shaders
 import ShaderView from '@/components/ShaderView';

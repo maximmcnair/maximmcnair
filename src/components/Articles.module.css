@@ -21,14 +21,20 @@
   padding: 8px 0px 0px 10px;
   position: relative;
   height: 310px;
+  transform: rotateX(0) rotateY(0);
+  transform-style: preserve-3d;
+  transition-duration: 0.1s;
+  transition-timing-function: ease !important;
 }
 
 .title{
   color: var(--color-grey);
   font-size: 15px;
+  font-weight: 500;
   margin: 0px;
   padding: 0px;
   height: 60px;
+  pointer-events: none;
 }
 
 .image {
@@ -39,4 +45,7 @@
   max-width: 200px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
   border-radius: 0px 3px 3px 0px;
+  transform: translateZ(20px);
+  pointer-events: none;
 }
+
