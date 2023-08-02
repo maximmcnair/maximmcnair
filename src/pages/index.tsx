@@ -4,10 +4,17 @@ import type { NextPage } from 'next';
 import { getPosts } from '@/utils/posts';
 import { Post } from '@/types';
 import Header from '@/components/Header';
+// import Intro from '@/components/Intro';
 import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
-import Articles from '@/components/Articles';
+// import Articles from '@/components/Articles';
+import Articles from '@/components/ArticlesAlt';
 import Experiments from '@/components/Experiments';
+// shaders
+import ShaderView from '@/components/ShaderView';
+// @ts-ignore
+import frag from '@/shaders/2023-07-18_01.frag';
+import styles from '@/components/IntroAlt.module.css';
 
 export async function getStaticProps() {
   const posts = await getPosts();
@@ -74,6 +81,8 @@ const Home: NextPage<Props> = ({ posts }) => {
           <Experiments />
         </section>
       </main>
+
+      <ShaderView frag={frag} title={''} className={styles.shader} />
     </>
   );
 };

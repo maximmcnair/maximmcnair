@@ -95,7 +95,7 @@ export function WebGLFilters({ step }: Props) {
 
   return (
     <section className="article-webgl-photo-filters">
-      <section className="article-webgl-photo-filters-dials">
+      <section className="article-dials">
         {stepFilters.map(f => (
           <Input
             key={f.key}

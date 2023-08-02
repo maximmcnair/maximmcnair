@@ -13,6 +13,7 @@ import { Layout } from '@/components/Layout';
 import { MathGrid } from '@/components/MathGrid';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
 import { Duotone } from '@/components/WebGLFilters/Duotone';
+import { Dither } from '@/components/WebGLFilters/Dither';
 import { ColorVec4 } from '@/components/ColorVec4';
 import { Post, Meta } from '@/types';
 
@@ -100,6 +101,7 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
               WebGLFilters,
               ColorVec4,
               Duotone,
+              Dither,
             }}
           />
         </div>

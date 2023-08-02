@@ -1,0 +1,42 @@
+.container {
+  margin-top: 50px;
+  padding-top: 30px;
+}
+
+.desc {
+  color: var(--color-grey-light);
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.articles{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.article{
+  background: var(--color-white);
+  border-radius: 3px;
+  padding: 8px 0px 0px 10px;
+  position: relative;
+  height: 310px;
+}
+
+.title{
+  color: var(--color-grey);
+  font-size: 15px;
+  margin: 0px;
+  padding: 0px;
+  height: 60px;
+}
+
+.image {
+  position: absolute;
+  bottom: 6px;
+  left: -5px;
+  right: 0px;
+  max-width: 200px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+  border-radius: 0px 3px 3px 0px;
+}

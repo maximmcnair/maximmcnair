@@ -1,0 +1,57 @@
+---
+title: "Dithering"
+series: "WebGL Image Processing"
+issue: "08"
+publishedOn: "2023-06-28T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-dither.jpg"
+published: true
+---
+
+### Halftone 
+
+##### 2x2 Bayer ordered dither matrix
+<Dither step="4-dither-2x2" />
+
+##### 4x4 Bayer ordered dither matrix
+<Dither step="5-dither-4x4" />
+
+##### 8x8 Bayer ordered dither matrix
+<Dither step="6-dither-8x8" />
+
+##### 8x8 cluster matrix
+<Dither step="7-dither-cluster" />
+
+### Color Halftone 
+<Dither step="8-dither-color" />
+
+### Halftone with Duotone
+<Dither step="9-dither-duotone" />
+
+### Gameboy 
+
+Less colors equals less bits of data, which means less memory
+
+Windows ** only had ** of  
+
+Even with the memory non-limits  of today the aesthetics of dithering are still a popular style
+
+8 bits per rgb channel is millions of colors
+many devices at the time were limited to ** bytes of color
+
+- render gradient which has been quantized to a specific amount of bites of color
+
+NOTE: A bit is the most basic unit of information in computing. It's a 0 or 1. A group of 8 bits is a byte.
+
+To reduce the size of an image we can reduce the color palette of that image so it can use higher levels of compression. We use a process called **quantization** for this. We define a palette of colors, then we loop through each pixel and find the closest color in our palette to reduce that color with.
+
+-- example of quantization
+
+This leads to banding in the image, this is the 
+
+-- error dithering
+
+Not possible on the GPU
+
+-- ordered dithering
+

@@ -101,3 +101,16 @@ export async function loadTexture(
     // return texture;
   });
 }
+
+export async function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = src;
+    image.onload = function () {
+      resolve(image);
+    };
+    image.onerror = function () {
+      reject();
+    };
+  });
+}

@@ -63,6 +63,10 @@ export function Duotone({ step }: Props) {
       DuotoneHigh: HEXtoRGBAVec4(ranges[activeColorIdx][0]),
       DuotoneLow: HEXtoRGBAVec4(ranges[activeColorIdx][1]),
     }));
+    // console.log({
+    //   DuotoneHigh: HEXtoRGBAVec4(ranges[activeColorIdx][0]),
+    //   DuotoneLow: HEXtoRGBAVec4(ranges[activeColorIdx][1]),
+    // });
   }, [activeColorIdx]);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { createProgramFromSources } from '@/utils/webgl';
+import { createProgramFromSources, loadTexture } from '@/utils/webgl';
 import { Position } from '@/types';
 
 // @ts-ignore
@@ -14,31 +14,82 @@ interface Props {
   title?: string;
   className?: string;
   renderTitle?: boolean;
+  height?: number;
+  width?: number;
+  imgSrc?: string;
+  fx?: number;
+  fy?: number;
+  fz?: number;
 }
 
-export default function ShaderView({ frag, vert, title, className, renderTitle = false }: Props) {
+export default function ShaderView({
+  frag,
+  vert,
+  title,
+  className,
+  renderTitle = false,
+  height,
+  width,
+  imgSrc,
+  fx = 1,
+  fy = 1,
+  fz = 1,
+}: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const programRef = useRef<WebGLProgram>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     function handleResize() {
       if (!containerRef.current) return;
-      const { offsetWidth, offsetHeight } = containerRef.current;
-      setSize({
-        width: offsetWidth,
-        height: offsetHeight,
-      });
-      // const canvas = canvasRef.current as HTMLCanvasElement;
-      // if (!canvas) return;
-      // canvas.width = offsetWidth;
-      // canvas.height = offsetHeight;
+      // Use height/width props
+      if (height && width) {
+        setSize({
+          width,
+          height,
+        });
+      } else {
+        const { offsetWidth, offsetHeight } = containerRef.current;
+        setSize({
+          width: offsetWidth,
+          height: offsetHeight,
+        });
+        // const canvas = canvasRef.current as HTMLCanvasElement;
+        // if (!canvas) return;
+        // canvas.width = offsetWidth;
+        // canvas.height = offsetHeight;
+      }
     }
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current as HTMLCanvasElement;
+    const gl = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
+    if (!gl || !imgSrc) return;
+    loadTexture(gl, imgSrc).then(({ texture, aspectRatio }) => {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+    });
+  }, [imgSrc]);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current as HTMLCanvasElement;
+    const gl = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
+    if (!gl || !programRef.current) return;
+    const uFx = gl.getUniformLocation(programRef.current, 'u_fx');
+    gl.uniform1f(uFx, fx);
+    const uFy = gl.getUniformLocation(programRef.current, 'u_fy');
+    gl.uniform1f(uFy, fy);
+    const uFz = gl.getUniformLocation(programRef.current, 'u_fz');
+    gl.uniform1f(uFz, fz);
+  }, [fx, fy, fz]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -57,6 +108,8 @@ export default function ShaderView({ frag, vert, title, className, renderTitle =
       vert || vertDefault,
       frag || fragDefault,
     );
+    // @ts-ignore
+    programRef.current = program;
 
     /* ===== Vertices ===== */
     const corners = {
@@ -114,10 +167,29 @@ export default function ShaderView({ frag, vert, title, className, renderTitle =
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    let frame: number;
+    /* ===== Uniforms - u_image ===== */
+    const uImage = gl.getUniformLocation(program, 'u_image');
+    gl.uniform1i(uImage, 0);
+    if (imgSrc) {
+      loadTexture(gl, imgSrc).then(({ texture, aspectRatio }) => {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+      });
+    }
+
+    /* ===== Uniforms - generic ===== */
+    const uFx = gl.getUniformLocation(program, 'u_fx');
+    gl.uniform1f(uFx, fx);
+    const uFy = gl.getUniformLocation(program, 'u_fy');
+    gl.uniform1f(uFy, fy);
+    const uFz = gl.getUniformLocation(program, 'u_fz');
+    gl.uniform1f(uFz, fz);
+
     /* ===== Animate LOOP ===== */
+    let frame: number;
     const loop = () => {
       if (!gl) return;
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
       gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, vertexData.length / 3);
