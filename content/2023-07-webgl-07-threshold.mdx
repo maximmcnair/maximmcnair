@@ -1,0 +1,108 @@
+---
+title: "Threshold"
+series: "WebGL Image Processing"
+issue: "07"
+publishedOn: "2023-06-28T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-threshold.jpg"
+published: true
+---
+
+This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+
+We're going to look into the threshold effect. This article was inspired by the classic [threshold/halftone article featuring Lena](), however we'll look at this from a WebGL/GLSL viewpoint and will show the code necessary to obtain these effects.
+
+## What is Thresholding?
+Thresholding is segmenting our image's color values into a smaller range. It is a method of color quantization which was mainly developed for image compression (reducing the size of images) to meet the limitations of the technology available at that time.
+
+Computers started out with extremely limited color rendering options. 8-bit pixel depth was 256 colors, while 4-bit was only 16 colors. And too make it worse different machines had different color palettes!
+
+Any image rendered on a system had to be rendered in those colors.
+
+We don't have these issues anymore (image compression is still in use but not with as dramatic effects) but thresholding and dithering algorithms are still used for an aesthetic look.
+
+We'll use this image for the rest article, with an gradient bar on the side to make it easier to perceive what is happening to the color range.
+
+## A basic example
+Instead of using the whole range of glsl's 0-1 floating point color channel we could round our values to either 0 or 1, if our color value is lower or higher than 0.5.
+
+The results of this segmentation depend on the threshold amount and the white balance of our image. For different images there will be a better threshold amount to pick. Try changing the threshold amount for the image below, see how the gradient on the side is clamped to either black or white at a specific point.
+
+<Dither step="1-threshold" />
+
+## Threshold
+
+Now this isn't the most specular image, in fact it looks pretty bad, but it's simple to understand and will lead us to more interesting effects. Let's break it down with GLSL.
+
+We'll start with our trusty grayscale function we covered in [color correction article]().
+
+```glsl
+  // make image grayscale
+  vec4 lum = vec4(0.2126, 0.7152, 0.0722, 0);
+  float grayscale = dot(outColor, lum);
+```
+
+Now that we have a grayscale image can simplifying take our 0-1 color channel value and round up or down depending on our threshold value (we've used 0.5 here).
+
+```glsl
+float thresholdValue = 0.5;
+
+float threshold(float color) {
+  if (color > thresholdValue) {
+    return 1.0;
+  }
+  return 0.0;
+}
+
+outcolor = vec4(vec3(threshold(grayscale)), 1.0);
+```
+
+## Multi-step Threshold
+
+In our binary threshold we lose a lot of information from our image, and it makes it hard to recognise what we are looking at. A simple improvement to this would be to add more information, instead of a binary 2 value (white, black) image we could use 3 values (white, grey, black).
+
+We can set these threshold amounts to different values.
+
+<Dither step="2-threshold-steps" />
+
+We achieve this by adding an additional condition statement to our threshold function.
+
+```glsl
+float thresholdWhiteValue = 0.5;
+float thresholdGreyValue = 0.25;
+
+float threshold(float color) {
+  if (color > thresholdWhiteValue) {
+    return 1.0;
+  }
+  if (color > thresholdGreyValue) {
+    return 0.5;
+  }
+  return 0.0;
+}
+```
+
+## Threshold with noise
+
+A simple way to improve our threshold is to add some randomness (noise) between our thresholded steps.
+
+<Dither step="3-threshold-noise" />
+
+```glsl
+float rand(vec2 uv) {
+  return fract(sin(dot(uv.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+
+float grainMultiplier = 1.2;
+
+void main() {
+  // ... load image 
+  float thresholded = threshold(
+    grayscale + ((rand(uv) / 9.0) * grainMultiplier)
+  );
+
+  outColor = vec4(vec3(thresholded), 1.0);
+}
+```
+
+Next we'll extend this effect to use [dithering/halftone patterns](/p/2023-07-webgl-08-dithering) for each threshold step.

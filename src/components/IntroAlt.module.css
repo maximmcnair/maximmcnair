@@ -109,5 +109,17 @@
  left: 0px;
  right: 0px;
  width: 100vw;
- height: 90vh;
+ height: 100vh;
+ z-index: 0;
+}
+.shader::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  right: 0px;
+  width: 100vw;
+  height: 120px;
+  background: rgb(0,0,0);
+  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
 }

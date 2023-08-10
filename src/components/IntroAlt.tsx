@@ -1,8 +1,4 @@
-import { useState } from 'react';
 import styles from './IntroAlt.module.css';
-import ShaderView from '@/components/ShaderView';
-// @ts-ignore
-import frag from '@/shaders/2023-07-18_01.frag';
 
 interface Work {
   id: number;
@@ -13,6 +9,11 @@ interface Work {
   src: string;
 }
 
+// 'I’m a UI Software Engineer interested in the intersection of Math, Comp Sci and Design.'
+//
+// 'I’m a UI Software Engineer focused on building collaborative creative tools for the web.'
+// 'Currently exploring the world of computer graphics and image processing, while building interactive articles here.'
+
 export default function Intro() {
   return (
     <section className={styles.introWrapper}>
@@ -21,12 +22,12 @@ export default function Intro() {
           <span className={styles.name}>Maxim McNair</span>
           <h2 className={styles.title}>
             {
-              'I’m a Product and Graphics Engineer, exploring the intersection of Math, Comp Sci and Design.'
+              'I’m a UI Software Engineer interested in the intersection of Math, Comp Sci and Design.'
             }
           </h2>
           <h2 className={styles.title}>
             {
-              "Scroll down for experiments, tools and previous projects I've worked on."
+              "Currently exploring the world of computer graphics while documenting the process."
             }
           </h2>
         </div>
@@ -114,8 +115,6 @@ export default function Intro() {
           </a>
         </section>
       </section>
-
-      <ShaderView frag={frag} title={''} className={styles.shader} />
     </section>
   );
 }

@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 
 function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
   const dpr = window.devicePixelRatio || 1;
-  console.log('resizeCanvasToDisplaySize', dpr);
+  // console.log('resizeCanvasToDisplaySize', dpr);
 
   const { width, height } = canvas.getBoundingClientRect();
 
   const displayWidth = Math.floor(width * dpr);
   const displayHeight = Math.floor(height * dpr);
 
-  console.log(canvas.width, displayWidth, canvas.height, displayHeight);
+  // console.log(canvas.width, displayWidth, canvas.height, displayHeight);
   if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
     canvas.width = displayWidth;
     canvas.height = displayHeight;
@@ -72,7 +72,7 @@ function createShader(
   const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
   if (success) return shader;
   // handle no shader
-  console.log(gl.getShaderInfoLog(shader));
+  // console.log(gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
 }
 
@@ -89,7 +89,7 @@ function createProgram(
   const success = gl.getProgramParameter(program, gl.LINK_STATUS);
   if (success) return program;
   // handle no program
-  console.log(gl.getProgramInfoLog(program));
+  // console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 }
 

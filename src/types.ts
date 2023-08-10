@@ -7,6 +7,9 @@ export interface Post {
 export interface Meta {
   title: string;
   author: string;
+  series: string;
+  issue: string;
+  thumb: string;
   desc: string;
   publishedOn: string;
   published: string;

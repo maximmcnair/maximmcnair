@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Config } from './types';
-import { loadImage, createAndSetupTexture } from './utils';
+import { loadImage, createAndSetupTexture, HEXtoRGBAVec4 } from './utils';
 
 import { Range } from './Range';
 import { filtersSetup, filtersDraw } from './filters/';
@@ -279,6 +279,10 @@ export function Canvas({ size, config, image }: CanvasProps) {
       // Bind output texture as input texture!!!!
       gl.bindTexture(gl.TEXTURE_2D, textures[writeBuffer]);
 
+      // Duotone
+      gl.uniform4fv(filterProps.uDuotoneHigh, config.DuotoneHigh);
+      gl.uniform4fv(filterProps.uDuotoneLow, config.DuotoneLow);
+
       /* ===== Convolution ===== */
       let iterations = config.Blur;
 
@@ -376,6 +380,10 @@ export default function WebGL() {
     Vignette: 0,
     Duotone: 0,
     Blur: 0,
+
+    // duotone
+    DuotoneHigh: [0, 0, 0, 0],
+    DuotoneLow: [0, 0, 0, 0],
   });
 
   const [image, setImage] = useState<HTMLImageElement>();

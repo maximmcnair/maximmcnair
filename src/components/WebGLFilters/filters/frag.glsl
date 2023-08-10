@@ -20,6 +20,10 @@ uniform float u_pixelate;
 uniform float u_duotone;
 uniform float u_vignette;
 
+// duotone
+uniform vec4 u_duotone_lo;
+uniform vec4 u_duotone_hi;
+
 // out
 out vec4 outColor;
 
@@ -97,7 +101,11 @@ void main() {
 
   vec4 hi = vec4(0.9, 0.1, 0.3, 1.0);
   vec4 lo = vec4(0.9, 0.8, 0.2, 1.0);
-  vec4 d = duotone(outColor, lo, hi);
+  vec4 d = duotone(
+    outColor, 
+    u_duotone_lo, 
+    u_duotone_hi
+  );
   // outColor = mix(outColor, d, d.a);
   outColor = mix(outColor, d, u_duotone);
   // outColor = vec4(outColor.x, outColor.y, outColor.z, 1.0);

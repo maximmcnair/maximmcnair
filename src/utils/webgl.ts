@@ -12,7 +12,7 @@ export function createShader(
   const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
   if (success) return shader;
   // handle no shader
-  console.log(gl.getShaderInfoLog(shader));
+  // console.log(gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
 }
 
@@ -29,7 +29,7 @@ export function createProgram(
   const success = gl.getProgramParameter(program, gl.LINK_STATUS);
   if (success) return program;
   // handle no program
-  console.log(gl.getProgramInfoLog(program));
+  // console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 }
 
@@ -99,5 +99,18 @@ export async function loadTexture(
     };
     image.src = url;
     // return texture;
+  });
+}
+
+export async function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.src = src;
+    image.onload = function () {
+      resolve(image);
+    };
+    image.onerror = function () {
+      reject();
+    };
   });
 }

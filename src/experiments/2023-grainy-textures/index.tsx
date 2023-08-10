@@ -170,7 +170,7 @@ function Canvas({ size, config, image }: CanvasProps) {
       // update time uniform
       gl.uniform1f(filterProps.uTime, time);
 
-      console.log(time);
+      // console.log(time);
 
       const imageLocation = gl.getUniformLocation(filtersProgram, 'u_image');
       gl.uniform1i(imageLocation, 0);

@@ -1,0 +1,106 @@
+---
+title: "Vingette"
+series: "WebGL Image Processing"
+issue: "10"
+publishedOn: "2023-06-28T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-vingette.jpg"
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+Vignetting is a reduction of an image's brightness or saturation towards its edges. While this is often an undesired effect in photography, due to wrong settings or issues with the lens. It can be used to lead the viewers eye to the center (or another position) in the image. We look at code from Tyler Lindberg's [glsl-vignette](https://github.com/TyLindberg/glsl-vignette) here, which is licensed on a [MIT license](https://github.com/TyLindberg/glsl-vignette/blob/master/LICENSE).
+
+At it's most basic we can take the distance from the center of the image and create a radial gradient that darkerns towards the edges. I've included an additional preview of the vingette over a white background to get a complete picture of the vingette's shape.
+
+<Dither step="vingette-basic" />
+
+```glsl
+float vignette(vec2 uv, float radius){
+  return radius - distance(uv, vec2(0.5));
+}
+
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  // load image
+  vec4 texel = texture(u_image, uv);
+  // apply vignette to texel (image)
+  outColor = texel * vignette(uv, u_radius);
+}
+```
+
+### Smoothstep
+
+The main issue with the above approach is we lose a lot of detail from the center of the image. We can utilise smoothstep to control the "smoothness" of the fade between our image and the darkness at the edges. 
+
+<Dither step="vingette-simple" />
+
+```glsl 
+// Based on https://github.com/TyLindberg/glsl-vignette/blob/master/simple.glsl
+
+float vignette(
+  vec2 uv, 
+  float radius, // (0 - 1)
+  float smoothness // (0 - 1)
+) {
+  float diff = radius - distance(uv, vec2(0.5));
+  return smoothstep(-smoothness, smoothness, diff);
+}
+
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  // load image
+  vec4 texel = texture(u_image, uv);
+  // apply vignette to texel (image)
+  outColor = texel * vignette(uv, u_radius, u_smoothness);
+}
+```
+
+### Non-Square vingette
+
+We can use seperate values for our width and height to control the shape of our vingette.
+
+<Dither step="vingette" />
+
+```glsl 
+// Based on https://github.com/TyLindberg/glsl-vignette/blob/master/advanced.glsl
+
+// Based on distance functions found at:
+// http://iquilezles.org/www/articles/distfunctions/distfunctions.htm
+float sdSquare(vec2 point, float width) {
+  vec2 d = abs(point) - width;
+  return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
+}
+
+float vignette(
+  vec2 uv, 
+  vec2 size, // (0 - 0.5)
+  float roundness, // (0 - 1)
+  float smoothness // (0 - 1)
+) {
+  // Center UVs
+  uv -= 0.5;
+
+  // Shift UVs based on the larger of width or height
+  float minWidth = min(size.x, size.y);
+  uv.x = sign(uv.x) * clamp(abs(uv.x) - abs(minWidth - size.x), 0.0, 1.0);
+  uv.y = sign(uv.y) * clamp(abs(uv.y) - abs(minWidth - size.y), 0.0, 1.0);
+
+  // Signed distance calculation
+  float boxSize = minWidth * (1.0 - roundness);
+  float dist = sdSquare(uv, boxSize) - (minWidth * roundness);
+
+  return 1.0 - smoothstep(0.0, smoothness, dist);
+}
+
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  vec4 texel = texture(u_image, uv);
+  outColor = texel * vignette(uv, vec2(u_width, u_height), u_roundness, u_smoothness);
+}
+```
+

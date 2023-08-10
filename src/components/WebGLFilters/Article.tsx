@@ -37,6 +37,10 @@ export function WebGLFilters({ step }: Props) {
     Vignette: 0,
     Duotone: 0,
     Blur: 0,
+
+    // duotone
+    DuotoneHigh: [0, 0, 0, 0],
+    DuotoneLow: [0, 0, 0, 0],
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -91,7 +95,7 @@ export function WebGLFilters({ step }: Props) {
 
   return (
     <section className="article-webgl-photo-filters">
-      <section className="article-webgl-photo-filters-dials">
+      <section className="article-dials">
         {stepFilters.map(f => (
           <Input
             key={f.key}

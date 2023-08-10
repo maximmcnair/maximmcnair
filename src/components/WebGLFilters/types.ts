@@ -1,9 +1,12 @@
+// TODO this should be the same format!!!!
 export type Vec3 = { x: number; y: number; z: number };
+export type Vec4 = [number, number, number, number];
 
 export interface Position {
   x: number;
   y: number;
 }
+
 
 export interface Config {
   // View
@@ -28,4 +31,7 @@ export interface Config {
   Vignette: number;
   Duotone: number;
   Blur: number;
+  // duotone
+  DuotoneHigh: Vec4;
+  DuotoneLow: Vec4;
 }

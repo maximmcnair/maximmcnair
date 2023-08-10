@@ -1,0 +1,118 @@
+---
+title: "Shifting Hue"
+series: "WebGL Image Processing"
+issue: "03"
+publishedOn: "2023-06-17T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-hue.jpg"
+published: true
+---
+
+This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+
+### What is hue?
+
+Hue is the main indication of a color. It is the value that words such as "purple", "red", "yellow" relate to. It is the "red" of a tomato and the "yellow" of a banana.
+
+**HSB (hue, saturation, brightness)** is an alternative representation to the **RGB color model**. In this model colors of each hue are arranged in a radial slice around the central axis of neutral colors with complete brightness at the top and darkness at the bottom. 
+
+Here our two great digrams from [wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV) to illustrate the difference, between RGB on the left and HSV (or HSB) on the right. 
+
+<div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
+  <img src="/color-model-rgb.png" style={{backgroundColor: 'white', width: 'calc(50% - 5px)'}}/>
+  <img src="/weblgl-hsb-cylinder.png" style={{backgroundColor: 'white', width: 'calc(50% - 5px)'}}/>
+</div>
+
+If we extract just the hue value, we can see how the color changes in the **range of 0° to 360°**. We have the red primary at 0°, the green primary at 120°, the blue primary at 240°, and then wrapping back to red at 360°.
+
+<Dither step="gradient-hsb" label="Hue color range from 0° to 360°" />
+
+### Converting RGB to HSB
+
+Similarly to how RGB values are mapped from 0 to 1 in GLSL instead of the common 0 to 255 range. We will want our HSB values to be mapped to 0 to 1, instead of 0° to 360°.
+
+<Dither step="gradient-hsb" label="Hue color range from 0 to 1" />
+
+In GLSL we can convert our RGB vec3 to a HSB vec3 with:
+
+```glsl
+vec3 rgb2hsb(vec3 c) {
+  vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+  vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+  vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+  float d = q.x - min(q.w, q.y);
+  float e = 1.0e-10;
+  return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+```
+
+And back to RGB from HSB with:
+
+```glsl
+vec3 hsb2rgb(vec3 c){
+  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+```
+
+We'll use our standard photos (below) to see how these algorithms update an image's color values. The color gradient bar on the right is useful to see how individual color values change.
+
+<Dither step="0-photos" />
+
+### Shifting image's hue
+
+We can shift the hue of our image easily once we convert our color values from a RGB (red, green, blue) color model into a HSB (hue, saturation, brightness) color model.
+
+We can simply adjust the hue value to morph our image into another color. This means updating the first `hsb[0]` value of our color.
+
+```glsl
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  vec4 texel = texture(u_image, uv);
+  outColor = texel;
+
+  vec3 hsb = rgb2hsb(texel.rgb);
+  hsb[0] = 0.4;
+  outColor = vec4(hsb2rgb(hsb), 1.0);
+}
+```
+
+<Dither step="hue" />
+
+Notice that the entire color range on the right is changed to a specific color hue. In practice this isn't probably that useful so let's look at how we can change only a specifc range of hues.
+
+### Shifting hue range
+
+For this example we'll break our HSB color range into 6 sections to enable us to pick a range to change. In reality you would propbably want to control this is as a min/max value (as Photoshop does), but we'll stick with this simple setup for this demo.
+
+<Dither step="gradient-hsb" label="Hue color range from 0 to 1" />
+
+<Dither step="gradient-hsb-rounded" label="Hue color range broken into 6 sections" />
+
+So we've broken our `0 - 1` range into 6 sections. Red here would be `0 - 0.166`, yellow `0.166 - 0.333` etc. This will give us some rudimentary hue ranges to work with in our example below.
+
+We can select our **red** range and then move the slider to change the hue. This will morph all the hues in this range into another hue. Notice how a section of gradient on the right will change while the rest will stay the same.
+
+<Dither step="hue-range" />
+
+Notice that for the flower image our first **red** range doesn't cover the entire **red** range of the flower itself. We also need some hues from the last **magenta** range, this is due to the angular/looping nature of this color model.
+
+However the "green" range manages to change all the green leaves in the background.
+
+In GLSL we can achieve this by only updating the hue if the texel's hue value lies in between the range min and max of our target.
+
+```glsl
+void main() {
+  // ...load image
+  vec3 hsb = rgb2hsb(texel.rgb);
+  if (hsb[0] >= range_min && hsb[0] <= range_max) {
+    hsb[0] = u_fx;
+  }
+  outColor = vec4(hsb2rgb(hsb), 1.0);
+}
+```
+
+
+Next up will look into adding an analog feel to our images by [simulating Film Grain.](/p/2023-06-webgl-04-film-grain)
