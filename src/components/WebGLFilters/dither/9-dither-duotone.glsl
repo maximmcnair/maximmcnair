@@ -78,7 +78,7 @@ float dither(vec2 uv, float luma) {
   //   limit = (float(dither_matrix_4x4[index]) + 1.0) / 16.0;
   // }
   if (dither_amount == 8.0) {
-    limit = (float(dither_matrix_8x8[index]) + 1.0) / 64.0;
+    limit = (float(dither_matrix_8x8[index]) + 1.0) / (1.0 + 64.0);
   }
   // if (dither_amount == 8.0) {
   //   limit = (float(dither_newspaper_matrix[index]) + 1.0) / 64.0;
@@ -115,16 +115,9 @@ void main() {
   // make image grayscale
   vec4 luma = vec4(0.299, 0.587, 0.114, 0);
   float grayscale = dot(outColor, luma);
-
-  // outColor = vec4(vec3(
-  //   threshold(grayscale)
-  // ), 1.0);
   
   outColor = vec4(
     vec3(dither(gl_FragCoord.xy, grayscale)),
-    // outColor.r * dither(gl_FragCoord.xy, grayscale),
-    // outColor.g * dither(gl_FragCoord.xy, grayscale),
-    // outColor.b * dither(gl_FragCoord.xy, grayscale),
     1.0
   );
 

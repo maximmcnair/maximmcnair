@@ -13,9 +13,14 @@ uniform float u_fw;
 
 out vec4 outColor;
 
+float vignette(vec2 uv, float radius){
+  return radius - distance(uv, vec2(0.5));
+}
+
 void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
-  vec4 texel = texture(u_image, uv);
-  outColor = texel;
+  vec4 white = vec4(1.0);
+  outColor = white * vignette(uv, u_fx);
 }
+

@@ -13,20 +13,20 @@ uniform float u_fw;
 out vec4 outColor;
 
 vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
-  float d = length(uv - 0.5);
-
   return vec4(
     texture(
       u_image, 
-      uv - d * 0.1 * u_fx
+      vec2(uv.x + (0.1 * u_fx), uv.y + (0.1 * u_fy))
     ).x,
     texture(
       u_image, 
-      uv + d * 0.1 * u_fy
+      uv
+      // uv * u_fy
     ).y,
     texture(
       u_image, 
-      uv - d * 0.1 * u_fz
+      uv
+      // uv * u_fz 
     ).z,
     1.0
   );

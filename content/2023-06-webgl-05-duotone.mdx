@@ -8,7 +8,9 @@ tags: ["WebGL", "Image Processing"]
 published: true
 ---
 
-Duotone is a great effect that has, while predating digital software, seen a boost in popularity in the last fews years. The Spotify ad campaign that was plasted all across London a few years comes to mind.
+This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+
+Duotone is a great effect that has, while predating digital software, seen a boost in popularity in the last few years. The Spotify ad campaign that was plastered all across London comes to mind.
 
 Click on the color pairs below to see what happens to this image:
 
@@ -16,7 +18,7 @@ Click on the color pairs below to see what happens to this image:
 
 I'm going to run through a simple method to create a Duotone effect by using a gradient map on a black and white image.
 
-First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in the [first part of this series](/p/2023-06-webgl-filters-part-1) to create one.
+First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in a [previous article](/p/2023-06-webgl-02-color-correction) of this series to create one.
 
 ```glsl
 vec4 desaturated(vec4 color) {
@@ -36,3 +38,4 @@ vec4 duotone(vec4 fragColor, vec4 lowcolor, vec4 highcolor) {
 }
 ```
 
+Next up we'll take a look into adding a [pixelate](/p/2023-06-webgl-06-pixelate) effect our image.

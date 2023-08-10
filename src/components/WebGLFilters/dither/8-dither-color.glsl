@@ -78,7 +78,7 @@ float dither(vec2 uv, float luma) {
   //   limit = (float(dither_matrix_4x4[index]) + 1.0) / 16.0;
   // }
   if (dither_amount == 8.0) {
-    limit = (float(dither_matrix_8x8[index]) + 1.0) / 64.0;
+    limit = (float(dither_matrix_8x8[index]) + 1.0) / (1.0 + 64.0);
   }
   // if (dither_amount == 8.0) {
   //   limit = (float(dither_newspaper_matrix[index]) + 1.0) / 64.0;

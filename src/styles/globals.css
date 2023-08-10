@@ -309,6 +309,11 @@ video::-internal-media-controls-overlay-cast-button {
 
 .article__content a {
   color: var(--color-highlight);
+  font-weight: 600;
+}
+
+.article__content a:hover {
+  text-decoration: underline;
 }
 
 .article__content iframe {

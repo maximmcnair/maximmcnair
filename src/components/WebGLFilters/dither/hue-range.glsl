@@ -34,12 +34,15 @@ void main() {
   vec4 texel = texture(u_image, uv);
   outColor = texel;
 
-  // vec4 grad = vec4(uv.y, uv.y, uv.y, 1.0);
   vec4 grad = vec4(hsb2rgb(vec3(uv.y, 1.0, 1.0)), 1.0);
   outColor = mix(grad, texel, step(uv.x, 0.90));
 
   vec3 hsb = rgb2hsb(outColor.rgb);
-  hsb[0] = u_fx;
+  float range_min = u_fy;
+  float range_max = u_fz;
+  if (hsb.x >= range_min && hsb.x <= range_max) {
+    hsb.x = u_fx;
+  }
   outColor = vec4(hsb2rgb(hsb), 1.0);
 }
 

@@ -22,7 +22,8 @@
 }
 
 .article{
-  background: var(--color-white);
+  /* background: var(--color-grey); */
+  background: #202020;
   border-radius: 3px;
   padding: 8px 0px 0px 10px;
   position: relative;
@@ -34,7 +35,8 @@
 }
 
 .title{
-  color: var(--color-grey);
+  /* color: var(--color-grey); */
+  color: var(--color-white);
   font-size: 15px;
   font-weight: 500;
   margin: 0px;

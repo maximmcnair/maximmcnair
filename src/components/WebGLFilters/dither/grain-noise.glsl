@@ -28,10 +28,11 @@ vec4 grain(vec4 fragColor, vec2 uv){
 void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
-  vec4 texel = texture(u_image, uv);
-  outColor = texel;
-
-  vec4 grain = grain(outColor, uv);
-  outColor = mix(outColor, grain, u_fx);
+  outColor = grain(vec4(0.6, 0.6, 0.6, 1.0), uv);
+  // vec4 texel = texture(u_image, uv);
+  // outColor = texel;
+  //
+  // vec4 g = grain(outColor, uv);
+  // outColor = mix(outColor, g, g.a);
 }
 

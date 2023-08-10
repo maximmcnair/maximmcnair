@@ -7,6 +7,7 @@ import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Highlight from 'react-highlight';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import { getPostSlugs, getPost } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
@@ -19,10 +20,30 @@ import { Post, Meta } from '@/types';
 
 // @ts-ignore
 const AHref: React.FC<{ href: string }> = ({ href, children }) => {
+  if (href.includes('/p/')) {
+    return(
+      <a href={href}>
+        {children}
+      </a>
+    );
+  }
+
   return (
     <a href={href} target="_blank" rel="noreferrer">
       {children}
     </a>
+  );
+};
+
+// @ts-ignore
+const WebGLImageProcessingIntro: React.FC = ({ children }) => {
+  return (
+    <p>
+      This is part of the WebGL image processing series, it relies on information in previous articles. Start at the{' '}
+      <Link href="/p/2023-06-webgl-01-setup">
+        beginning here.
+      </Link>
+    </p>
   );
 };
 
@@ -95,6 +116,7 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
             components={{
               pre: Highlight,
               small: ({ children }) => <small>{children}</small>,
+              WebGLImageProcessingIntro,
               // @ts-ignore
               a: AHref,
               MathGrid,

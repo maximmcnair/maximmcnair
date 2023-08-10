@@ -31,7 +31,7 @@ float dither(vec2 uv, float luma) {
   float limit = 0.0;
 
   if (dither_amount == 8.0) {
-    limit = (float(dither_newspaper_matrix[index]) + 1.0) / 64.0;
+    limit = (float(dither_newspaper_matrix[index]) + 1.0) / (1.0 + 64.0);
   }
 
   return luma < limit ? 0.0 : 1.0;

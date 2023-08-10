@@ -5,6 +5,7 @@ import ShaderView from '@/components/ShaderView';
 // @ts-ignore
 import frag from '@/components/WebGLFilters/dither/vingette.glsl';
 // import frag from '@/components/WebGLFilters/dither/chromatic-aberration.glsl';
+// import frag from '@/components/WebGLFilters/dither/vingette-simple.glsl';
 // import frag from '@/components/WebGLFilters/dither/hue.glsl';
 // import frag from '@/components/WebGLFilters/dither/grayscale.glsl';
 // import frag from '@/components/WebGLFilters/dither/pixelate.glsl';
@@ -27,14 +28,19 @@ const Thumb: NextPage<Props> = () => {
   const [fx, setFx] = useState(1);
   const [fy, setFy] = useState(1);
   const [fz, setFz] = useState(1);
+  const [fw, setFw] = useState(1);
 
   useEffect(() => {
     // threshold
-    setFx(0.4);
-    setFy(0.2);
-    setFz(0.9);
+    // setFx(0.4);
+    // setFy(0.2);
+    // setFz(0.9);
 
-    //
+    // vingette
+    setFx(0.2);
+    setFy(0.2);
+    setFz(1.0);
+    setFw(0.2);
   }, []);
 
   return (
@@ -54,6 +60,7 @@ const Thumb: NextPage<Props> = () => {
         fx={fx}
         fy={fy}
         fz={fz}
+        fw={fw}
       />
     </div>
   );

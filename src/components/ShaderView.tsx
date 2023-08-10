@@ -20,6 +20,7 @@ interface Props {
   fx?: number;
   fy?: number;
   fz?: number;
+  fw?: number;
 }
 
 export default function ShaderView({
@@ -34,6 +35,7 @@ export default function ShaderView({
   fx = 1,
   fy = 1,
   fz = 1,
+  fw = 1,
 }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -65,7 +67,7 @@ export default function ShaderView({
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [width, height]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -89,7 +91,9 @@ export default function ShaderView({
     gl.uniform1f(uFy, fy);
     const uFz = gl.getUniformLocation(programRef.current, 'u_fz');
     gl.uniform1f(uFz, fz);
-  }, [fx, fy, fz]);
+    const uFw = gl.getUniformLocation(programRef.current, 'u_fw');
+    gl.uniform1f(uFw, fw);
+  }, [fx, fy, fz, fw]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -184,6 +188,8 @@ export default function ShaderView({
     gl.uniform1f(uFy, fy);
     const uFz = gl.getUniformLocation(program, 'u_fz');
     gl.uniform1f(uFz, fz);
+    const uFw = gl.getUniformLocation(program, 'u_fw');
+    gl.uniform1f(uFw, fw);
 
     /* ===== Animate LOOP ===== */
     let frame: number;

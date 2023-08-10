@@ -24,10 +24,7 @@ float dither(vec2 uv, float luma) {
   int x = int(mod(uv.x, dither_amount));
   int y = int(mod(uv.y, dither_amount));
   int index = x + y * int(dither_amount);
-  float limit = 0.0;
-
-  limit = (float(dither_matrix_4x4[index]) + 1.0) / 16.0;
-
+  float limit = (float(dither_matrix_4x4[index]) + 1.0) / (1.0 + 16.0);
   return luma < limit ? 0.0 : 1.0;
 }
 
@@ -35,6 +32,7 @@ void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
   vec4 texel = texture(u_image, uv);
+  // outColor = texel;
   // gradient sidebar
   vec4 grad = vec4(uv.y, uv.y, uv.y, 1.0);
   outColor = mix(grad, texel, step(uv.x, 0.90));

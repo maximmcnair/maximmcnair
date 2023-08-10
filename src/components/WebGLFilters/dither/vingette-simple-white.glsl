@@ -13,9 +13,19 @@ uniform float u_fw;
 
 out vec4 outColor;
 
+float vignette(
+  vec2 uv, 
+  float radius, // (0 - 1)
+  float smoothness // (0 - 1)
+) {
+	float diff = radius - distance(uv, vec2(0.5));
+	return smoothstep(-smoothness, smoothness, diff);
+}
+
 void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
-  vec4 texel = texture(u_image, uv);
-  outColor = texel;
+  vec4 white = vec4(1.0);
+  outColor = white * vignette(uv, u_fx, u_fy);
 }
+

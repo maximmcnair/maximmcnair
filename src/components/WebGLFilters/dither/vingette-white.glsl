@@ -50,10 +50,10 @@ vec4 brightness(vec4 color, float value) {
 void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
-  vec4 texel = texture(u_image, uv);
-  outColor = texel;
-
-  outColor = brightness(texel, 0.10);
+  // vec4 texel = texture(u_image, uv);
+  // outColor = texel;
+  // outColor = brightness(texel, 0.10);
+  outColor = vec4(1.0);
 
   float vignetteValue = vignette(uv, vec2(u_fx, u_fy), u_fz, u_fw);
   outColor = outColor * vignetteValue;

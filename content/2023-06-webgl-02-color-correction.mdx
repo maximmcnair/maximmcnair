@@ -8,12 +8,16 @@ thumb: "/article-webgl-grayscale.jpg"
 published: true
 ---
 
+This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+
+Now that we know how to import and render our image let’s look at how we can adjust it with some basic color correction algorithms such as brightness, contrast, exposure and saturation.
+
 ## Brightness
 
 To increase the brightness of our image we'll want to increase our color value by adding the same amount to each `rgb` value.
 
 ```glsl
-vec4 brightness(vec4 color) {
+vec4 brightness(vec4 color, float value) {
   // Update only rgb values
   vec3 rgb = color.rgb + value;
   return vec4(rgb, color.a);
@@ -27,9 +31,9 @@ vec4 brightness(vec4 color) {
 To update the exposure we want to multiply, instead of adding to each `rgb` value by the same amount. This changes the brightness of our image by it's current luminosity (the strength of the individual texel). As multiplying a zero value outputs another zero we need to increase our original value by 1.0.
 
 ```glsl
-vec4 exposure(vec4 color) {
+vec4 exposure(vec4 color, float value) {
   // Update only rgb values
-  vec3 rgb = (1.0 + color.rgb) * color;
+  vec3 rgb = (1.0 + color.rgb) * value;
   return vec4(rgb, color.a);
 }
 ```
@@ -71,8 +75,8 @@ However the human eye doesn't perceive the luminosity of each color channel in t
 ```glsl
 vec4 desaturated(vec4 color) {
   // sRGB colorspace luminosity factor
-  vec3 lum = vec3(0.2126, 0.7152, 0.0722);
-  vec3 rgb = vec3(dot(color, lum));
+  vec3 luma = vec3(0.2126, 0.7152, 0.0722);
+  vec3 rgb = vec3(dot(color, luma));
   return vec4(rgb, color.a);
 }
 
@@ -90,5 +94,4 @@ vec4 saturation(vec4 color, float value) {
 
 With just these four functions we can start to edit our image quite dramatically and they give us the power to fix a lot of issues that can arise when taking photos.
 
-But we're just getting started with what we can do with GLSL. In the next article we'll take a look at how to achieve some basic effects such as grain, pixelate and blur.
-
+With just these four functions we can start to edit our image quite dramatically and they give us the power to fix a lot of issues that can arise when taking photos. But we're just getting started with what we can do with GLSL. In the [next article](/p/2023-06-webgl-03-hue) we'll take a look at how to we can morph the colors with hue adjustments.

@@ -8,50 +8,193 @@ thumb: "/article-webgl-dither.jpg"
 published: true
 ---
 
-### Halftone 
+<WebGLImageProcessingIntro />
 
-##### 2x2 Bayer ordered dither matrix
-<Dither step="4-dither-2x2" />
-
-##### 4x4 Bayer ordered dither matrix
-<Dither step="5-dither-4x4" />
-
-##### 8x8 Bayer ordered dither matrix
 <Dither step="6-dither-8x8" />
 
-##### 8x8 cluster matrix
+We'll can improve our thresholding algorithms from the [previous article](/p/2023-07-webgl-07-threshold) by replacing our block colors with patterns that, from a distance look like a shade of a color. Here's an example of rendering a horizontal gradient with different dithering effects we'll cover in this article.
+
+<Dither step="dither-gradient" label="Dithering patterns on a gradient"/>
+
+### Ordered Dithering 
+
+We use an algorithm called **ordered dithering** to create this effect. We can define our patterns with a dither matrix such as:
+
+$$
+\begin{bmatrix}
+  0.2 & 0.8 \\
+  0.6 & 0.4
+\end{bmatrix}
+$$
+
+We will check each pixel of our image against this matrix, repeating for the size of the image. For the matrix above the first pixel on the top row will be theresholded to the value 0.2. Anything above 0.2 turning white and anything below turning black. The second pixel by 0.8 and the third pixel will loop back to the first value in our matrix 0.2.
+The second pixel row will start from 0.6. This will repeat for the whole image.
+
+This 2x2 matrix can give us 5 different thresholds as shown in the image below.
+
+<Dither step="gradient-dither-2x2" />
+
+The data for our patterns in normally stored as integers and we use this equation to create our threshold values.
+
+$$
+\begin{bmatrix}
+  0 & 3 \\
+  2 & 1 
+\end{bmatrix}
+$$
+
+$$
+d_{i,j} =
+\frac{1 + M_{i,j}}{1 + m \times n}
+$$
+
+Here is our GLSL code that will take our dither_matrix, convert it into threshold data and output our result.
+
+```glsl
+const int dither_matrix_2x2[4] = int[](
+   0,  3,  
+   2,  1
+);
+float dither2x2(vec2 uv, float luma) {
+  float dither_amount = 2.0;
+  int x = int(mod(uv.x, dither_amount));
+  int y = int(mod(uv.y, dither_amount));
+  int index = x + y * int(dither_amount);
+  float limit = (float(dither_matrix_2x2[index]) + 1.0) / (1.0 + 4.0);
+  return luma < limit ? 0.0 : 1.0;
+}
+```
+
+## Patterns
+
+The beautry of this algorithm is we can easily expand on it with different patterns and matrix sizes for a number of different results.
+
+#### 2x2 Bayer ordered dither matrix
+
+$$
+\begin{bmatrix}
+  0 & 3 \\
+  2 & 1 
+\end{bmatrix}
+$$
+
+<Dither step="4-dither-2x2" />
+
+#### 4x4 Bayer ordered dither matrix
+$$
+\begin{bmatrix}
+  0 & 8 & 2 & 10 \\
+  12 & 4 & 14 & 6 \\
+  3 & 11 & 1 & 9 \\
+  15 & 7 & 13 & 5
+\end{bmatrix}
+$$
+
+<Dither step="5-dither-4x4" />
+
+#### 8x8 Bayer ordered dither matrix
+$$
+\begin{bmatrix}
+   0 & 32 & 8 & 40 & 2 & 34 & 10 & 42 \\
+  48 & 16 & 56 & 24 & 50 & 18 & 58 & 26 \\
+  12 & 44 & 4 & 36 & 14 & 46 & 6 & 38 \\
+  60 & 28 & 52 & 20 & 62 & 30 & 54 & 22 \\
+   3 & 35 & 11 & 43 & 1 & 33 & 9 & 41 \\
+  51 & 19 & 59 & 27 & 49 & 17 & 57 & 25 \\
+  15 & 47 & 7 & 39 & 13 & 45 & 5 & 37 \\
+  63 & 31 & 55 & 23 & 61 & 29 & 53 & 21
+\end{bmatrix}
+$$
+
+<Dither step="6-dither-8x8" />
+
+#### 8x8 cluster matrix
+$$
+\begin{bmatrix}
+  24 & 10 & 12 & 26 & 35 & 47 & 49 & 37 \\
+  8 & 0 & 2 & 14 & 45 & 59 & 61 & 51 \\
+  22 & 6 & 4 & 16 & 43 & 57 & 63 & 53 \\
+  30 & 20 & 18 & 28 & 33 & 41 & 55 & 39 \\
+  34 & 46 & 48 & 36 & 25 & 11 & 13 & 27 \\
+  44 & 58 & 60 & 50 & 9 & 1 & 3 & 15 \\
+  42 & 56 & 62 & 52 & 23 & 7 & 5 & 17 \\
+  32 & 40 & 54 & 38 & 31 & 21 & 19 & 29
+\end{bmatrix}
+$$
+
 <Dither step="7-dither-cluster" />
 
-### Color Halftone 
+This 8x8 cluster dot matrix mimics the halftoning techniques used by newspapers [[2](http://caca.zoy.org/study/part2.html)].
+
+# Color Halftone
+
+We can produce a really interesting effect by taking each RGB channel independently instead of using our grayscale value.
+
+```glsl 
+void main() {
+  // load texture and set texel as outColor
+
+  // get image grayscale
+  vec4 luma = vec4(0.299, 0.587, 0.114, 0);
+  float grayscale = dot(outColor, luma);
+
+  outColor = vec4(
+    outColor.r * dither(gl_FragCoord.xy, grayscale),
+    outColor.g * dither(gl_FragCoord.xy, grayscale),
+    outColor.b * dither(gl_FragCoord.xy, grayscale),
+    1.0
+  );
+}
+```
+
+$$
+\begin{bmatrix}
+   0 & 32 & 8 & 40 & 2 & 34 & 10 & 42 \\
+  48 & 16 & 56 & 24 & 50 & 18 & 58 & 26 \\
+  12 & 44 & 4 & 36 & 14 & 46 & 6 & 38 \\
+  60 & 28 & 52 & 20 & 62 & 30 & 54 & 22 \\
+   3 & 35 & 11 & 43 & 1 & 33 & 9 & 41 \\
+  51 & 19 & 59 & 27 & 49 & 17 & 57 & 25 \\
+  15 & 47 & 7 & 39 & 13 & 45 & 5 & 37 \\
+  63 & 31 & 55 & 23 & 61 & 29 & 53 & 21
+\end{bmatrix}
+$$
+
 <Dither step="8-dither-color" />
 
-### Halftone with Duotone
+## Halftone with Duotone
+
+We can add color to our image by reusing our [duotone function](/p/2023-06-webgl-05-duotone) from a previous article in this series. Take the grayscale halftone image we produced earlier and pass into our duotone (mix) function to add a gradient map to it.
+
+$$
+\begin{bmatrix}
+   0 & 32 & 8 & 40 & 2 & 34 & 10 & 42 \\
+  48 & 16 & 56 & 24 & 50 & 18 & 58 & 26 \\
+  12 & 44 & 4 & 36 & 14 & 46 & 6 & 38 \\
+  60 & 28 & 52 & 20 & 62 & 30 & 54 & 22 \\
+   3 & 35 & 11 & 43 & 1 & 33 & 9 & 41 \\
+  51 & 19 & 59 & 27 & 49 & 17 & 57 & 25 \\
+  15 & 47 & 7 & 39 & 13 & 45 & 5 & 37 \\
+  63 & 31 & 55 & 23 & 61 & 29 & 53 & 21
+\end{bmatrix}
+$$
+
 <Dither step="9-dither-duotone" />
 
-### Gameboy 
+```glsl 
+void main() {
+  // make image grayscale
+  vec4 luma = vec4(0.299, 0.587, 0.114, 0);
+  float grayscale = dot(outColor, luma);
+  
+  outColor = vec4(
+    vec3(dither(gl_FragCoord.xy, grayscale)),
+    1.0
+  );
 
-Less colors equals less bits of data, which means less memory
-
-Windows ** only had ** of  
-
-Even with the memory non-limits  of today the aesthetics of dithering are still a popular style
-
-8 bits per rgb channel is millions of colors
-many devices at the time were limited to ** bytes of color
-
-- render gradient which has been quantized to a specific amount of bites of color
-
-NOTE: A bit is the most basic unit of information in computing. It's a 0 or 1. A group of 8 bits is a byte.
-
-To reduce the size of an image we can reduce the color palette of that image so it can use higher levels of compression. We use a process called **quantization** for this. We define a palette of colors, then we loop through each pixel and find the closest color in our palette to reduce that color with.
-
--- example of quantization
-
-This leads to banding in the image, this is the 
-
--- error dithering
-
-Not possible on the GPU
-
--- ordered dithering
+  vec4 lowcolor = vec4(0.141, 0.031, 0.318, 1.0);
+  vec4 highcolor = vec4(0.957, 0.239, 0.122, 1.0);
+  outColor = mix(lowcolor, highcolor, outColor);
+}
+```
 

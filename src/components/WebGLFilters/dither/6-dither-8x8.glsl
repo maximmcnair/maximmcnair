@@ -28,10 +28,7 @@ float dither(vec2 uv, float luma) {
   int x = int(mod(uv.x, dither_amount));
   int y = int(mod(uv.y, dither_amount));
   int index = x + y * int(dither_amount);
-  float limit = 0.0;
-
-  limit = (float(dither_matrix_8x8[index]) + 1.0) / 64.0;
-
+  float limit = (float(dither_matrix_8x8[index]) + 1.0) / (1.0 + 64.0);
   return luma < limit ? 0.0 : 1.0;
 }
 

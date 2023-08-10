@@ -28,7 +28,7 @@ void main() {
   vec4 texel = texture(u_image, uv);
   outColor = texel;
 
-  vec4 p = pixelate(60.0, uv);
+  vec4 p = pixelate(u_fx, uv);
   outColor = mix(outColor, p, p.a);
 }
 
