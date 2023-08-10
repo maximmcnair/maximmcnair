@@ -62,6 +62,20 @@ import fragChromaticAberration from './dither/chromatic-aberration.glsl';
 import fragChromaticAberrationRed from './dither/chromatic-aberration-red.glsl';
 // @ts-ignore
 import fragChromaticAberrationBlue from './dither/chromatic-aberration-blue.glsl';
+// @ts-ignore
+import fragConvolutionIdentity from './dither/convolution-identity.glsl';
+// @ts-ignore
+import fragConvolutionRidge from './dither/convolution-ridge.glsl';
+// @ts-ignore
+import fragConvolutionEdgeDetection from './dither/convolution-edge-detection.glsl';
+// @ts-ignore
+import fragConvolutionSharpen from './dither/convolution-sharpen.glsl';
+// @ts-ignore
+import fragConvolutionBoxBlur from './dither/convolution-box-blur.glsl';
+// @ts-ignore
+import fragConvolutionSobelHori from './dither/convolution-sobel-hori.glsl';
+// @ts-ignore
+import fragConvolutionSobelVert from './dither/convolution-sobel-vert.glsl';
 
 interface Props {
   step: string;
@@ -126,6 +140,20 @@ function setFrag(step: string) {
       return fragChromaticAberrationRed;
     case 'chromatic-aberration-blue':
       return fragChromaticAberrationBlue;
+    case 'convolution-identity':
+      return fragConvolutionIdentity;
+    case 'convolution-ridge':
+      return fragConvolutionRidge;
+    case 'convolution-edge-detection':
+      return fragConvolutionEdgeDetection;
+    case 'convolution-sharpen':
+      return fragConvolutionSharpen;
+    case 'convolution-box-blur':
+      return fragConvolutionBoxBlur;
+    case 'convolution-sobel-hori':
+      return fragConvolutionSobelHori;
+    case 'convolution-sobel-vert':
+      return fragConvolutionSobelVert;
     // default:
     //   return fragTest;
   }

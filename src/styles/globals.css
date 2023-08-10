@@ -356,6 +356,7 @@ video::-internal-media-controls-overlay-cast-button {
 canvas{
   display: block;
   /* width: 100%; */
+  /* ^^ this break dithering pattern */
 }
 
 .canvas {
