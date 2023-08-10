@@ -156,7 +156,7 @@ export function Dither(props: Props) {
   const [fz, setFz] = useState(1);
   const [fw, setFw] = useState(1);
 
-  console.log(fx, fy, fz, fw);
+  // console.log(fx, fy, fz, fw);
   // console.log(props.label);
 
   useEffect(() => {

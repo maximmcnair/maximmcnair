@@ -480,7 +480,7 @@ function Canvas({ size, config, aspectRatio }: CanvasProps) {
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    console.log(config.zoom);
+    // console.log(config.zoom);
     function mapLinear(
       x: number,
       a1: number,

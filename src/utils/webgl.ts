@@ -12,7 +12,7 @@ export function createShader(
   const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
   if (success) return shader;
   // handle no shader
-  console.log(gl.getShaderInfoLog(shader));
+  // console.log(gl.getShaderInfoLog(shader));
   gl.deleteShader(shader);
 }
 
@@ -29,7 +29,7 @@ export function createProgram(
   const success = gl.getProgramParameter(program, gl.LINK_STATUS);
   if (success) return program;
   // handle no program
-  console.log(gl.getProgramInfoLog(program));
+  // console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 }
 

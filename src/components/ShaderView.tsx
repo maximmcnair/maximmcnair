@@ -50,7 +50,7 @@ export default function ShaderView({
       if (height && width) {
         setSize({
           width,
-          height,
+          height
         });
       } else {
         const { offsetWidth, offsetHeight } = containerRef.current;
