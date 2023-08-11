@@ -13,7 +13,7 @@ export const Layout: React.FC<Props> = ({ title, desc, children }) => {
   return (
     <>
       <Head>
-        <title>{title ? `${title} | ` : ''}Maxim McNair</title>
+        <title>{title ? `${title} | Maxim McNair` : 'Maxim McNair'}</title>
         <meta name="description" content={desc || ''} />
         <link rel="icon" href="/favicon.ico" />
       </Head>

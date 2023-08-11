@@ -3,9 +3,13 @@
   padding-top: 30px;
 }
 
+.header {
+  margin-bottom: 10px;
+}
+
 .desc {
   color: var(--color-grey-light);
-  max-width: 600px;
+  /* max-width: 480px; */
   margin-bottom: 40px;
 }
 

@@ -12,7 +12,7 @@ published: true
 
 <Dither step="6-dither-8x8" />
 
-We'll can improve our thresholding algorithms from the [previous article](/p/2023-07-webgl-07-threshold) by replacing our block colors with patterns that, from a distance look like a shade of a color. Here's an example of rendering a horizontal gradient with different dithering effects we'll cover in this article.
+We'll improve our thresholding algorithms from the [previous article](/p/2023-07-webgl-07-threshold) by replacing our block colors with patterns that, from a distance, look like a shade of a color. Here's an example of rendering a horizontal gradient with different dithering effects we'll cover in this article.
 
 <Dither step="dither-gradient" label="Dithering patterns on a gradient"/>
 
@@ -27,14 +27,14 @@ $$
 \end{bmatrix}
 $$
 
-We will check each pixel of our image against this matrix, repeating for the size of the image. For the matrix above the first pixel on the top row will be theresholded to the value 0.2. Anything above 0.2 turning white and anything below turning black. The second pixel by 0.8 and the third pixel will loop back to the first value in our matrix 0.2.
+We will check each pixel of our image against this matrix, repeating for the size of the image. For the matrix above the first pixel on the top row will be thresholded to the value 0.2. Anything above 0.2 turning white and anything below turning black. The second pixel by 0.8 and the third pixel will loop back to the first value in our matrix 0.2.
 The second pixel row will start from 0.6. This will repeat for the whole image.
 
 This 2x2 matrix can give us 5 different thresholds as shown in the image below.
 
 <Dither step="gradient-dither-2x2" />
 
-The data for our patterns in normally stored as integers and we use this equation to create our threshold values.
+The data for our patterns is normally stored as integers and we use this equation to create our threshold values.
 
 $$
 \begin{bmatrix}
@@ -67,7 +67,7 @@ float dither2x2(vec2 uv, float luma) {
 
 ## Patterns
 
-The beautry of this algorithm is we can easily expand on it with different patterns and matrix sizes for a number of different results.
+The beauty of this algorithm is we can easily expand on it with different patterns and matrix sizes for a number of different results.
 
 #### 2x2 Bayer ordered dither matrix
 

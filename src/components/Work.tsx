@@ -65,7 +65,7 @@ export default function Work() {
           <h2 className={styles.title}>Work</h2>
           <p
             className={styles.desc}
-          >{`A preview of various projects I've lead, and tools I've built to help people in their day to day work.`}</p>
+          >{`A preview of various projects I've led, and tools I've built.`}</p>
 
           {projects.map((p, idx) => (
             <article className={styles.work} key={idx}>

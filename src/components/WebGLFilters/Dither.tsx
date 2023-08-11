@@ -23,17 +23,17 @@ import frag9 from './dither/9-dither-duotone.glsl';
 // @ts-ignore
 import fragGradientDither from './dither/gradient-dither.glsl';
 // @ts-ignore
-import fragVingetteBasic from './dither/vingette-basic.glsl';
+import fragVignetteBasic from './dither/vignette-basic.glsl';
 // @ts-ignore
-import fragVingetteBasicWhite from './dither/vingette-basic-white.glsl';
+import fragVignetteBasicWhite from './dither/vignette-basic-white.glsl';
 // @ts-ignore
-import fragVingetteSimple from './dither/vingette-simple.glsl';
+import fragVignetteSimple from './dither/vignette-simple.glsl';
 // @ts-ignore
-import fragVingetteSimpleWhite from './dither/vingette-simple-white.glsl';
+import fragVignetteSimpleWhite from './dither/vignette-simple-white.glsl';
 // @ts-ignore
-import fragVingette from './dither/vingette.glsl';
+import fragVignette from './dither/vignette.glsl';
 // @ts-ignore
-import fragVingetteWhite from './dither/vingette-white.glsl';
+import fragVignetteWhite from './dither/vignette-white.glsl';
 // @ts-ignore
 import fragHue from './dither/hue.glsl';
 // @ts-ignore
@@ -106,12 +106,12 @@ function setFrag(step: string) {
       return frag9;
     case 'dither-gradient':
       return fragGradientDither;
-    case 'vingette-basic':
-      return [fragVingetteBasic, fragVingetteBasicWhite];
-    case 'vingette-simple':
-      return [fragVingetteSimple, fragVingetteSimpleWhite];
-    case 'vingette':
-      return [fragVingette, fragVingetteWhite];
+    case 'vignette-basic':
+      return [fragVignetteBasic, fragVignetteBasicWhite];
+    case 'vignette-simple':
+      return [fragVignetteSimple, fragVignetteSimpleWhite];
+    case 'vignette':
+      return [fragVignette, fragVignetteWhite];
     case 'hue':
       return fragHue;
     case 'hue-range':
@@ -203,16 +203,16 @@ export function Dither(props: Props) {
     if (props.step === 'dither-gradient') {
       // TODO
     }
-    if (props.step === 'vingette-basic' || props.step === 'vingette-dist') {
+    if (props.step === 'vignette-basic' || props.step === 'vignette-dist') {
       setImgIdx(2);
       setFx(0.8);
     }
-    if (props.step === 'vingette-simple') {
+    if (props.step === 'vignette-simple') {
       setImgIdx(2);
       setFx(0.5);
       setFy(0.1);
     }
-    if (props.step === 'vingette') {
+    if (props.step === 'vignette') {
       setImgIdx(2);
       setFx(0.26);
       setFy(0.14);
@@ -350,7 +350,7 @@ export function Dither(props: Props) {
           </>
         ) : null}
 
-        {props.step === 'vingette-basic' ? (
+        {props.step === 'vignette-basic' ? (
           <>
             <label>
               <strong>Radius</strong>
@@ -366,7 +366,7 @@ export function Dither(props: Props) {
           </>
         ) : null}
 
-        {props.step === 'vingette-simple' ? (
+        {props.step === 'vignette-simple' ? (
           <>
             <label>
               <strong>Radius</strong>
@@ -393,7 +393,7 @@ export function Dither(props: Props) {
           </>
         ) : null}
 
-        {props.step === 'vingette' ? (
+        {props.step === 'vignette' ? (
           <>
             <label>
               <strong>Roundness</strong>

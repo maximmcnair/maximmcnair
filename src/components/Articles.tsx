@@ -12,7 +12,7 @@ const Articles: React.FC<Props> = ({ posts }) => {
       <div className="content">
         <h2 className={styles.header}>Articles</h2>
         <p className={styles.desc}>
-          An exploration of image processing with GPU shaders on the web.
+          An exploration of image processing with GPU shaders in the browser.
         </p>
         <div className={styles.articles}>
           {posts

@@ -8,13 +8,13 @@ tags: ["WebGL"]
 published: true
 ---
 
-This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+<WebGLImageProcessingIntro />
 
-Pixelation is normally an side effect of displaying an image at a higher resolution than it has data for. While this is generally seen as an issue we can also mimic this effect for aesthetical reasons.
+Pixelation is normally a side-effect of displaying an image at a higher resolution than it has data for. While this is generally seen as an issue, we can also mimic this effect for aesthetic reasons.
 
 <Dither step="pixelate" />
 
-In GLSL we can achieve this effect by rounding our x/y values when fetching our texel data. Rounding by a specific ratio will control the size of the pixelation.
+In GLSL, we can achieve this effect by rounding our x/y values when fetching our texel data. Rounding by a specific ratio will control the size of the pixelation.
 
 ```glsl
 vec4 pixelate(float size, vec2 uv) {
@@ -38,4 +38,4 @@ void main() {
 }
 ```
 
-Next up we'll take a look into [thresholding](/p/2023-07-webgl-07-threshold) our color data.
+In the next article, we'll take a look into [thresholding](/p/2023-07-webgl-07-threshold) our color data.
