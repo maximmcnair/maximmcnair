@@ -18,5 +18,15 @@ void main() {
   // map uv between 0 -> 1
 	vec2 uv = gl_FragCoord.xy/u_resolution;
   vec4 texel = texture(u_image, uv);
-  outColor = texel;
+
+  if (uv.x < u_mouse.x) {
+    outColor = vec4(
+      pow(texel.r, (3.0/2.0)), 
+      pow(texel.g, (4.0/5.0)), 
+      pow(texel.b, (3.0/2.0)), 
+      1.0
+    );
+  } else {
+    outColor = texel;
+  }
 }
