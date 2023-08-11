@@ -38,8 +38,8 @@ const AHref: React.FC<{ href: string }> = ({ href, children }) => {
 // @ts-ignore
 const WebGLImageProcessingIntro: React.FC = ({ children }) => {
   return (
-    <p>
-      This is part of the WebGL image processing series, it relies on information in previous articles. Start at the{' '}
+    <p style={{fontStyle: 'italic'}}>
+      This is part of the WebGL image processing series and it relies on information in previous articles. Start at the{' '}
       <Link href="/p/2023-06-webgl-01-setup">
         beginning here.
       </Link>

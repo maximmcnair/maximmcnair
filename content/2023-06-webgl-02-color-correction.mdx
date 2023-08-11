@@ -8,13 +8,13 @@ thumb: "/article-webgl-grayscale.jpg"
 published: true
 ---
 
-This is part of the WebGL image processing series, it relies on information in previous articles. Start at the [beginning here](/p/2023-06-webgl-01-setup).
+<WebGLImageProcessingIntro />
 
-Now that we know how to import and render our image let’s look at how we can adjust it with some basic color correction algorithms such as brightness, contrast, exposure and saturation.
+Now that we know how to import and render our image, let’s look at how we can adjust it with some basic color correction algorithms such as brightness, contrast, exposure and saturation.
 
 ## Brightness
 
-To increase the brightness of our image we'll want to increase our color value by adding the same amount to each `rgb` value.
+To increase the brightness of our image we'll want to increase our color value by adding the same amount to each RGB value.
 
 ```glsl
 vec4 brightness(vec4 color, float value) {
@@ -28,7 +28,7 @@ vec4 brightness(vec4 color, float value) {
 
 ## Exposure
 
-To update the exposure we want to multiply, instead of adding to each `rgb` value by the same amount. This changes the brightness of our image by it's current luminosity (the strength of the individual texel). As multiplying a zero value outputs another zero we need to increase our original value by 1.0.
+To update the exposure, we want to multiply, instead of adding to each RGB value by the same amount. This changes the brightness of our image by its current luminosity (the strength of the individual texel). Since multiplying a zero value outputs another zero, we need to increase our original value by 1.0.
 
 ```glsl
 vec4 exposure(vec4 color, float value) {
@@ -56,11 +56,11 @@ vec4 contrast(vec4 color, float value) {
 
 ## Saturation
 
-Saturation is the "colorfulness" of an image. The more saturated an image is the more colorful it appear, in contrast to a null, subded image. 
+Saturation alters the vibrance of colors in an image. The more saturated an image is, the more colorful it appears.
 
-When we increase the saturation we increase the contrast between the `rgb` channels of a texel. Meaning a fully saturate texels would be one of 3 values `vec4(1, 0, 0, 1)` ,  `vec3(0, 1, 0, 1)`  or  `vec4(0, 0, 1, 1)`.
+When we increase the saturation, we increase the contrast between the RBG channels of a texel. Meaning a fully saturated texel would be one of 3 values `vec4(1, 0, 0, 1)` ,  `vec3(0, 1, 0, 1)`  or  `vec4(0, 0, 1, 1)`.
 
-To create a desaturated (black and white or grayscale) image we can take the average of the channels.
+To create a desaturated (black-and-white or grayscale) image, we can take the average of the channels.
 
 ```glsl
 vec4 desaturated(vec4 color) {
@@ -69,7 +69,7 @@ vec4 desaturated(vec4 color) {
 }
 ```
 
-However the human eye doesn't perceive the luminosity of each color channel in the linear fashion as our WebGL value ranges. We need to adapt our rgb values by a factor that has been setout by the Web Content Accessibility Guidelines (WCAG) section on [relative luminance](https://www.w3.org/TR/WCAG21/#dfn-relative-luminance);
+But the human eye doesn't perceive the luminosity of each color channel in a way that matches the WebGL value range. As a result, we need to adapt our RGB values by a factor that has been set out by the Web Content Accessibility Guidelines (WCAG) section on [relative luminance](https://www.w3.org/TR/WCAG21/#dfn-relative-luminance).
 
 
 ```glsl
@@ -92,6 +92,6 @@ vec4 saturation(vec4 color, float value) {
 
 <WebGLFilters step="Article1" />
 
-With just these four functions we can start to edit our image quite dramatically and they give us the power to fix a lot of issues that can arise when taking photos.
+With these four functions, we can start to edit our image dramatically. They give us the power to fix a lot of issues that can arise when taking photos.
 
-With just these four functions we can start to edit our image quite dramatically and they give us the power to fix a lot of issues that can arise when taking photos. But we're just getting started with what we can do with GLSL. In the [next article](/p/2023-06-webgl-03-hue) we'll take a look at how to we can morph the colors with hue adjustments.
+But we're just getting started with what we can do with GLSL. In the [next article](/p/2023-06-webgl-03-hue) we'll take a look at how to we can morph the colors with hue adjustments.

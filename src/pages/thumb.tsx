@@ -3,9 +3,9 @@ import type { NextPage } from 'next';
 import ShaderView from '@/components/ShaderView';
 
 // @ts-ignore
-import frag from '@/components/WebGLFilters/dither/vingette.glsl';
+import frag from '@/components/WebGLFilters/dither/vignette.glsl';
 // import frag from '@/components/WebGLFilters/dither/chromatic-aberration.glsl';
-// import frag from '@/components/WebGLFilters/dither/vingette-simple.glsl';
+// import frag from '@/components/WebGLFilters/dither/vignette-simple.glsl';
 // import frag from '@/components/WebGLFilters/dither/hue.glsl';
 // import frag from '@/components/WebGLFilters/dither/grayscale.glsl';
 // import frag from '@/components/WebGLFilters/dither/pixelate.glsl';
@@ -36,7 +36,7 @@ const Thumb: NextPage<Props> = () => {
     // setFy(0.2);
     // setFz(0.9);
 
-    // vingette
+    // vignette
     setFx(0.2);
     setFy(0.2);
     setFz(1.0);
