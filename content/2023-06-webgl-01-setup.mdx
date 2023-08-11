@@ -12,7 +12,7 @@ In this series of articles we’re going to look at image processing with the **
 
 While the theory behind image processing is quite math heavy, this series will focus on the code for producing these effects and the theory behind them.
 
-We’ll start off with a basic introduction to WebGL and GLSL, and then move onto simple color correction algorithms that you’d find in software such as Lightroom, VSCO or Instagram. We will then take a tour through numerous of filters and effects that would be at home in Photoshop.
+We’ll start off with a basic introduction to WebGL and GLSL, and then move onto simple color correction algorithms that you’d find in software such as Lightroom, VSCO or Instagram. We will then take a tour through numerous filters and effects that would be at home in Photoshop.
 
 #### Articles in this series:
 
@@ -35,11 +35,11 @@ Here's a preview of what we'll build over the course of these articles. You can 
 
 ### Basic WebGL concepts
 
-WebGL is a JavaScript API for rendering high-performance, interactive, 3D and 2D graphics in the browser. It uses your **GPU** to compute your programs in parallel rather than the linear fashion of the CPU.
+WebGL is a JavaScript API for rendering high-performance, interactive, 3D and 2D graphics in the browser. It uses your **GPU** to compute your programs in parallel rather than the linear functionality of the **CPU**.
 
 WebGL enables us to **send data to, and run programs (shaders) on, the GPU**. This series will focus on a type of shader program known as a fragment shader. A fragment shader will run once for each pixel in the rendered image. These shader programs run in parallel so you can't have any shared state between them.
 
-Shader programs are written in a C-inspired language called GLSL (OpenGL Shading Language). Graphics cards are extremely fast in comparssion to the CPU, and have many mathematical functions built in that GLSL enables us to take advantage of from our shader programs.
+Shader programs are written in a C-inspired language called GLSL (OpenGL Shading Language). Graphics cards are extremely fast in comparison to the CPU, and have many mathematical functions built in that GLSL enables us to take advantage of from our shader programs.
 
 We pass data to our fragment shader as a **Uniform**. A Uniform is a variable that is the same for every fragment shader in a render pass. As this series will focus on editing images, we'll pass this into our shader program as a special kind of Uniform known as a **Texture**. Textures are WebGL's built in support for images. It stores the image data as a 2x2 matrix (row x column) of vec4 (4 value vector, similar to a array in Javascript) color RGBA (red, green, blue, alpha) values for each pixel cell.
 

@@ -14,13 +14,13 @@ published: true
 
 Chromatic aberration, or color fringing, is an optical issue that occurs in a camera lens when it's unable to bring all wavelengths of color to the same focal plane.
 
-We can simulate this effect by linearly moving one or more of our RGB channels from our texure along the x or y plane. Here are two examples of moving the red and blue channels:
+We can simulate this effect by linearly moving one or more of our RGB channels from our texture along the x or y plane. Here are two examples of moving the red and blue channels:
 
 <Dither step="chromatic-aberration-red" />
 
 <Dither step="chromatic-aberration-blue" />
 
-The glsl code for this is quite straight forward. Below we pass our texel data into our chromatic aberration function. This generates a vec4 color value based on the texel at our program's uv. We can then move our red channel by a `xOffset` and `yOffset`. 
+The GLSL code for this is quite straightforward. Below we pass our texel data into our chromatic aberration function. This generates a vec4 color value based on the texel at our program's uv. We can then move our red channel by an `xOffset` and `yOffset`. 
 
 ```glsl
 vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
