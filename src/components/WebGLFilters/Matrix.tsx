@@ -42,10 +42,6 @@ export function MatrixColor(props: Props) {
                 title={''}
                 width={size.width / 2}
                 height={size.height / 2}
-                // width={520}
-                // height={500}
-                // width={1200}
-                // height={1200}
                 frag={frag}
                 imgSrc={imgs[imgIdx]}
                 fx={fx}
@@ -60,10 +56,6 @@ export function MatrixColor(props: Props) {
             title={''}
             width={size.width}
             height={size.height}
-            // width={520}
-            // height={500}
-            // width={1200}
-            // height={1200}
             frag={frag}
             imgSrc={imgs[imgIdx]}
             fx={fx}

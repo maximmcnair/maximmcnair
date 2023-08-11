@@ -50,7 +50,7 @@ export default function ShaderView({
       if (height && width) {
         setSize({
           width,
-          height
+          height,
         });
       } else {
         const { offsetWidth, offsetHeight } = containerRef.current;
@@ -207,9 +207,14 @@ export default function ShaderView({
       time += 0.01;
       gl.uniform1f(uTime, time);
 
-      // gl.uniform2f(uMouse, mousePos.x, mousePos.y);
-      // NOTE - this will only work for full screen canvas
-      gl.uniform2f(uMouse, mousePos.x / size.width, mousePos.y / size.height);
+      if (canvasRef.current) {
+        const { left, top } = canvasRef.current.getBoundingClientRect();
+        gl.uniform2f(
+          uMouse,
+          (mousePos.x - left) / size.width,
+          (canvas.height - (mousePos.y - top)) / size.height,
+        );
+      }
 
       frame = requestAnimationFrame(loop);
     };
