@@ -38,6 +38,15 @@ export function Range({ min, max, value, onChange }: Props) {
     }
   }
 
+  function handleTouchDown(evt: any) {
+    const $el = elRef.current?.getBoundingClientRect();
+    if ($el) {
+      setHasClicked(true);
+      const val = getValue($el, evt.changedTouches[0].clientX);
+      setAmount(clamp(val, min, max));
+    }
+  }
+
   const abc = useMemo(() => {
     const x = mapLinear(amount, min, max, 0, 100);
     return x;
@@ -60,19 +69,44 @@ export function Range({ min, max, value, onChange }: Props) {
         onChange(val);
       }
     }
+    function handleWindowTouchMove(evt: any) {
+      const $el = elRef.current?.getBoundingClientRect();
+      if ($el) {
+        const val = getValue($el, evt.changedTouches[0].clientX);
+        onChange(val);
+      }
+    }
+    function handleTouchEnd(evt: any) {
+      setHasClicked(false);
+      const $el = elRef.current?.getBoundingClientRect();
+      if ($el) {
+        const val = getValue($el, evt.changedTouches[0].clientX);
+        setAmount(val);
+        onChange(val);
+      }
+    }
 
     if (hasClicked) {
       window.addEventListener('mousemove', handleWindowMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleWindowTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
     }
     return () => {
       window.removeEventListener('mousemove', handleWindowMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleWindowTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [hasClicked, setHasClicked, getValue, onChange]);
 
   return (
-    <div ref={elRef} onMouseDown={handleMouseDown} className="range">
+    <div
+      ref={elRef}
+      onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchDown}
+      className="range"
+    >
       <div className="potential">
         <div className="amount" style={{ width: `${abc}%` }} />
       </div>

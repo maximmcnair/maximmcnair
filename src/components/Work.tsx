@@ -62,7 +62,7 @@ export default function Work() {
     <section className={styles.container}>
       <div className="content">
         <div className={styles.work}>
-          <h2 className={styles.title}>Projects and Tools</h2>
+          <h2 className={styles.title}>Work</h2>
           <p
             className={styles.desc}
           >{`A preview of various projects I've lead, and tools I've built to help people in their day to day work.`}</p>
