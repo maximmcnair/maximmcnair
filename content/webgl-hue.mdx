@@ -101,9 +101,9 @@ We can select our **red** range and then move the slider to change the hue. This
 
 For the flower image, our first **red** range doesn't cover the entire **red** range of the flower itself. We also need some hues from the last **magenta** range.
 
-But the green range manages to change all the green leaves in the background.
+But the green range manages to change all the green leaves in the background. This is up to luck, as the ranges were choosen by spliting our hue range into 6 sections.
 
-In GLSL we can achieve this by only updating the hue if the texel's hue value lies in between the range min and max of our target as the function below shows.
+We can achieve this effect in GLSL by only updating the hue if the texel's original hue value lies in-between our range's min and max values.
 
 ```glsl
 void main() {
@@ -117,3 +117,5 @@ void main() {
 ```
 
 In the next article, we will look into adding an analog feel to our images by [simulating Film Grain.](/p/webgl-film-grain)
+
+<ArticlePreview slug="webgl-film-grain" />

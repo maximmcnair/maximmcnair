@@ -9,7 +9,7 @@ import Highlight from 'react-highlight';
 import Head from 'next/head';
 import Link from 'next/link';
 
-import { getPostSlugs, getPost } from '@/utils/posts';
+import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
 import { Layout } from '@/components/Layout';
 import { MathGrid } from '@/components/MathGrid';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
@@ -17,16 +17,13 @@ import { Duotone } from '@/components/WebGLFilters/Duotone';
 import { Dither } from '@/components/WebGLFilters/Dither';
 import { MatrixColor } from '@/components/WebGLFilters/Matrix';
 import { ColorVec4 } from '@/components/ColorVec4';
+import { Article } from '@/components/Article';
 import { Post, Meta } from '@/types';
 
 // @ts-ignore
 const AHref: React.FC<{ href: string }> = ({ href, children }) => {
   if (href.includes('/p/')) {
-    return(
-      <a href={href}>
-        {children}
-      </a>
-    );
+    return <a href={href}>{children}</a>;
   }
 
   return (
@@ -39,11 +36,10 @@ const AHref: React.FC<{ href: string }> = ({ href, children }) => {
 // @ts-ignore
 const WebGLImageProcessingIntro: React.FC = ({ children }) => {
   return (
-    <p style={{fontStyle: 'italic'}}>
-      This is part of the WebGL image processing series and it relies on information in previous articles. Start at the{' '}
-      <Link href="/p/webgl-setup">
-        beginning here.
-      </Link>
+    <p style={{ fontStyle: 'italic' }}>
+      This is part of the WebGL image processing series and it relies on
+      information in previous articles. Start at the{' '}
+      <Link href="/p/webgl-setup">beginning here.</Link>
     </p>
   );
 };
@@ -73,11 +69,12 @@ export const getStaticProps: GetStaticProps = async context => {
       rehypePlugins: [rehypeKatex],
     },
   });
-
+  const posts = await getPosts();
   return {
     props: {
       meta,
       mdx,
+      posts,
     },
   };
 };
@@ -117,6 +114,22 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
             components={{
               pre: Highlight,
               small: ({ children }) => <small>{children}</small>,
+              ArticlePreview: ({ slug }) => {
+                const post = posts.find(p => p.slug === slug);
+                if (!post) return null;
+                return (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gridColumnStart: 2,
+                      gap: '15px',
+                    }}
+                  >
+                    <Article article={post} style={{ gridColumnStart: 2 }} />
+                  </div>
+                );
+              },
               WebGLImageProcessingIntro,
               // @ts-ignore
               a: AHref,

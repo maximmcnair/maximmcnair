@@ -38,6 +38,10 @@
   transition-timing-function: ease !important;
 }
 
+.article:hover {
+  text-decoration: none !important;
+}
+
 .title{
   /* color: var(--color-grey); */
   color: var(--color-white);

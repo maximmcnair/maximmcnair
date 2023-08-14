@@ -25,7 +25,7 @@ const Articles: React.FC<Props> = ({ posts }) => {
                 : 0,
             )
             .map(article => (
-              <Article article={article} key={article.slug} />
+              <Article style={{}} article={article} key={article.slug} />
             ))}
         </div>
       </div>
