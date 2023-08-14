@@ -10,21 +10,19 @@ published: true
 
 <WebGLImageProcessingIntro />
 
-In this article we'll cover how to add an analog feel to our images by simulating Film Grain.
-
-<Dither step="grain" />
-
-### What is film grain?
+## What is film grain?
 
 Film grain is an optical effect created from the presence of small particles of metallic silver or dye clouds found in the liquid when developing film stock.
 
-We can simulate this effect in GLSL by generating noise then blending this into our RGB values respectively.
+We can simulate this effect in GLSL by generating noise, then blending this into our RGB values.
 
-Let's first take a look at how we can use a hash function to generate random noise.
+<Dither step="grain" />
+
+Let's first take a look at how we can use a hash function to generate random noise (though generating truly random noise in WebGL is broadly considered impossible).
 
 ```glsl
 float rand(vec2 co){
-  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+  return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 vec4 grain(vec4 fragColor, vec2 uv){
@@ -39,7 +37,7 @@ vec4 grain(vec4 fragColor, vec2 uv){
 
 <Dither step="grain-noise" />
 
-Now that we have our grain, we can then mix this with our image.
+Now that we have our grain, we can mix this with our image.
 
 ```glsl 
 void main() {
@@ -57,9 +55,9 @@ void main() {
 
 This has added some texture to the image, but it looks more like digital noise than the grain from film processing.
 
-### Creating more realistic film grain
+## Creating more realistic film grain
 
-Researching this further led me to Matt DesLauriers' [glsl-film-grain](https://github.com/mattdesl/glsl-film-grain) example, based on an article by [Martins Upitis](https://devlog-martinsh.blogspot.com/2013/05/image-imperfections-and-film-grain-post.html). It uses a mixture of perlin and simplex noise for the grain, along with a blend soft light function to blend the noise by luma into the image rather than a straight mix.
+Researching this further led me to Matt DesLauriers' [glsl-film-grain](https://github.com/mattdesl/glsl-film-grain) package, based on an article by [Martins Upitis](https://devlog-martinsh.blogspot.com/2013/05/image-imperfections-and-film-grain-post.html). It uses a mixture of perlin and simplex noise for the grain, along with a blend mode that adapts the amount of noise added to each pixel depending on its luminosity. 
 
 Luckily, this package is under the [MIT license](https://github.com/mattdesl/glsl-film-grain/blob/master/LICENSE.md) so let's take a closer look. It uses the `pnoise3` and `snoise3` from [glsl-noise](https://github.com/hughsk/glsl-noise#readme).
 
@@ -83,11 +81,11 @@ This generates a more textured noise pattern, and we can increase the grain size
 
 <Dither step="grain-3d-noise" />
 
-Using this algorithm on our photos from before, with an increased grain size, gives us a more natural film grain look. But we still run into issues when we increase the **mix**, since it takes over the image. Worse still, this is different for different images - so we'd have to set an amount for each image manually.
+Using this algorithm on our photos from before with an increased grain size, gives us a more natural film grain look. But we still run into issues when we increase the **mix**, since it takes over the image. Worse still, this is different for different images - so we'd have to set an amount for each image manually.
 
 <Dither step="grain-3d" />
 
-Instead of using the GLSL `mix` function we can use a **blend-soft-light** function with the texel luminance. The below code is from the [blending tips section](https://github.com/mattdesl/glsl-film-grain/tree/master#blending-tips) on the glsl-film-grain repo.
+Instead of using the GLSL `mix` function we can use a **blend-soft-light** function (this is the blend mode mentioned above) with the texel luminance. The below code is from the [blending tips section](https://github.com/mattdesl/glsl-film-grain/tree/master#blending-tips) on the glsl-film-grain repo.
 
 ```glsl
 vec3 blendSoftLight(vec3 base, vec3 blend) {
@@ -120,6 +118,6 @@ void main() {
 
 <Dither step="grain-3d-blend" />
 
-In the next article of the series we'll look at using a gradient map to convert our image into a [duotone image.](/p/webgl-duotone)
+In the [next article](/p/webgl-duotone) of the series we'll look at using a gradient map to convert our image into a duotone image.
 
 <ArticlePreview slug="webgl-duotone" />

@@ -10,17 +10,29 @@ published: true
 
 <WebGLImageProcessingIntro />
 
-### What is duotone?
+## What is duotone?
 
-Duotone is a simple effect that has, while predating digital software, seen a boost in popularity in the last few years. The Spotify ad campaign from a few years back.
+Duotone is a simple effect that maps a black-and-white image into a color range. Its usage dates back to the mid-20th Century, with Andy Warhol being one of the most famous people to popularize it. More recently, Spotify made extensive use of it in its brand communications.
+
+<div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
+    <div style={{textAlign: 'center', marginBottom: 20}}>
+        <img src="/andywarhol-museum.webp" />
+        <small>Andy Warhol Museum. Photo by Dean Kaufman [[1]](https://www.warhol.org/)</small>
+    </div>
+
+    <div style={{textAlign: 'center'}}>
+        <img src="/spotify-duotone.jpg" />
+        <small>Spotify's Year in Music [[2]](https://www.dandad.org/en/d-ad-spotify-year-music-case-study-insights/)</small>
+    </div>
+</div>
 
 Click on the color pairs below to see what happens to this image when you apply a duotone effect:
 
 <Duotone />
 
-I'm going to run through a simple method to create this Duotone effect by using a gradient map on a black and white image.
+I'm going to run through a simple method to create this effect by using a gradient map on a black and white image.
 
-First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in a the [color correction article](/p/webgl-color-correction) of this series to create one.
+First we'll need a black and white image. Let's reuse our desaturated function we covered in the [color correction article](/p/webgl-color-correction) of this series to create one.
 
 ```glsl
 vec4 desaturated(vec4 color) {
@@ -40,6 +52,6 @@ vec4 duotone(vec4 fragColor, vec4 lowcolor, vec4 highcolor) {
 }
 ```
 
-Next up, we'll take a look at how to add a [pixelate](/p/webgl-pixelate) effect to our image.
+In the [next article](/p/webgl-pixelate), we'll take a look at how to add a pixelate effect to our image.
 
 <ArticlePreview slug="webgl-pixelate" />

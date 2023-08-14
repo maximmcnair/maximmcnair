@@ -6,7 +6,6 @@ import remarkMath from 'remark-math';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Highlight from 'react-highlight';
-import Head from 'next/head';
 import Link from 'next/link';
 
 import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
@@ -39,7 +38,7 @@ const WebGLImageProcessingIntro: React.FC = ({ children }) => {
     <p style={{ fontStyle: 'italic' }}>
       This is part of the WebGL image processing series and it relies on
       information in previous articles. Start at the{' '}
-      <Link href="/p/webgl-setup">beginning here.</Link>
+      beginning <Link href="/p/webgl-setup">here.</Link>
     </p>
   );
 };
@@ -83,15 +82,6 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
     <Layout title={meta?.title} desc={meta?.desc}>
       <article className="article content">
-        <Head>
-          <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css"
-            integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM"
-            crossOrigin="anonymous"
-          />
-        </Head>
-
         <header className="article__header">
           <h1 className="article__title">{meta?.title}</h1>
           <strong className="article__date">
@@ -115,6 +105,7 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
               pre: Highlight,
               small: ({ children }) => <small>{children}</small>,
               ArticlePreview: ({ slug }) => {
+                return null;
                 const post = posts.find(p => p.slug === slug);
                 if (!post) return null;
                 return (
@@ -126,6 +117,7 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
                       gap: '15px',
                     }}
                   >
+                    {/* @ts-ignore */}
                     <Article article={post} style={{ gridColumnStart: 2 }} />
                   </div>
                 );

@@ -16,7 +16,7 @@ We'll improve our thresholding algorithms from the [previous article](/p/webgl-t
 
 <Dither step="dither-gradient" label="Dithering patterns on a gradient"/>
 
-### Ordered Dithering 
+## Ordered Dithering 
 
 We use an algorithm called **ordered dithering** to create this effect. We can define our patterns with a dither matrix such as:
 
@@ -68,7 +68,7 @@ float dither2x2(vec2 uv, float luma) {
 
 The beauty of this algorithm is that we can easily expand on it with different patterns and matrix sizes for a number of different results:
 
-#### 2x2 Bayer ordered dither matrix
+### 2x2 Bayer ordered dither matrix
 
 $$
 \begin{bmatrix}
@@ -79,7 +79,7 @@ $$
 
 <Dither step="4-dither-2x2" />
 
-#### 4x4 Bayer ordered dither matrix
+### 4x4 Bayer ordered dither matrix
 $$
 \begin{bmatrix}
   0 & 8 & 2 & 10 \\
@@ -91,7 +91,7 @@ $$
 
 <Dither step="5-dither-4x4" />
 
-#### 8x8 Bayer ordered dither matrix
+### 8x8 Bayer ordered dither matrix
 $$
 \begin{bmatrix}
    0 & 32 & 8 & 40 & 2 & 34 & 10 & 42 \\
@@ -107,7 +107,7 @@ $$
 
 <Dither step="6-dither-8x8" />
 
-#### 8x8 cluster matrix
+### 8x8 cluster matrix
 $$
 \begin{bmatrix}
   24 & 10 & 12 & 26 & 35 & 47 & 49 & 37 \\
@@ -125,7 +125,7 @@ $$
 
 This 8x8 cluster dot matrix mimics the halftoning techniques used by newspapers.
 
-# Color Halftone
+## Color Halftone
 
 We can produce an even more interesting effect by taking each RGB channel independently instead of using our grayscale value.
 
@@ -183,7 +183,7 @@ $$
 ```glsl 
 void main() {
   // make image grayscale
-  vec4 luma = vec4(0.299, 0.587, 0.114, 0);
+  vec4 luma = vec4(0.299, 0.587, 0.114, 0.0);
   float grayscale = dot(outColor, luma);
   
   outColor = vec4(
