@@ -20,11 +20,11 @@ Film grain is an optical effect created from the presence of small particles of 
 
 We can simulate this effect in GLSL by generating noise then blending this into our RGB values respectively.
 
-Let's first take a look at how we can use a hash function to generate random noise.
+Let's first take a look at how we can generate a random-ish value in WebGL.
 
 ```glsl
 float rand(vec2 co){
-  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+  return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 vec4 grain(vec4 fragColor, vec2 uv){
