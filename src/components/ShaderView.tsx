@@ -7,6 +7,7 @@ import { Position } from '@/types';
 import vertDefault from './ShaderDefaultVert.glsl';
 // @ts-ignore
 import fragDefault from './ShaderDefaultFrag.glsl';
+import { min } from 'date-fns';
 
 interface Props {
   vert?: string;
@@ -48,9 +49,12 @@ export default function ShaderView({
       if (!containerRef.current) return;
       // Use height/width props
       if (height && width) {
+        const aspectRatio = height / width;
+        const minWidth = Math.min(width, window.innerWidth);
+        console.log(height, width, aspectRatio, minWidth);
         setSize({
-          width,
-          height,
+          width: minWidth,
+          height: aspectRatio * minWidth,
         });
       } else {
         const { offsetWidth, offsetHeight } = containerRef.current;

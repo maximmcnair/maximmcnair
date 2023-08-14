@@ -92,11 +92,10 @@ p {
 }
 
 p code {
-  background: var(--color-grey-dark);
-  /* border-radius: 3px; */
-  /* padding: 3px 5px; */
+  background: #1e1e2e;
+  padding: 5px 10px;
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 h1,
@@ -156,6 +155,16 @@ pre {
   background: #1e1e2e;
   padding: 20px 20px 18px 20px;
   overflow-x: auto;
+}
+
+html {
+  font-size: 80%;
+}
+
+@media (min-width: 500px) {
+  html {
+    font-size: 100%;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
