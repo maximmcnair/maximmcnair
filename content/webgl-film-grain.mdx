@@ -1,0 +1,123 @@
+---
+title: "Film Grain"
+series: "WebGL Image Processing"
+issue: "04"
+publishedOn: "2023-06-16T16:31:05.404Z"
+thumb: "/article-webgl-grain.jpg"
+tags: ["WebGL", "Image Processing"]
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+In this article we'll cover how to add an analog feel to our images by simulating Film Grain.
+
+<Dither step="grain" />
+
+### What is film grain?
+
+Film grain is an optical effect created from the presence of small particles of metallic silver or dye clouds found in the liquid when developing film stock.
+
+We can simulate this effect in GLSL by generating noise then blending this into our RGB values respectively.
+
+Let's first take a look at how we can use a hash function to generate random noise.
+
+```glsl
+float rand(vec2 co){
+  return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+vec4 grain(vec4 fragColor, vec2 uv){
+  vec4 color = fragColor;
+  float diff = (rand(uv) - 0.0) * u_grain_amount;
+  color.r += diff;
+  color.g += diff;
+  color.b += diff;
+  return color;
+}
+```
+
+<Dither step="grain-noise" />
+
+Now that we have our grain, we can then mix this with our image.
+
+```glsl 
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  vec4 texel = texture(u_image, uv);
+  outColor = texel;
+
+  vec4 grain = grain(outColor, uv);
+  outColor = mix(outColor, grain, u_fx);
+}
+```
+
+<Dither step="grain" />
+
+This has added some texture to the image, but it looks more like digital noise than the grain from film processing.
+
+### Creating more realistic film grain
+
+Researching this further led me to Matt DesLauriers' [glsl-film-grain](https://github.com/mattdesl/glsl-film-grain) example, based on an article by [Martins Upitis](https://devlog-martinsh.blogspot.com/2013/05/image-imperfections-and-film-grain-post.html). It uses a mixture of perlin and simplex noise for the grain, along with a blend soft light function to blend the noise by luma into the image rather than a straight mix.
+
+Luckily, this package is under the [MIT license](https://github.com/mattdesl/glsl-film-grain/blob/master/LICENSE.md) so let's take a closer look. It uses the `pnoise3` and `snoise3` from [glsl-noise](https://github.com/hughsk/glsl-noise#readme).
+
+```glsl
+float grain(vec2 texCoord, vec2 resolution, float frame, float multiplier) {
+  vec2 mult = texCoord * resolution;
+  float offset = snoise3D(vec3(mult / multiplier, frame));
+  float n1 = pnoise3D(vec3(mult, offset), vec3(1.0/texCoord * resolution, 1.0));
+  return n1 / 2.0 + 0.5;
+}
+
+void main() {
+    float grainSize = 2.0;
+    float g = grain(texCoord, u_resolution / grainSize);
+    vec3 color = vec3(g);
+    gl_FragColor = vec4(color, 1.0);
+}
+```
+
+This generates a more textured noise pattern, and we can increase the grain size with this dial.
+
+<Dither step="grain-3d-noise" />
+
+Using this algorithm on our photos from before, with an increased grain size, gives us a more natural film grain look. But we still run into issues when we increase the **mix**, since it takes over the image. Worse still, this is different for different images - so we'd have to set an amount for each image manually.
+
+<Dither step="grain-3d" />
+
+Instead of using the GLSL `mix` function we can use a **blend-soft-light** function with the texel luminance. The below code is from the [blending tips section](https://github.com/mattdesl/glsl-film-grain/tree/master#blending-tips) on the glsl-film-grain repo.
+
+```glsl
+vec3 blendSoftLight(vec3 base, vec3 blend) {
+  return mix(
+    sqrt(base) * (2.0 * blend - 1.0) + 2.0 * base * (1.0 - blend), 
+    2.0 * base * blend + base * base * (1.0 - 2.0 * blend), 
+    step(base, vec3(0.5))
+  );
+}
+
+void main() {
+  vec3 g = vec3(grain(texCoord, p));
+
+  //blend the noise over the background, 
+  //i.e. overlay, soft light, additive
+  vec3 color = blend(backgroundColor, g);
+
+  //get the luminance of the background
+  float luminance = luma(backgroundColor);
+
+  //reduce the noise based on some 
+  //threshold of the background luminance
+  float response = smoothstep(0.05, 0.5, luminance);
+  color = mix(color, backgroundColor, pow(response, 2.0));
+
+  //final color
+  gl_FragColor = vec4(color, 1.0);
+}
+```
+
+<Dither step="grain-3d-blend" />
+
+In the next article of the series we'll look at using a gradient map to convert our image into a [duotone image.](/p/webgl-duotone)
