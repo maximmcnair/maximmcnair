@@ -61,11 +61,6 @@ This has added some texture to the image, but it looks more like digital noise t
 
 Researching this further led me to Matt DesLauriers' [glsl-film-grain](https://github.com/mattdesl/glsl-film-grain) example, based on an article by [Martins Upitis](https://devlog-martinsh.blogspot.com/2013/05/image-imperfections-and-film-grain-post.html). It uses a mixture of perlin and simplex noise for the grain, along with a blend soft light function to blend the noise by luma into the image rather than a straight mix.
 
-<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-    <img src="/glsl-film-grain.png" style={{maxWidth: '50%'}} />
-    <small style={{margin: '10px 0 40px 0'}}>Matt DesLauriers' Film Grain</small>
-</div>
-
 Luckily, this package is under the [MIT license](https://github.com/mattdesl/glsl-film-grain/blob/master/LICENSE.md) so let's take a closer look. It uses the `pnoise3` and `snoise3` from [glsl-noise](https://github.com/hughsk/glsl-noise#readme).
 
 ```glsl
@@ -125,4 +120,6 @@ void main() {
 
 <Dither step="grain-3d-blend" />
 
-Next up in the series we'll look at using a gradient map to convert our image into a [duotone image.](/p/2023-06-webgl-05-duotone)
+In the next article of the series we'll look at using a gradient map to convert our image into a [duotone image.](/p/webgl-duotone)
+
+<ArticlePreview slug="webgl-duotone" />

@@ -3,7 +3,8 @@ import type { NextPage } from 'next';
 import ShaderView from '@/components/ShaderView';
 
 // @ts-ignore
-import frag from '@/components/WebGLFilters/dither/vignette.glsl';
+import frag from '@/components/WebGLFilters/dither/convolution-sobel-hori.glsl';
+// import frag from '@/components/WebGLFilters/dither/vignette.glsl';
 // import frag from '@/components/WebGLFilters/dither/chromatic-aberration.glsl';
 // import frag from '@/components/WebGLFilters/dither/vignette-simple.glsl';
 // import frag from '@/components/WebGLFilters/dither/hue.glsl';

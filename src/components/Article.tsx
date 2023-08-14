@@ -4,12 +4,13 @@ import { Post } from '@/types';
 
 interface Props {
   article: Post;
+  style: React.CSSProperties;
 }
 
 const perspective = '1000px';
 const delta = 20;
 
-export const Article: React.FC<Props> = ({ article: { slug, meta } }) => {
+export const Article: React.FC<Props> = ({ article: { slug, meta }, style }) => {
   const refArticle = useRef<HTMLAnchorElement>(null);
 
   function handleMouseMove(evt: MouseEvent<HTMLAnchorElement>) {
@@ -37,6 +38,7 @@ export const Article: React.FC<Props> = ({ article: { slug, meta } }) => {
       href={`/p/${slug}`}
       ref={refArticle}
       className={styles.article}
+      style={style}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

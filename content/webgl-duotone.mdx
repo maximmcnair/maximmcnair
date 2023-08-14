@@ -10,6 +10,8 @@ published: true
 
 <WebGLImageProcessingIntro />
 
+### What is duotone?
+
 Duotone is a simple effect that has, while predating digital software, seen a boost in popularity in the last few years. The Spotify ad campaign from a few years back.
 
 Click on the color pairs below to see what happens to this image when you apply a duotone effect:
@@ -18,7 +20,7 @@ Click on the color pairs below to see what happens to this image when you apply 
 
 I'm going to run through a simple method to create this Duotone effect by using a gradient map on a black and white image.
 
-First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in a [previous article](/p/2023-06-webgl-02-color-correction) of this series to create one.
+First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in a the [color correction article](/p/webgl-color-correction) of this series to create one.
 
 ```glsl
 vec4 desaturated(vec4 color) {
@@ -38,4 +40,6 @@ vec4 duotone(vec4 fragColor, vec4 lowcolor, vec4 highcolor) {
 }
 ```
 
-Next up, we'll take a look at how to add a [pixelate](/p/2023-06-webgl-06-pixelate) effect to our image.
+Next up, we'll take a look at how to add a [pixelate](/p/webgl-pixelate) effect to our image.
+
+<ArticlePreview slug="webgl-pixelate" />

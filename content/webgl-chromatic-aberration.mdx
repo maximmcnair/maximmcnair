@@ -12,15 +12,15 @@ published: true
 
 ### What is Chromatic Aberration?
 
-Chromatic aberration, or color fringing, is an optical issue that occurs in a camera lens when it's unable to bring all wavelengths of color to the same focal plane.
+Chromatic aberration, or color fringing, occurs in a camera lens when it's unable to bring all wavelengths of color to the same focal plane.
 
-We can simulate this effect by linearly moving one or more of our RGB channels from our texture along the x or y plane. Here are two examples of moving the red and blue channels:
+We can simulate this effect by moving one or more of our RGB channels from our texture along the x or y axis. Here are two examples, in which we can move the red and blue channels:
 
 <Dither step="chromatic-aberration-red" />
 
 <Dither step="chromatic-aberration-blue" />
 
-The GLSL code for this is quite straightforward. Below we pass our texel data into our chromatic aberration function. This generates a vec4 color value based on the texel at our program's uv. We can then move our red channel by an `xOffset` and `yOffset`. 
+The GLSL code for this is straightforward. Below, we pass our texel data into our chromatic aberration function. This generates a vec4 color value based on the texel at our program's UV coordinates. We can then move our red channel by an `xOffset` and `yOffset`. 
 
 ```glsl
 vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
@@ -51,11 +51,11 @@ void main() {
 
 ### Distance from edges
 
-Instead of linearly moving each color channel we can increase the amount by the distance from the center, this mimics the effect seen in lenses. Similar to our vignette effect in the [previous article](/p/2023-07-webgl-09-vignette).
+Above we moved an entire color channel across the whole image at a constant rate. To mimic the effect created by a camera lens we need to increase the movement of the channel as it approaches the edge of the image. Similarly to our vignette effect in the [previous article](/p/webgl-vignette).
 
 <Dither step="chromatic-aberration" />
 
-In our GLSL code we get our uv's distance from the center with `length(uv - 0.5)` and we multiply this by an offset for each channel (this is controlled by the dials).
+In GLSL, we can achieve this by getting our UV's distance from the center with `length(uv - 0.5)` and then multiplying this by an offset for each channel (this is controlled by the dials).
 
 ```glsl 
 vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
@@ -85,3 +85,6 @@ void main() {
   outColor = chromaticAberration(uv, texel);
 }
 ```
+
+In the next article, we'll be exploring image convolution.
+

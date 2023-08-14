@@ -10,9 +10,13 @@ published: true
 
 <WebGLImageProcessingIntro />
 
-Vignetting is a reduction of an image's brightness or saturation towards its edges. While this is often an undesired effect in photography, due to wrong settings or issues with the lens. It can be used to lead the viewer's eye to the center (or another position) in the image. We look at code from Tyler Lindberg's [glsl-vignette](https://github.com/TyLindberg/glsl-vignette) here, which is licensed on a [MIT license](https://github.com/TyLindberg/glsl-vignette/blob/master/LICENSE).
+### What is vignetting?
 
-At its most basic we can take the distance from the center of the image and create a radial gradient that darkerns towards the edges. I've included an additional preview of the vignette over a white background to get a complete picture of the vignette's shape.
+Vignetting is the reduction of an image's brightness or saturation towards its edges. While this was historically an undesired effect in photography – an indicator of incorrect camera settings or issues with the lens – it can also be used to lead the viewer's eye to a specific point on an image.
+
+We look at code from Tyler Lindberg's [glsl-vignette](https://github.com/TyLindberg/glsl-vignette) here, which is licensed on a [MIT license](https://github.com/TyLindberg/glsl-vignette/blob/master/LICENSE).
+
+In its simplest form we can take the distance from the center of the image and create a radial gradient that darkerns towards the edges. I've included an additional preview of the vignette over a white background to get a complete picture of the vignette's shape.
 
 <Dither step="vignette-basic" />
 
@@ -33,7 +37,7 @@ void main() {
 
 ### Smoothstep
 
-The main issue with the above approach is we lose a lot of detail from the center of the image. We can use smoothstep to control the "smoothness" of the fade between our image and the darkness at the edges. 
+The main issue with the above approach is that we lose a lot of detail from the center of the image. We can use smoothstep to control the "smoothness" of the fade between our image and the darkness at the edges. 
 
 <Dither step="vignette-simple" />
 
@@ -61,7 +65,7 @@ void main() {
 
 ### Non-Square vignette
 
-We can use separate values for our width and height to control the shape of our vignette.
+We can also use separate values for our width and height to control the shape of our vignette.
 
 <Dither step="vignette" />
 
@@ -104,3 +108,6 @@ void main() {
 }
 ```
 
+In the next article, we'll be exploring how to simulate the effect of [chromatic aberration](/p/webgl-chromatic-aberration).
+
+<ArticlePreview slug="webgl-chromatic-aberration" />
