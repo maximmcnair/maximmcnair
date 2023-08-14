@@ -10,9 +10,9 @@ published: true
 
 <WebGLImageProcessingIntro />
 
-### What is duotone?
+## What is duotone?
 
-Duotone is a simple effect that maps a black-and-white image into a color range. This effect dates back to the 50/60s with Andy Warhol using variations of it. Its still in use today, Spotify makes extensive use of it across its advert campaigns.
+Duotone is a simple effect that maps a black-and-white image into a color range. Its usage dates back to the mid-20th Century, with Andy Warhol being one of the most famous people to popularize it. More recently, Spotify made extensive use of it in its brand communications.
 
 <div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
     <div style={{textAlign: 'center', marginBottom: 20}}>
@@ -30,9 +30,9 @@ Click on the color pairs below to see what happens to this image when you apply 
 
 <Duotone />
 
-I'm going to run through a simple method to create this Duotone effect by using a gradient map on a black and white image.
+I'm going to run through a simple method to create this effect by using a gradient map on a black and white image.
 
-First we'll need a black and white image. We don't want to be limited to just using black and white images. So let's reuse our desaturated function we covered in the [color correction article](/p/webgl-color-correction) of this series to create one.
+First we'll need a black and white image. Let's reuse our desaturated function we covered in the [color correction article](/p/webgl-color-correction) of this series to create one.
 
 ```glsl
 vec4 desaturated(vec4 color) {

@@ -8,16 +8,16 @@ thumb: "/article-webgl-setup.jpg"
 published: true
 ---
 
-In this series of articles we’re going to look at image processing with the **GPU**. We’ll use **WebGL** (Web Graphics Library) and **GLSL** (OpenGL Shading Language) shaders for this, which will enable the interactive examples throughout the series.
+In this series of articles we’re going to look at image processing with the **GPU**. We’ll use **WebGL** (Web Graphics Library) and **GLSL** (OpenGL Shading Language) shaders for this, which will enable interactive examples throughout the series.
 
-While the theory behind image processing is quite math heavy, this series will focus on the code for producing these effects and the theory behind them.
+While the theory behind image processing is quite math-heavy, this series will focus on the code for producing these effects and the theory behind them.
 
 We’ll start off with a basic introduction to WebGL and GLSL, and then move onto simple color correction algorithms that you’d find in software such as Lightroom, VSCO or Instagram. We will then take a tour through numerous filters and effects that would be at home in Photoshop.
 
-#### Articles in this series:
+## Articles in this series:
 
 - Intro to WebGL (this article)
-- Color correction
+- Color Correction
 - Hue
 - Film Grain
 - Duotone
@@ -33,7 +33,7 @@ Here's a preview of what we'll build over the course of these articles. You can 
 
 <iframe title="WebGL Photo - filters & effects" src="/webgl-filters-and-effects?header=false&preview=true" />
 
-### Basic WebGL concepts
+## Basic WebGL concepts
 
 WebGL is a JavaScript API for rendering high-performance, interactive, 3D and 2D graphics in the browser. It uses your **GPU** to compute your programs in parallel rather than the linear functionality of the **CPU**.
 
@@ -41,22 +41,22 @@ WebGL enables us to **send data to, and run programs (shaders) on, the GPU**
 
 Shader programs are written in a C-inspired language called GLSL (OpenGL Shading Language). Graphics cards are extremely fast in comparison to the CPU, and have many mathematical functions built in that GLSL enables us to take advantage of from our shader programs.
 
-We pass data to our fragment shader as a **Uniform**. A Uniform is a variable that is the same for every fragment shader in a render pass. As this series will focus on editing images, we'll pass this into our shader program as a special kind of Uniform known as a **Texture**. Textures are WebGL's built in support for images. It stores the image data as a 2x2 matrix (row x column) of vec4 (4 value vector, similar to a array in Javascript) color RGBA (red, green, blue, alpha) values for each pixel cell.
+We pass data to our fragment shader as a **Uniform**. A Uniform is a variable that is the same for every fragment shader in a render pass. As this series will focus on editing images, we'll pass this into our shader program as a special kind of Uniform known as a **Texture**. Textures are WebGL's built in support for images. It stores the image data as a 2x2 matrix (row x column) of RGBA (red, green, blue, alpha) color values.
 
-### A brief recap:
+## A brief recap:
 - **Shader**: a program that runs on the GPU, as opposed to the CPU
 - **Fragment shader**: a program (on the GPU) that runs for every pixel in your image in parallel
 - **Uniform**: a variable that is the same for every fragment shader in a render pass
 - **Texture**: WebGL’s built-in support for images
 
-### GLSL colors
+## GLSL colors
 
 Colors in GLSL are a 4-value vector, containing the red, green, blue, alpha channels. These map to the RGBA values you know in CSS, but are 0.0 to 1.0 instead of 0 to 255.
 To get a feel for how these relate to each other, have a play around with the values below using your arrow keys:
 
 <ColorVec4 color={[255, 0, 0, 255]} />
 
-### Our foundational shader
+## Our foundational shader
 
 The foundations of our shader lie in a few input `uniform`s and one color value `output`. Let's have a quick look, then I'll break it down.
 
@@ -77,7 +77,9 @@ void main() {
 }
 ```
 
-Starting from the top, we have `#version 300 es`. This tells WebGL which version of GLSL our shader is written in. This is quite important as there are many breaking changes between version `100` and `300`.  The `precision` value tells our program how many decimals a floating point can contain. The more decimals the more data can be stored from a calculation. 
+Starting from the top, we have `#version 300 es`. This tells WebGL which version of GLSL our shader is written in. This is quite important as there are many breaking changes between version `100` and `300`. 
+
+The `precision` value tells our program how many decimals a floating point can contain. The more decimals, the more data can be stored from a calculation. 
 
 We pass our image in as a uniform `u_image`, which we can read with GLSL's `texture` function. We also need the resolution (width and height) of our canvas to correctly map our image data to our canvas size, passing this into the `texture` function.
 
@@ -85,8 +87,6 @@ The `texture` function outputs a `texel`: a texture element rather than a pix
 
 <WebGLFilters step="Intro" />
 
-This program doesn't do much at the moment. It simply outputs the image we pass in, as we can see below. In the [next article](/p/webgl-color-correction) we’ll expand on this basic program to support color correction methods such as brightness, exposure and saturation.
-
-For a deeper dive into WebGL I’d suggest taking a look at the brilliant [webgl2fundamentals.org](https://webgl2fundamentals.org/) or [mdn’s docs for WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API).
+This program doesn't do much at the moment. It simply outputs the image we pass in, as we can see above. In the [next article](/p/webgl-color-correction) we’ll expand on this basic program to support color correction methods such as brightness, exposure and saturation.
 
 <ArticlePreview slug="webgl-color-correction" />

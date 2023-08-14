@@ -1,5 +1,5 @@
 ---
-title: "Shifting Hue"
+title: "Hue"
 series: "WebGL Image Processing"
 issue: "03"
 publishedOn: "2023-06-17T16:31:05.404Z"
@@ -10,15 +10,15 @@ published: true
 
 <WebGLImageProcessingIntro />
 
-### What is hue?
+## What is hue?
 
-Hue is the main indication of a color. It's the value that defines the color itself. It is the "red" of a tomato and the "yellow" of a banana.
+Hue is the main indication of a color. It's the value that defines the color itself. 
 
-Changing the hue of a photo will change the color of an object, meaning that a tomato would no longer be red, or that a banana would no longer be yellow.
+Changing the hue of an image can change the color of the object it depicts, meaning a tomato would no longer be red, or that a banana would no longer be yellow.
 
 **HSB (hue, saturation, brightness)** is an alternative to the **RGB color model**. In this model, colors of each hue are arranged in a radial slice around the central axis of neutral colors, with complete brightness at the top and darkness at the bottom. 
 
-Here are two great diagrams from [Wikipedia](https://en.wikipedia.org/wiki/HSL_and_HSV) to illustrate the difference between RGB on the left, and HSV (or HSB) on the right. 
+Here are two diagrams from [POV-Ray](http://povray.org) to illustrate the difference between RGB on the left, and HSV (or HSB) on the right. 
 
 <div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
   <img src="/color-model-rgb.png" style={{backgroundColor: 'white', width: 'calc(50% - 5px)'}}/>
@@ -29,7 +29,7 @@ If we extract just the hue value, we can see how the color changes in the **rang
 
 <Dither step="gradient-hsb" label="Hue color range from 0° to 360°" />
 
-### Converting RGB to HSB
+## Converting RGB to HSB
 
 Similarly to how RGB values are mapped from 0 to 1 in GLSL instead of the common 0 to 255 range, we also need to adapt our HSB values. We want them to be mapped to 0 to 1, instead of 0° to 360°.
 
@@ -62,7 +62,7 @@ We'll use our standard photos (below) to see how these algorithms update an imag
 
 <Dither step="0-photos" />
 
-### Shifting an image's hue
+## Shifting an image's hue
 
 We can shift the hue of our image easily once we convert our color values from an RGB color model into an HSB color model.
 
@@ -85,7 +85,7 @@ void main() {
 
 Notice that the entire color range on the right is changed to a specific color hue. Let's look at how we can change only a specific range of hues.
 
-### Shifting hue range
+## Shifting hue range
 
 For this example, we'll break our HSB color range into 6 sections to enable us to pick a range to change.
 
@@ -116,6 +116,6 @@ void main() {
 }
 ```
 
-In the next article, we will look into adding an analog feel to our images by [simulating Film Grain.](/p/webgl-film-grain)
+In the [next article](/p/webgl-film-grain), we'll look into adding an analog feel to our images by simulating film grain.
 
 <ArticlePreview slug="webgl-film-grain" />

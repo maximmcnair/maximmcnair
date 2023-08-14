@@ -38,7 +38,7 @@ const WebGLImageProcessingIntro: React.FC = ({ children }) => {
     <p style={{ fontStyle: 'italic' }}>
       This is part of the WebGL image processing series and it relies on
       information in previous articles. Start at the{' '}
-      <Link href="/p/webgl-setup">beginning here.</Link>
+      beginning <Link href="/p/webgl-setup">here.</Link>
     </p>
   );
 };

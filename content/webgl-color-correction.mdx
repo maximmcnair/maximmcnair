@@ -28,7 +28,7 @@ vec4 brightness(vec4 color, float value) {
 
 ## Exposure
 
-To update the exposure, we want to multiply, instead of adding to each RGB value by the same amount. This changes the brightness of our image by its current luminosity (the strength of the individual texel). Since multiplying a zero value outputs another zero, we need to increase our original value by 1.0.
+To update the exposure, we want to _multiply_ each RGB value by the same amount. This changes the brightness of our image by its current luminosity (the strength of the individual texel). Since multiplying a zero value outputs another zero, we need to increase our original value by 1.0.
 
 ```glsl
 vec4 exposure(vec4 color, float value) {
@@ -58,7 +58,7 @@ vec4 contrast(vec4 color, float value) {
 
 Saturation alters the vibrance of colors in an image. The more saturated an image is, the more colorful it appears.
 
-When we increase the saturation, we increase the contrast between the RBG channels of a texel. Meaning a fully saturated texel would be one of 3 values `vec4(1, 0, 0, 1)` ,  `vec3(0, 1, 0, 1)`  or  `vec4(0, 0, 1, 1)`.
+When we increase the saturation, we increase the contrast between the RGB channels of a texel. Meaning a fully saturated texel would be one of 3 values `vec4(1, 0, 0, 1)` ,  `vec3(0, 1, 0, 1)`  or  `vec4(0, 0, 1, 1)`.
 
 To create a desaturated (black-and-white or grayscale) image, we can take the average of the channels.
 
