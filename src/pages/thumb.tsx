@@ -11,7 +11,7 @@ import frag from '@/components/WebGLFilters/dither/blend-modes.glsl';
 interface Props {}
 
 const imgs = [
-  '/matrix.png',
+  // '/matrix.png',
   '/flowers.jpg',
   '/brice-cooper-city.jpg',
   '/artem-sapegin-mountain.jpg',
@@ -73,11 +73,11 @@ const Thumb: NextPage<Props> = () => {
         height: '100vh',
       }}
       title={''}
-      // width={1200}
-      // height={1200}
-      width={602}
-      height={426}
-      mouse
+      width={1200}
+      height={1200}
+      // width={602}
+      // height={426}
+      mouse={false}
       frag={frag}
       imgSrc={imgs[imgIdx]}
       fx={fx}

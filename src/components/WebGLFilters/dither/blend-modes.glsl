@@ -157,4 +157,5 @@ void main() {
   } else {
     outColor = texel;
   }
+      // outColor = blendOverlay(texel, blend);
 }
