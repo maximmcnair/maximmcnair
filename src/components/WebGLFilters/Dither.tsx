@@ -577,7 +577,7 @@ export function Dither(props: Props) {
               <strong>Pixelate size</strong>
               <input
                 type="range"
-                min={0}
+                min={1}
                 max={100}
                 step={1}
                 value={fx}
