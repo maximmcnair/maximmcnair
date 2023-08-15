@@ -18,6 +18,15 @@ export interface Filter {
   disabled?: boolean;
 }
 
+const ranges = [
+  ['#42ed0b', '#5e215c'],
+  ['#f43d1f', '#240851'],
+  ['#fef445', '#f439b5'],
+  ['#d24b51', '#36455a'],
+  ['#01bdac', '#00229d'],
+];
+
+
 export const filters: Filter[] = [
   {
     name: 'Brightness',
@@ -382,8 +391,8 @@ export default function WebGL() {
     Blur: 0,
 
     // duotone
-    DuotoneHigh: [0, 0, 0, 0],
-    DuotoneLow: [0, 0, 0, 0],
+    DuotoneHigh: HEXtoRGBAVec4(ranges[0][0]),
+    DuotoneLow: HEXtoRGBAVec4(ranges[0][1]),
   });
 
   const [image, setImage] = useState<HTMLImageElement>();

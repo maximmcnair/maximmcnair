@@ -76,6 +76,8 @@ import fragConvolutionBoxBlur from './dither/convolution-box-blur.glsl';
 import fragConvolutionSobelHori from './dither/convolution-sobel-hori.glsl';
 // @ts-ignore
 import fragConvolutionSobelVert from './dither/convolution-sobel-vert.glsl';
+// @ts-ignore
+import fragBlendModes from './dither/blend-modes.glsl';
 
 interface Props {
   step: string;
@@ -154,6 +156,18 @@ function setFrag(step: string) {
       return fragConvolutionSobelHori;
     case 'convolution-sobel-vert':
       return fragConvolutionSobelVert;
+    case 'blend-modes':
+    case 'blend-normal':
+    case 'blend-lighten':
+    case 'blend-darken':
+    case 'blend-multiply':
+    case 'blend-screen':
+    case 'blend-color-burn':
+    case 'blend-color-dodge':
+    case 'blend-overlay':
+    case 'blend-soft-light':
+    case 'blend-hard-light':
+      return fragBlendModes;
     // default:
     //   return fragTest;
   }
@@ -178,6 +192,7 @@ const hueColors = [
 export function Dither(props: Props) {
   const frag = setFrag(props.step);
   const [imgIdx, setImgIdx] = useState(0);
+  const [mouse, setMouse] = useState(false);
   const [size, setSize] = useState({ width: 520, height: 500 });
   const [fx, setFx] = useState(1);
   const [fy, setFy] = useState(1);
@@ -265,6 +280,46 @@ export function Dither(props: Props) {
       setFx(0);
       setFy(0);
       setFz(0);
+    }
+    if (props.step === 'blend-normal') {
+      setFx(1);
+      setMouse(true);
+    }
+    if (props.step === 'blend-lighten') {
+      setFx(2);
+      setMouse(true);
+    }
+    if (props.step === 'blend-darken') {
+      setFx(3);
+      setMouse(true);
+    }
+    if (props.step === 'blend-multiply') {
+      setFx(4);
+      setMouse(true);
+    }
+    if (props.step === 'blend-screen') {
+      setFx(5);
+      setMouse(true);
+    }
+    if (props.step === 'blend-color-burn') {
+      setFx(6);
+      setMouse(true);
+    }
+    if (props.step === 'blend-color-dodge') {
+      setFx(7);
+      setMouse(true);
+    }
+    if (props.step === 'blend-overlay') {
+      setFx(8);
+      setMouse(true);
+    }
+    if (props.step === 'blend-soft-light') {
+      setFx(9);
+      setMouse(true);
+    }
+    if (props.step === 'blend-hard-light') {
+      setFx(10);
+      setMouse(true);
     }
   }, []);
 
@@ -728,6 +783,7 @@ export function Dither(props: Props) {
             fy={fy}
             fz={fz}
             fw={fw}
+            mouse={mouse}
           />
         )}
         {props.label ? (
