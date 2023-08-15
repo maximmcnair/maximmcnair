@@ -10,7 +10,7 @@ const Articles: React.FC<Props> = ({ posts }) => {
   return (
     <section className={styles.container}>
       <div className="content">
-        <h2 className={styles.header}>Articles</h2>
+        <h2 className={styles.header}>WebGL Image Processing</h2>
         <p className={styles.desc}>
           An exploration of image processing with GPU shaders in the browser.
         </p>

@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { createProgramFromSources, loadTexture } from '@/utils/webgl';
+import { createProgramFromSources, loadTexture, clamp, mapLinear } from '@/utils/webgl';
 import { Position } from '@/types';
 
 // @ts-ignore
 import vertDefault from './ShaderDefaultVert.glsl';
 // @ts-ignore
 import fragDefault from './ShaderDefaultFrag.glsl';
-import { min } from 'date-fns';
 
 interface Props {
   vert?: string;
   frag?: string;
   title?: string;
   className?: string;
+  style?: React.CSSProperties;
   renderTitle?: boolean;
   height?: number;
   width?: number;
@@ -22,6 +22,7 @@ interface Props {
   fy?: number;
   fz?: number;
   fw?: number;
+  mouse?: boolean;
 }
 
 export default function ShaderView({
@@ -29,6 +30,7 @@ export default function ShaderView({
   vert,
   title,
   className,
+  style,
   renderTitle = false,
   height,
   width,
@@ -37,6 +39,7 @@ export default function ShaderView({
   fy = 1,
   fz = 1,
   fw = 1,
+  mouse = false,
 }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +54,6 @@ export default function ShaderView({
       if (height && width) {
         const aspectRatio = height / width;
         const minWidth = Math.min(width, window.innerWidth);
-        console.log(height, width, aspectRatio, minWidth);
         setSize({
           width: minWidth,
           height: aspectRatio * minWidth,
@@ -231,12 +233,69 @@ export default function ShaderView({
     };
   }, [canvasRef, size, frag, vert]);
 
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const handleMouseMove = (evt: MouseEvent) => {
+      if (canvasRef.current) {
+        const canvas = canvasRef.current as HTMLCanvasElement;
+        const { left, top } = canvasRef.current.getBoundingClientRect();
+        const x = evt.clientX || evt.pageX;
+        const y = evt.clientY || evt.pageY;
+        setMousePos({
+          x: clamp((x - left) / size.width, 0, 1),
+          y: clamp((canvas.height - (y - top)) / size.height, 0, 1),
+        });
+      }
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [canvasRef, size]);
+
   return (
-    <section className={className} ref={containerRef}>
-      {renderTitle ? <span>{title}</span> : null}
-      {!!(size.width && size.height) && (
-        <canvas ref={canvasRef} width={size.width} height={size.height} />
-      )}
+    <section className={className} ref={containerRef} style={style}>
+      <div
+        style={{
+          position: 'relative',
+          width: size.width,
+          height: size.height,
+        }}
+      >
+        {renderTitle ? <span>{title}</span> : null}
+        {mouse ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: `${mapLinear(mousePos.x, 0, 1, 0, 100)}%`,
+              width: '50px',
+              height: '50px',
+              transform: 'translate3d(-25px, -10px, 0)',
+              backgroundColor: 'var(--color-black-off)',
+              borderRadius: '50%',
+              border: '1px solid var(--color-black-off)',
+              padding: '10px',
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"
+              />
+            </svg>
+          </div>
+        ) : null}
+        {!!(size.width && size.height) && (
+          <canvas ref={canvasRef} width={size.width} height={size.height} />
+        )}
+      </div>
     </section>
   );
 }
