@@ -10,6 +10,12 @@ export default function Document() {
           integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM"
           crossOrigin="anonymous"
         />
+        <script
+          defer
+          data-domain="maximmcnair.com"
+          src="/stats/js/script.js"
+          data-api="/stats/api/event"
+        ></script>
       </Head>
 
       <body>
