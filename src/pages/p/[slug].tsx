@@ -37,8 +37,8 @@ const WebGLImageProcessingIntro: React.FC = ({ children }) => {
   return (
     <p style={{ fontStyle: 'italic' }}>
       This is part of the WebGL image processing series and it relies on
-      information in previous articles. Start at the{' '}
-      beginning <Link href="/p/webgl-setup">here.</Link>
+      information in previous articles. Start at the beginning{' '}
+      <Link href="/p/webgl-setup">here.</Link>
     </p>
   );
 };
@@ -134,6 +134,31 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
             }}
           />
         </div>
+
+        <section className="article-contact">
+          <h2 className="article-contact__title">Feedback and suggestions</h2>
+          <p>
+            Have a suggestion or want to show me your work?
+            <br />
+            Get in touch at{' '}
+            <a
+              href="mailto:maximmcnair@proton.me"
+              target="_blank"
+              rel="noreferrer"
+            >
+              via email
+            </a>
+            {' or Twitter '}
+            <a
+              href="http://twitter.com/maximmcnair"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @maximmcnair
+            </a>
+            .
+          </p>
+        </section>
       </article>
     </Layout>
   );

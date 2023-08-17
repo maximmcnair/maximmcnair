@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 interface Props {
   title?: string;
@@ -22,6 +23,8 @@ export const Layout: React.FC<Props> = ({ title, desc, children }) => {
         <Header />
         {children}
       </main>
+
+      <Footer />
     </>
   );
 };

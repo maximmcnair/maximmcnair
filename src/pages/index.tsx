@@ -4,6 +4,7 @@ import type { NextPage } from 'next';
 import { getPosts } from '@/utils/posts';
 import { Post } from '@/types';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 // import Intro from '@/components/Intro';
 import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
@@ -80,9 +81,11 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="experiments">
           <Experiments />
         </section>
+
+        <ShaderView frag={frag} title={''} className={styles.shader} />
       </main>
 
-      <ShaderView frag={frag} title={''} className={styles.shader} />
+      <Footer />
     </>
   );
 };
