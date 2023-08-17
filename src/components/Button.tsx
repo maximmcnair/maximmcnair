@@ -4,6 +4,14 @@ interface Props {
 }
 
 function Button({ text, href }: Props) {
+  if (href.includes('/p/')) {
+    return (
+      <a href={href} className="btn">
+        {text}
+      </a>
+    );
+  }
+
   return (
     <a href={href} target="_blank" rel="noreferrer" className="btn">
       {text}

@@ -213,7 +213,8 @@ video::-internal-media-controls-overlay-cast-button {
 }
 
 /* Button */
-.btn {
+.btn,
+.btn:visited {
   font-weight: 700;
   font-size: 14px;
   text-transform: uppercase;
@@ -223,14 +224,17 @@ video::-internal-media-controls-overlay-cast-button {
   display: inline-block;
   cursor: pointer;
   border-radius: 5px;
-  color: var(--color-grey-dark);
-  background: var(--color-grey-light);
+  color: var(--color-black);
+  background: var(--color-white);
   transition: all 0.3s;
+  opacity: 1;
 }
 
 .btn:hover {
+  text-decoration: none !important;
   color: var(--color-black);
   background: var(--color-white);
+  opacity: 0.8;
 }
 
 @keyframes fadeIn {
@@ -696,4 +700,34 @@ input[type=range]::-moz-range-thumb {
   border-radius: 7px;
   background: var(--color-highlight);
   cursor: pointer;
+}
+
+/* next article */
+.next-article {
+  background: var(--color-black-off);
+  padding: 20px;
+  border-radius: 3px;
+  margin: 50px 0px 50px 0px;
+  position: relative;
+}
+
+.next-article__preview {
+  margin-top: 20px;
+  display: grid;
+  max-width: 215px;
+}
+
+@media (min-width: 600px) {
+  .next-article {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .next-article__intro {
+    grid-column: span 2;
+  }
+  .next-article__preview {
+    margin-top: 0px;
+    grid-column-start: 3;
+  }
 }
