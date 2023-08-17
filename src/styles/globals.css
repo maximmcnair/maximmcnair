@@ -80,6 +80,12 @@ body {
   background-color: var(--color-white);
 }
 
+main {
+  background-color: var(--color-black);
+  position: relative;
+  z-index: 2;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -342,6 +348,20 @@ video::-internal-media-controls-overlay-cast-button {
 .article-dot {
   color: var(--color-grey-light);
   padding: 0px 7px;
+}
+
+.article-contact {
+  background: var(--color-black-off);
+  padding: 20px;
+  border-radius: 3px;
+  margin: 50px 0px 50px 0px;
+}
+.article-contact__title {
+  margin: 0px 0px 10px 0px;
+}
+.article-contact a {
+  color: var(--color-highlight);
+  font-weight: 500;
 }
 
 /* Tags */

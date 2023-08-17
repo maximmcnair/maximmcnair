@@ -4,7 +4,9 @@ import ShaderView from '@/components/ShaderView';
 import { useControls } from 'leva';
 
 // @ts-ignore
-import frag from '@/components/WebGLFilters/dither/blend-modes.glsl';
+import frag from '@/components/WebGLFilters/dither/convolution-sobel-hori.glsl';
+// import frag from '@/components/WebGLFilters/dither/melting.glsl';
+// import frag from '@/components/WebGLFilters/dither/blend-modes.glsl';
 // @ts-ignore
 // import frag from '@/components/WebGLFilters/dither/matrix-color.glsl';
 
@@ -12,6 +14,7 @@ interface Props {}
 
 const imgs = [
   // '/matrix.png',
+  // '/melting.png',
   '/flowers.jpg',
   '/brice-cooper-city.jpg',
   '/artem-sapegin-mountain.jpg',
@@ -77,7 +80,7 @@ const Thumb: NextPage<Props> = () => {
       height={1200}
       // width={602}
       // height={426}
-      mouse={false}
+      // mouse={false}
       frag={frag}
       imgSrc={imgs[imgIdx]}
       fx={fx}
