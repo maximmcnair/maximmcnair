@@ -4,6 +4,7 @@ import type { NextPage } from 'next';
 import { getPosts } from '@/utils/posts';
 import { Post } from '@/types';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import Articles from '@/components/Articles';
 
 export async function getStaticProps() {
@@ -57,11 +58,11 @@ const WebGLImageProcessing: NextPage<Props> = ({ posts }) => {
 
       <Header />
 
-      <main>
-        <section id="articles">
-          <Articles posts={posts} />
-        </section>
+      <main style={{ paddingBottom: 80 }}>
+        <Articles posts={posts} />
       </main>
+
+      <Footer />
     </>
   );
 };

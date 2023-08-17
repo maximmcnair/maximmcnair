@@ -27,20 +27,11 @@ const Footer: React.FC = () => {
           <Link href="/#about" onClick={evt => handleScrollTo(evt, 'about')}>
             About
           </Link>
-          <Link
-            href="/#articles"
-            onClick={evt => handleScrollTo(evt, 'articles')}
-          >
-            Articles
-          </Link>
           <Link href="/#work" onClick={evt => handleScrollTo(evt, 'work')}>
             Work
           </Link>
-          <Link
-            href="/#experiments"
-            onClick={evt => handleScrollTo(evt, 'experiments')}
-          >
-            Experiments
+          <Link href="/webgl-image-processing">
+            WebGL Image Processing series
           </Link>
         </nav>
 
