@@ -9,6 +9,7 @@ import Highlight from 'react-highlight';
 import Link from 'next/link';
 
 import { getPostSlugs, getPost, getPosts } from '@/utils/posts';
+import Button from '@/components/Button';
 import { Layout } from '@/components/Layout';
 import { MathGrid } from '@/components/MathGrid';
 import { WebGLFilters } from '@/components/WebGLFilters/Article';
@@ -37,7 +38,7 @@ const WebGLImageProcessingIntro: React.FC = ({ children }) => {
   return (
     <p style={{ fontStyle: 'italic' }}>
       This is part of the WebGL image processing series and it relies on
-      information in previous articles. See all articles {' '}
+      information in previous articles. See all articles{' '}
       <Link href="/webgl-image-processing">here.</Link>
     </p>
   );
@@ -105,20 +106,29 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
               pre: Highlight,
               small: ({ children }) => <small>{children}</small>,
               ArticlePreview: ({ slug }) => {
-                return null;
                 const post = posts.find(p => p.slug === slug);
                 if (!post) return null;
                 return (
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(3, 1fr)',
-                      gridColumnStart: 2,
-                      gap: '15px',
-                    }}
-                  >
-                    {/* @ts-ignore */}
-                    <Article article={post} style={{ gridColumnStart: 2 }} />
+                  <div className="next-article">
+                    <div className="next-artice__intro">
+                      <span>Next article</span>
+                      <h2 style={{ margin: 0, marginBottom: 20 }}>
+                        {post.meta.title}
+                      </h2>
+                      <div>
+                        <Button
+                          text="Go to next article"
+                          href={`/p/${post.slug}`}
+                        />
+                      </div>
+                      <span style={{ display: 'block', marginTop: 15 }}>
+                        Or <Link href="/webgl-image-processing">view all articles.</Link>
+                      </span>
+                    </div>
+                    <div className="next-article__preview">
+                      {/* @ts-ignore */}
+                      <Article article={post} />
+                    </div>
                   </div>
                 );
               },
