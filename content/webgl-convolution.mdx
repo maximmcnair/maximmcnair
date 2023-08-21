@@ -5,12 +5,14 @@ issue: "12"
 publishedOn: "2023-07-10T16:31:05.404Z"
 tags: ["WebGL"]
 thumb: "/article-webgl-convolution.jpg"
-published: false
+published: true
 ---
 
 <WebGLImageProcessingIntro />
 
-Image convolution is the process of modifying an image by convolving it by a kernel matrix (this is not the same as a dither matrix we covered before). Depending on the matrix chosen we can achieve effects such as embossing, outlining, blurring and sharpening.
+## What is convolution?
+
+Image convolution is the process of modifying an image by convolving it by a kernel matrix (this is not the same as a dither matrix we covered previously). Depending on the matrix chosen we can achieve effects such as embossing, outlining, blurring and sharpening.
 
 ### Mathematical
 
@@ -20,13 +22,12 @@ $$
 (f \ast g)(t) = \int\limits_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau
 $$
 
-<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
   <img src="/convolution-wolfram-mathworld.gif" />
+  <small style={{marginTop: 5}}>
+    [Convolution of two functions (Wolfram MathWorld)](https://mathworld.wolfram.com/Convolution.html)
+  </small>
 </div>
-
-[https://mathworld.wolfram.com/Convolution.html]().
-
-// img Cross-correlation ("Convolution") of two functions, f and g. (from Wolfram MathWorld)
 
 ## Image Processing
 
