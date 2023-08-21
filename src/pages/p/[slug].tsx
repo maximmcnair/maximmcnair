@@ -36,11 +36,16 @@ const AHref: React.FC<{ href: string }> = ({ href, children }) => {
 // @ts-ignore
 const WebGLImageProcessingIntro: React.FC = ({ children }) => {
   return (
-    <p style={{ fontStyle: 'italic' }}>
-      This is part of the WebGL image processing series and it relies on
-      information in previous articles. See all articles{' '}
-      <Link href="/webgl-image-processing">here.</Link>
-    </p>
+    <>
+      <p style={{ fontStyle: 'italic' }}>
+        This is part of the WebGL image processing series and it relies on
+        information in previous articles. See all articles{' '}
+        <Link href="/webgl-image-processing">here.</Link>
+      </p>
+      <p style={{ fontStyle: 'italic' }}>
+        It is designed to be used on desktop.
+      </p>
+    </>
   );
 };
 
@@ -122,7 +127,10 @@ const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
                         />
                       </div>
                       <span style={{ display: 'block', marginTop: 15 }}>
-                        Or <Link href="/webgl-image-processing">view all articles.</Link>
+                        Or{' '}
+                        <Link href="/webgl-image-processing">
+                          view all articles.
+                        </Link>
                       </span>
                     </div>
                     <div className="next-article__preview">
