@@ -12,7 +12,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      shaders: shaders,
+      shaders: shaders.reverse(),
       // .filter((p) => p.meta.published)
       // .sort((a, b) =>
       //   a.meta.publishedOn > b.meta.publishedOn
@@ -59,6 +59,8 @@ const Shaders: NextPage<Props> = ({ shaders }) => {
               className={styles.shader}
               key={title}
               title={title}
+              width={400}
+              height={400}
             />
           </a>
         ))}

@@ -4,32 +4,33 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 45px 10px;
+  gap: 10px 10px;
 }
 
-.shader {
-  position: relative;
-}
-
-.shader span {
-  position: absolute;
-  bottom: -20px;
-}
-
-.shader::before {
-  content: "";
-  display: inline-block;
-  width: 1px;
-  height: 0;
-  padding-bottom: calc(100% / 1);
-  margin-top: 10px;
-}
-
-.shader canvas {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-}
+/* .shader div { */
+/*   position: relative; */
+/* } */
+/**/
+/* .shader span { */
+/*   position: absolute; */
+/*   bottom: -20px; */
+/* } */
+/**/
+/* .shader div::before { */
+/*   content: ""; */
+/*   display: inline-block; */
+/*   width: 1px; */
+/*   height: 0; */
+/*   padding-bottom: calc(100% / 1); */
+/*   margin-top: 10px; */
+/* } */
+/**/
+/* .shader canvas { */
+/*   position: absolute; */
+/*   top: 0px; */
+/*   bottom: 0px; */
+/* } */
+/**/
 
 .fullscreen {
   position: absolute;

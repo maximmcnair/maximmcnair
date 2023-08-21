@@ -69,26 +69,39 @@ const Thumb: NextPage<Props> = () => {
   });
 
   return (
-    <ShaderView
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-      title={''}
-      // width={1200}
-      // height={1200}
-      width={602}
-      height={426}
-      // mouse
-      frag={frag}
-      imgSrc={imgs[imgIdx]}
-      fx={fx}
-      fy={fy}
-      fz={fz}
-      fw={fw}
-    />
+    <>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <div style={{ width: 602, fontSize: 18 }}>
+          <Highlight>{`outColor = vec4(
+  pow(texel.r, 3.0 / 2.0), 
+  pow(texel.g, 4.0 / 5.0), 
+  pow(texel.b, 3.0 / 2.0), 
+  1.0
+);`}</Highlight>
+          <ShaderView
+            title={''}
+            // width={1200}
+            // height={1200}
+            width={602}
+            height={426}
+            mouse
+            frag={frag}
+            imgSrc={imgs[imgIdx]}
+            fx={fx}
+            fy={fy}
+            fz={fz}
+            fw={fw}
+          />
+        </div>
+      </div>
+    </>
   );
 };
 
