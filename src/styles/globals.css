@@ -416,7 +416,8 @@ canvas{
   left: 0px;
   right: 0px;
   z-index: 0;
-  background: var(--color-black-off);
+  /* background: var(--color-black-off); */
+  background-color: #1C1B1E;
 }
 .filters {
   padding-top: 100px;

@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRef, useEffect } from 'react';
 import type { NextPage } from 'next';
 
 import { getPosts } from '@/utils/posts';
@@ -8,6 +9,7 @@ import Footer from '@/components/Footer';
 // import Intro from '@/components/Intro';
 import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
+import WorkCombo from '@/components/WorkCombo';
 // import Articles from '@/components/Articles__old';
 import Articles from '@/components/Articles';
 import Experiments from '@/components/Experiments';
@@ -16,6 +18,7 @@ import ShaderView from '@/components/ShaderView';
 // @ts-ignore
 import frag from '@/shaders/2023-07-18_01.frag';
 import styles from '@/components/IntroAlt.module.css';
+import { mapLinear } from '@/utils/webgl';
 
 export async function getStaticProps() {
   const posts = await getPosts();
@@ -40,6 +43,25 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ posts }) => {
+  const refBackground = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!refBackground.current) return;
+
+    function handleScroll() {
+      if (!refBackground.current) return;
+      const st = document.documentElement.scrollTop;
+      if (st < window.innerHeight) {
+        refBackground.current.style.opacity = String(mapLinear(st, 0, window.innerHeight, 1, 0));
+      } else {
+        refBackground.current.style.opacity = '0';
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [refBackground]);
+
   return (
     <>
       <Head>
@@ -72,6 +94,11 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="about">
           <Intro />
         </section>
+
+        <section id="work">
+          <WorkCombo />
+        </section>
+
         <section id="articles">
           <Articles posts={posts} />
         </section>
@@ -82,7 +109,9 @@ const Home: NextPage<Props> = ({ posts }) => {
           <Experiments />
         </section>
 
-        <ShaderView frag={frag} title={''} className={styles.shader} />
+        <div ref={refBackground}>
+          <ShaderView frag={frag} title={''} className={styles.shader} />
+        </div>
       </main>
 
       <Footer />

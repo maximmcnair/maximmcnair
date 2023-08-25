@@ -72,6 +72,7 @@
     /* max-width: 700px; */
     /* max-width: 850px; */
     max-width: var(--layout-width-max);
+    text-align: center;
     padding-top: 60px;
   }
 }
@@ -103,7 +104,8 @@
 }
 
 .shader {
- position: absolute;
+ position: fixed;
+ /* position: absolute; */
  top: 0px;
  bottom: 0px;
  left: 0px;
@@ -111,15 +113,4 @@
  width: 100vw;
  height: 100vh;
  z-index: 0;
-}
-.shader::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0px;
-  right: 0px;
-  width: 100vw;
-  height: 120px;
-  background: rgb(0,0,0);
-  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
 }
