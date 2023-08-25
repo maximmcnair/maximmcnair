@@ -37,8 +37,8 @@
   position: relative;
   overflow: hidden;
   background-color: #1C1B1E;
-  box-shadow: 0 0 1px 1px #ffffff2a;
-  padding: 8px;
+  /* box-shadow: 0 0 1px 1px #ffffff2a; */
+  /* padding: 8px; */
 }
 
 .item img,

@@ -35,8 +35,15 @@ export const experiments: Work[] = [
     published: true,
   },
   {
+    title: 'Cables',
+    category: 'WebGL + Svelte',
+    date: '2023',
+    video: '/experiments/cables2.mp4',
+    published: true,
+  },
+  {
     title: 'Opentype Collective',
-    category: 'svelte',
+    category: 'Svelte',
     date: '2023',
     video: '/experiments/opentype-collective-dice.mp4',
     slug: 'https://www.opentypecollective.com/',
@@ -44,7 +51,7 @@ export const experiments: Work[] = [
   },
   {
     title: 'Opentype Collective',
-    category: 'svelte',
+    category: 'Svelte',
     date: '2023',
     video: '/experiments/opentype-collective-mouse.mp4',
     slug: 'https://www.opentypecollective.com/',
@@ -52,7 +59,7 @@ export const experiments: Work[] = [
   },
   {
     title: 'Opentype Collective',
-    category: 'svelte',
+    category: 'Svelte',
     date: '2023',
     video: '/experiments/opentype-collective-preview.mp4',
     slug: 'https://www.opentypecollective.com/',
