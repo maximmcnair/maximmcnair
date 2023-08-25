@@ -22,12 +22,12 @@ export default function Intro() {
           <span className={styles.name}>Maxim McNair</span>
           <h2 className={styles.title}>
             {
-              'I’m a UI Software Engineer interested in the intersection of Math, Comp Sci and Design.'
+              'I’m a Creative Engineer interested in the intersection of Math, Comp Sci and Design.'
             }
           </h2>
           <h2 className={styles.title}>
             {
-              "Currently exploring the world of computer graphics while documenting the process."
+              "Currently exploring the world of image manipulation in WebGL."
             }
           </h2>
         </div>
