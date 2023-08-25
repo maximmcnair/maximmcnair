@@ -1,11 +1,10 @@
-#version 301 es
+#version 300 es
 precision highp float;
 
 uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
-
-out vec4 outColor;
+uniform sampler2D u_image;
 
 // Generic floats
 uniform float u_fx;
@@ -13,6 +12,20 @@ uniform float u_fy;
 uniform float u_fz;
 uniform float u_fw;
 
+uniform float u_4_note; // 0 -> 6
+uniform float u_8_note; // 0 -> 6
+
+out vec4 outColor;
+
+// void main() {
+//   // map uv between 0 -> 1
+// 	vec2 uv = gl_FragCoord.xy/u_resolution;
+//   // vec4 texel = texture(u_image, uv);
+//   // outColor = texel;
+//   
+//   outColor = vec4(uv.x + (u_8_note / 6.0), 1.0, 1.0, 1.0);
+//   // outColor = vec4(u_8_note / 5.0, 1.0, 1.0, 1.0);
+// }
 const int dither_matrix_8x8[64] = int[](
    0, 32, 8, 40, 2, 34, 10, 42,
   48, 16, 56, 24, 50, 18, 58, 26,
@@ -36,14 +49,13 @@ float dither(vec2 uv, float luma) {
 
 //https://iquilezles.org/articles/palettes/
 vec3 palette( float t ) {
-    // vec3 a = vec3(0.5);
-    // vec3 b = vec3(0.5);
-    // vec3 c = vec3(1.0);
-    // vec3 b = vec3(0.5);
-    vec3 a = vec3(0.1);
-    vec3 b = vec3(0.8);
-    vec3 c = vec3(0.4);
-    vec3 d = vec3(0.0, 0.1, 0.2);
+    vec3 a = vec3(0.5);
+    vec3 b = vec3(0.5);
+    vec3 c = vec3(1.0);
+    // vec3 a = vec3(0.1);
+    // vec3 b = vec3(0.8);
+    // vec3 c = vec3(0.4);
+    vec3 d = vec3(1.0, 1.1, 1.2);
 
     return a + b*cos( 6.28318*(c*t+d) );
 }
@@ -55,15 +67,15 @@ float rand(vec2 n) {
 void main() {
 	vec2 uv = (gl_FragCoord.xy * 2.0 - u_resolution.xy) / u_resolution.y;
   uv *= 0.2;
-  uv += 30.0;
+  uv += 80.0;
 
-  float grain = rand(100.0 * uv);
+  float grain = rand(80.0 * uv);
 
   for (int n = 1; n < 2; n++) {
     float i = float(n);
     uv += vec2(
-      sin(uv.x * 6.0 + sin(u_time + uv.y * 10.0) * 0.2),
-      sin(uv.y * 6.0 + sin(u_time + uv.x * 10.0) * 0.2)
+      sin(uv.x * 6.0 + sin(u_time + u_8_note + uv.y * 10.0) * 0.2) + u_4_note,
+      sin(uv.y * 6.0 + sin(u_time + u_8_note + uv.x * 10.0) * 0.2) + u_4_note
     );
   }
 

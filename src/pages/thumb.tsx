@@ -9,7 +9,8 @@ import Highlight from 'react-highlight';
 // import frag from '@/components/WebGLFilters/dither/melting.glsl';
 // import frag from '@/components/WebGLFilters/dither/blend-modes.glsl';
 // @ts-ignore
-import frag from '@/components/WebGLFilters/dither/matrix-color.glsl';
+import frag from '@/components/WebGLFilters/dither/poly.glsl';
+// import frag from '@/components/WebGLFilters/dither/matrix-color.glsl';
 
 interface Props {}
 
@@ -24,10 +25,10 @@ const imgs = [
 
 const Thumb: NextPage<Props> = () => {
   const [imgIdx, setImgIdx] = useState(0);
-  // const [fx, setFx] = useState(1);
-  // const [fy, setFy] = useState(1);
-  // const [fz, setFz] = useState(1);
-  // const [fw, setFw] = useState(1);
+  const [fx, setFx] = useState(1);
+  const [fy, setFy] = useState(1);
+  const [fz, setFz] = useState(1);
+  const [fw, setFw] = useState(1);
   // useEffect(() => {
   //   // threshold
   //   // setFx(0.4);
@@ -41,32 +42,32 @@ const Thumb: NextPage<Props> = () => {
   //   setFw(0.2);
   // }, []);
 
-  const { fx, fy, fz, fw } = useControls({
-    fx: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 1,
-    },
-    fy: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 1,
-    },
-    fz: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 1,
-    },
-    fw: {
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 1,
-    },
-  });
+  // const { fx, fy, fz, fw } = useControls({
+  //   fx: {
+  //     value: 1,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.1,
+  //   },
+  //   fy: {
+  //     value: 1,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.1,
+  //   },
+  //   fz: {
+  //     value: 1,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.1,
+  //   },
+  //   fw: {
+  //     value: 1,
+  //     min: 0,
+  //     max: 1,
+  //     step: 0.1,
+  //   },
+  // });
 
   return (
     <ShaderView
@@ -79,8 +80,8 @@ const Thumb: NextPage<Props> = () => {
       title={''}
       // width={1200}
       // height={1200}
-      width={602}
-      height={426}
+      // width={602}
+      // height={426}
       // mouse
       frag={frag}
       imgSrc={imgs[imgIdx]}

@@ -1,12 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
+import { WebMidi } from 'webmidi';
 
-import { createProgramFromSources, loadTexture, clamp, mapLinear } from '@/utils/webgl';
+import {
+  createProgramFromSources,
+  loadTexture,
+  clamp,
+  mapLinear,
+} from '@/utils/webgl';
 import { Position } from '@/types';
 
 // @ts-ignore
 import vertDefault from './ShaderDefaultVert.glsl';
 // @ts-ignore
 import fragDefault from './ShaderDefaultFrag.glsl';
+import { getRandomValues } from 'crypto';
 
 interface Props {
   vert?: string;
@@ -42,9 +49,61 @@ export default function ShaderView({
   mouse = false,
 }: Props) {
   const [size, setSize] = useState({ width: 0, height: 0 });
+  const [note, setNote] = useState<Record<{ string: number }>>({});
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const programRef = useRef<WebGLProgram>(null);
+
+  useEffect(() => {
+    // Enable WEBMIDI.js and trigger the onEnabled() function when ready
+    WebMidi.enable()
+      .then(onEnabled)
+      .catch(err => alert(err));
+
+    function getRandomInt(min, max) {
+      // return Math.floor(Math.random() * max);
+      return Math.random() * (max - min) + min;
+    }
+
+    // Function triggered when WEBMIDI.js is ready
+    function onEnabled() {
+      console.log('onEnabled');
+
+      // Display available MIDI input devices
+      if (WebMidi.inputs.length < 1) {
+        console.warn('No device detected.');
+      } else {
+        WebMidi.inputs.forEach((device, index) => {
+          console.log(`${index}: ${device.name} <br>`);
+        });
+      }
+      const mySynth = WebMidi.inputs[1];
+      // const mySynth = WebMidi.getInputByName("TYPE NAME HERE!")
+      // console.log(WebMidi.inputs);
+      const listener8 = WebMidi.inputs[1].addListener(
+        'noteon',
+        e => {
+          console.log(e.message.channel, e.message.command, e.note.name, e.data);
+
+          setNote(n => {
+            return {
+              ...n,
+              [e.message.channel]: e.note.name.charCodeAt(0) - 65
+              + getRandomInt(0.2, 0.3),
+            };
+          });
+          // 0 - 127
+          // console.log(8, e.value.toFixed(2), e.velocity.toFixed(2), e.note.name);
+          // document.body.innerHTML += `${e.note.name} <br>`;
+        },
+        { channels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+      );
+
+      return () => {
+        WebMidi.inputs[1].removeListener(4);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -99,7 +158,13 @@ export default function ShaderView({
     gl.uniform1f(uFz, fz);
     const uFw = gl.getUniformLocation(programRef.current, 'u_fw');
     gl.uniform1f(uFw, fw);
-  }, [fx, fy, fz, fw]);
+    const u4Note = gl.getUniformLocation(programRef.current, 'u_4_note');
+    if (note[4] !== null) gl.uniform1f(u4Note, note[4]);
+    const u8Note = gl.getUniformLocation(programRef.current, 'u_8_note');
+    if (note[8] !== null) gl.uniform1f(u8Note, note[8]);
+  }, [fx, fy, fz, fw, note]);
+
+  console.log(note);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -163,6 +228,12 @@ export default function ShaderView({
     const uTime = gl.getUniformLocation(program, 'u_time');
     let time = 1.0;
     gl.uniform1f(uTime, time);
+
+    /* ===== Uniforms - u_note ===== */
+    const uChannel4Note = gl.getUniformLocation(program, 'u_4_note');
+    if (note[4]) gl.uniform1f(uChannel4Note, note[4]);
+    const u8Note = gl.getUniformLocation(program, 'u_8_note');
+    if (note[8]) gl.uniform1f(u8Note, note[8]);
 
     /* ===== Uniforms - u_mouse ===== */
     const uMouse = gl.getUniformLocation(program, 'u_mouse');

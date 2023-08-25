@@ -80,6 +80,7 @@ void main() {
     vec3(dither(gl_FragCoord.xy, grayscale)),
     1.0
   );
+
   // outColor = vec4(
   //   // vec3(dither(gl_FragCoord.xy, grayscale)),
   //   outColor.r * dither(gl_FragCoord.xy, grayscale),
@@ -87,6 +88,7 @@ void main() {
   //   outColor.b * dither(gl_FragCoord.xy, grayscale),
   //   1.0
   // );
+
   vec4 lowcolor = vec4(0.141, 0.031, 0.318, 1.0);
   vec4 highcolor = vec4(0.957, 0.239, 0.122, 1.0);
   outColor = mix(lowcolor, highcolor, outColor);
