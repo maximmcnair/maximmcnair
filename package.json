@@ -37,7 +37,8 @@
     "remark-math": "^5.1.1",
     "styled-components": "^5.3.6",
     "three": "^0.150.1",
-    "uid": "^2.0.1"
+    "uid": "^2.0.1",
+    "webmidi": "^3.1.6"
   },
   "devDependencies": {
     "@tweakpane/core": "^1.1.9",
