@@ -1,6 +1,29 @@
 import { useRef, MouseEvent } from 'react';
 import styles from './Articles.module.css';
+import ShaderView from '@/components/ShaderView';
+import { ArrowUpRight } from 'lucide-react';
 import { Post } from '@/types';
+
+// @ts-ignore
+import fragBasic from '@/components/WebGLFilters/dither/basic.glsl';
+// @ts-ignore
+import fragColorCorrection from '@/components/WebGLFilters/dither/color-correction-preview.glsl';
+// @ts-ignore
+import fragHue from '@/components/WebGLFilters/dither/hue-preview.glsl';
+// @ts-ignore
+import fragFilmGrain from '@/components/WebGLFilters/dither/grain-preview.glsl';
+// @ts-ignore
+import fragDuotone from '@/components/WebGLFilters/dither/duotone-preview.glsl';
+// @ts-ignore
+import fragPixelate from '@/components/WebGLFilters/dither/pixelate-preview.glsl';
+// @ts-ignore
+import fragThresholding from '@/components/WebGLFilters/dither/threshold-preview.glsl';
+// @ts-ignore
+import fragDithering from '@/components/WebGLFilters/dither/dither-preview.glsl';
+// @ts-ignore
+import fragVignette from '@/components/WebGLFilters/dither/vignette-preview.glsl';
+// @ts-ignore
+import fragChromaticAberration from '@/components/WebGLFilters/dither/chromatic-aberration-preview.glsl';
 
 interface Props {
   article: Post;
@@ -9,29 +32,60 @@ interface Props {
 
 const perspective = '1000px';
 const delta = 20;
+const imgSrc = '/flowers.jpg';
 
-export const Article: React.FC<Props> = ({ article: { slug, meta }, style }) => {
+export const Article: React.FC<Props> = ({
+  article: { slug, meta },
+  style,
+}) => {
   const refArticle = useRef<HTMLAnchorElement>(null);
 
-  function handleMouseMove(evt: MouseEvent<HTMLAnchorElement>) {
-    if (!refArticle?.current) return;
-    const { offsetWidth: width, offsetHeight: height } = refArticle.current;
-    const box = refArticle.current?.getBoundingClientRect();
-    const docElem = document.documentElement;
+  // function handleMouseMove(evt: MouseEvent<HTMLAnchorElement>) {
+  //   if (!refArticle?.current) return;
+  //   const { offsetWidth: width, offsetHeight: height } = refArticle.current;
+  //   const box = refArticle.current?.getBoundingClientRect();
+  //   const docElem = document.documentElement;
+  //
+  //   const top = box.top + window.pageYOffset - docElem.clientTop;
+  //   const centerY = (height / 2) - (evt.pageY - top);
+  //
+  //   const left = box.left + window.pageXOffset - docElem.clientLeft;
+  //   const centerX = (width / 2) - (evt.pageX - left);
+  //
+  //   refArticle.current.style.transform = `perspective(${perspective}) rotateX(${centerY / delta}deg) rotateY(${-(centerX / delta)}deg)`;
+  // }
 
-    const top = box.top + window.pageYOffset - docElem.clientTop;
-    const centerY = (height / 2) - (evt.pageY - top);
+  // function handleMouseLeave() {
+  //   if (!refArticle?.current) return;
+  //   refArticle.current.style.transform = '';
+  // }
 
-    const left = box.left + window.pageXOffset - docElem.clientLeft;
-    const centerX = (width / 2) - (evt.pageX - left);
-
-    refArticle.current.style.transform = `perspective(${perspective}) rotateX(${centerY / delta}deg) rotateY(${-(centerX / delta)}deg)`;
+  function slugToShaderPreview(slug: string) {
+    switch (slug) {
+      case 'webgl-color-correction':
+        return fragColorCorrection;
+      case 'webgl-hue':
+        return fragHue;
+      case 'webgl-pixelate':
+        return fragPixelate;
+      case 'webgl-thresholding':
+        return fragThresholding;
+      case 'webgl-dithering':
+        return fragDithering;
+      case 'webgl-vignette':
+        return fragVignette;
+      case 'webgl-chromatic-aberration':
+        return fragChromaticAberration;
+      case 'webgl-film-grain':
+        return fragFilmGrain;
+      case 'webgl-duotone':
+        return fragDuotone;
+      default:
+        return fragBasic;
+    }
   }
 
-  function handleMouseLeave() {
-    if (!refArticle?.current) return;
-    refArticle.current.style.transform = '';
-  }
+  const frag = slugToShaderPreview(slug);
 
   return (
     <a
@@ -39,11 +93,22 @@ export const Article: React.FC<Props> = ({ article: { slug, meta }, style }) => 
       ref={refArticle}
       className={styles.article}
       style={style}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
-      <h3 className={styles.title}>{meta.title}</h3>
-      {meta?.thumb ? <img className={styles.image} src={meta.thumb} /> : null}
+      <span className={styles.title}>{meta.title}</span>
+      <span className={styles.issue}>{meta.issue}</span>
+      <span className={styles.visit}>
+        <ArrowUpRight size={20} />
+        Read
+      </span>
+      <ShaderView
+        title={''}
+        frag={frag}
+        imgSrc={imgSrc}
+        fx={0.4}
+        fy={0.6}
+        fz={0.5}
+        fw={1}
+      />
     </a>
   );
 };

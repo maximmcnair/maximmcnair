@@ -22,7 +22,8 @@
 .content {
   position: relative;
   z-index: 3;
-  max-width: 1200px;
+  width: 90%;
+  max-width: var(--layout-width-max);
   margin: 0 auto;
 }
 
@@ -37,7 +38,7 @@
   position: relative;
   overflow: hidden;
   background-color: #1C1B1E;
-  /* box-shadow: 0 0 1px 1px #ffffff2a; */
+  box-shadow: 0 0 1px 1px #ffffff2a;
   /* padding: 8px; */
 }
 

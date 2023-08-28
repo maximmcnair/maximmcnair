@@ -87,97 +87,81 @@ export const getStaticProps: GetStaticProps = async context => {
 const Post: NextPage<Props> = ({ meta, mdx, posts }) => {
   return (
     <Layout title={meta?.title} desc={meta?.desc}>
-      <article className="article content">
-        <header className="article__header">
-          <h1 className="article__title">{meta?.title}</h1>
-          <strong className="article__date">
-            {meta?.tags?.length > 0 && (
-              <div className="tags">
-                {meta.tags.map(t => (
-                  <span key={t} className="tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
-            <span className="article-dot">{' • '}</span>
-            {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
-          </strong>
-        </header>
-        <div className="article__content">
-          <MDXRemote
-            {...mdx}
-            components={{
-              pre: Highlight,
-              small: ({ children }) => <small>{children}</small>,
-              ArticlePreview: ({ slug }) => {
-                const post = posts.find(p => p.slug === slug);
-                if (!post) return null;
-                return (
-                  <div className="next-article">
-                    <div className="next-artice__intro">
-                      <span>Next article</span>
-                      <h2 style={{ margin: 0, marginBottom: 20 }}>
-                        {post.meta.title}
-                      </h2>
-                      <div>
-                        <Button
-                          text="Go to next article"
-                          href={`/p/${post.slug}`}
-                        />
+      <div className="article__wrapper">
+        <article className="article">
+          <header className="article__header">
+            <h1 className="article__title">{meta?.title}</h1>
+            <strong className="article__date">
+              {meta?.tags?.length > 0 && (
+                <div className="tags">
+                  {meta.tags.map(t => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <span className="article-dot">{' • '}</span>
+              {format(parseISO(meta?.publishedOn), 'do MMM yyyy')}
+            </strong>
+          </header>
+          <div className="article__content">
+            <MDXRemote
+              {...mdx}
+              components={{
+                pre: Highlight,
+                small: ({ children }) => <small>{children}</small>,
+                ArticlePreview: ({ slug }) => {
+                  const post = posts.find(p => p.slug === slug);
+                  if (!post) return null;
+                  return (
+                    <div className="next-article">
+                      <div className="next-article__preview">
+                        {/* @ts-ignore */}
+                        <Article article={post} />
                       </div>
-                      <span style={{ display: 'block', marginTop: 15 }}>
-                        Or{' '}
-                        <Link href="/webgl-image-processing">
-                          view all articles.
-                        </Link>
-                      </span>
                     </div>
-                    <div className="next-article__preview">
-                      {/* @ts-ignore */}
-                      <Article article={post} />
-                    </div>
-                  </div>
-                );
-              },
-              WebGLImageProcessingIntro,
-              // @ts-ignore
-              a: AHref,
-              MathGrid,
-              WebGLFilters,
-              ColorVec4,
-              Duotone,
-              Dither,
-              MatrixColor,
-            }}
-          />
-        </div>
+                  );
+                },
+                WebGLImageProcessingIntro,
+                // @ts-ignore
+                a: AHref,
+                MathGrid,
+                WebGLFilters,
+                ColorVec4,
+                Duotone,
+                Dither,
+                MatrixColor,
+              }}
+            />
+          </div>
 
-        <section className="article-contact">
-          <h2 className="article-contact__title">Feedback and suggestions</h2>
-          <p>
-            Have a suggestion or want to show me your work?
-            <br />
-            Get in touch at{' '}
-            <a
-              href="mailto:maximmcnair@proton.me"
-              target="_blank"
-              rel="noreferrer"
-            >
-              via email
-            </a>
-            {' or Twitter '}
-            <a
-              href="http://twitter.com/maximmcnair"
-              target="_blank"
-              rel="noreferrer"
-            >
-              @maximmcnair
-            </a>
-            .
-          </p>
-        </section>
-      </article>
+          <section className="article-contact">
+            <h2 className="article-contact__title">Feedback and suggestions</h2>
+            <p>
+              Have a suggestion or want to show me your work?
+              <br />
+              Get in touch at{' '}
+              <a
+                href="mailto:maximmcnair@proton.me"
+                target="_blank"
+                rel="noreferrer"
+              >
+                via email
+              </a>
+              {' or Twitter '}
+              <a
+                href="http://twitter.com/maximmcnair"
+                target="_blank"
+                rel="noreferrer"
+              >
+                @maximmcnair
+              </a>
+              .
+            </p>
+          </section>
+        </article>
+      </div>
     </Layout>
   );
 };

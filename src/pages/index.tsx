@@ -52,7 +52,9 @@ const Home: NextPage<Props> = ({ posts }) => {
       if (!refBackground.current) return;
       const st = document.documentElement.scrollTop;
       if (st < window.innerHeight) {
-        refBackground.current.style.opacity = String(mapLinear(st, 0, window.innerHeight, 1, 0));
+        refBackground.current.style.opacity = String(
+          mapLinear(st, 0, window.innerHeight, 1, 0),
+        );
       } else {
         refBackground.current.style.opacity = '0';
       }
@@ -95,13 +97,19 @@ const Home: NextPage<Props> = ({ posts }) => {
           <Intro />
         </section>
 
-        <section id="work">
-          <WorkCombo />
-        </section>
-
         <section id="articles">
           <Articles posts={posts} />
         </section>
+
+        <section id="work">
+          <Work />
+        </section>
+
+        {false && (
+          <section id="work">
+            <WorkCombo />
+          </section>
+        )}
 
         <div ref={refBackground}>
           <ShaderView frag={frag} title={''} className={styles.shader} />

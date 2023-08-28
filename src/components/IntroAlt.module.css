@@ -11,7 +11,9 @@
 }
 
 .intro {
-  padding: 20px;
+  margin: 0 auto;
+  width: 90%;
+  max-width: var(--layout-width-max);
   padding-top: 60px;
   z-index: var(--z-intro);
   position: relative;
@@ -20,7 +22,7 @@
 
 .introText {
   pointer-events: none;
-  user-select: none;
+  /* user-select: none; */
 }
 
 .avatar {
@@ -69,9 +71,9 @@
     align-items: center;
   }
   .intro {
-    /* max-width: 700px; */
+    max-width: 700px;
     /* max-width: 850px; */
-    max-width: var(--layout-width-max);
+    /* max-width: var(--layout-width-max); */
     text-align: center;
     padding-top: 60px;
   }
@@ -105,7 +107,6 @@
 
 .shader {
  position: fixed;
- /* position: absolute; */
  top: 0px;
  bottom: 0px;
  left: 0px;
@@ -113,4 +114,5 @@
  width: 100vw;
  height: 100vh;
  z-index: 0;
+ pointer-events: none;
 }
