@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { createProgramFromSources, loadTexture, clamp, mapLinear } from '@/utils/webgl';
+import {
+  createProgramFromSources,
+  loadTexture,
+  clamp,
+  mapLinear,
+} from '@/utils/webgl';
 import { Position } from '@/types';
 
 // @ts-ignore
@@ -62,7 +67,7 @@ export default function ShaderView({
         const { offsetWidth, offsetHeight } = containerRef.current;
         setSize({
           width: offsetWidth,
-          height: offsetHeight,
+          height: offsetHeight !== 0 ? offsetHeight : offsetWidth,
         });
         // const canvas = canvasRef.current as HTMLCanvasElement;
         // if (!canvas) return;
@@ -177,6 +182,10 @@ export default function ShaderView({
     };
     window.addEventListener('mousemove', handleMouseMove);
 
+    /* ===== Uniforms - u_mouse_over ===== */
+    const uMouseOver = gl.getUniformLocation(program, 'u_mouse_over');
+    gl.uniform1i(uMouseOver, 0);
+
     /* ===== Uniforms - u_image ===== */
     const uImage = gl.getUniformLocation(program, 'u_image');
     gl.uniform1i(uImage, 0);
@@ -213,12 +222,23 @@ export default function ShaderView({
       time += 0.01;
       gl.uniform1f(uTime, time);
 
+      // update u_mouse && u_mouse_over
       if (canvasRef.current) {
         const { left, top } = canvasRef.current.getBoundingClientRect();
         gl.uniform2f(
           uMouse,
           (mousePos.x - left) / size.width,
           (canvas.height - (mousePos.y - top)) / size.height,
+        );
+
+        const isMouseOver =
+          mousePos.x > left &&
+          mousePos.x < left + size.width &&
+          mousePos.y > top &&
+          mousePos.y < top + size.height;
+        gl.uniform1i(
+          uMouseOver,
+          isMouseOver ? 1 : 0
         );
       }
 
@@ -255,9 +275,9 @@ export default function ShaderView({
     <section className={className} ref={containerRef} style={style}>
       <div
         style={{
-          position: 'relative',
-          width: size.width,
-          height: size.height,
+          // position: 'relative',
+          // width: size.width,
+          // height: size.height,
         }}
       >
         {renderTitle ? <span>{title}</span> : null}
@@ -292,9 +312,8 @@ export default function ShaderView({
             </svg>
           </div>
         ) : null}
-        {!!(size.width && size.height) && (
-          <canvas ref={canvasRef} width={size.width} height={size.height} />
-        )}
+
+        <canvas ref={canvasRef} width={size.width} height={size.height} />
       </div>
     </section>
   );

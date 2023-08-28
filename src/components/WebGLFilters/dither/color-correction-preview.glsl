@@ -2,6 +2,8 @@
 precision highp float;
 
 uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+uniform int u_mouse_over;
 uniform float u_time;
 uniform sampler2D u_image;
 // Generic floats
@@ -17,17 +19,15 @@ void main() {
   vec4 texel = texture(u_image, uv);
   outColor = texel;
 
-  // make image grayscale
   vec4 luma = vec4(0.299, 0.587, 0.114, 0);
   float grayscale = dot(outColor, luma);
 
-  vec4 lowcolor = 
-    vec4(0.216, 0.276, 0.36, 1.0);
-    // vec4(0.141, 0.031, 0.318, 1.0);
-  vec4 highcolor = 
-    vec4(0.84, 0.3, 0.324, 1.0);
+  outColor = vec4(vec3(grayscale), 1.0);
 
-    // vec4(0.957, 0.239, 0.122, 1.0);
-  outColor = mix(lowcolor, highcolor, outColor);
+  if (u_mouse_over == 1) {
+    outColor = mix(outColor, texel, u_mouse.x);
+  } else {
+    outColor = mix(outColor, texel, 0.5);
+  }
 }
 

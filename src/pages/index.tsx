@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 // import Intro from '@/components/Intro';
 import Intro from '@/components/IntroAlt';
 import Work from '@/components/Work';
+import WorkCombo from '@/components/WorkCombo';
 // import Articles from '@/components/Articles__old';
 import Articles from '@/components/Articles';
 import Experiments from '@/components/Experiments';
@@ -46,7 +47,6 @@ const Home: NextPage<Props> = ({ posts }) => {
 
   useEffect(() => {
     if (!refBackground.current) return;
-
     function handleScroll() {
       if (!refBackground.current) return;
       const st = document.documentElement.scrollTop;
@@ -58,7 +58,7 @@ const Home: NextPage<Props> = ({ posts }) => {
         refBackground.current.style.opacity = '0';
       }
     }
-
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [refBackground]);
@@ -95,15 +95,24 @@ const Home: NextPage<Props> = ({ posts }) => {
         <section id="about">
           <Intro />
         </section>
+
         <section id="articles">
           <Articles posts={posts} />
         </section>
+
         <section id="work">
           <Work />
         </section>
+
         <section id="experiments">
           <Experiments />
         </section>
+
+        {false && (
+          <section id="work">
+            <WorkCombo />
+          </section>
+        )}
 
         <div ref={refBackground}>
           <ShaderView frag={frag} title={''} className={styles.shader} />

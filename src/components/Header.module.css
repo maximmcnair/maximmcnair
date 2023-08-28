@@ -11,9 +11,9 @@
 
 .content {
   display: block;
-  width: 100%;
-  /* max-width: 700px; */
+  width: 90%;
   max-width: var(--layout-width-max);
+  /* margin: 0 auto; */
   padding: 15px 20px 10px 20px;
   background: rgba(13, 13, 13, 0.2);
   backdrop-filter: blur(10px);

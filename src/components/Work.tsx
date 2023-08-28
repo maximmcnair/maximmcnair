@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import styles from './Work.module.css';
 import Button from '@/components/Button';
+import SectionHeader from './SectionHeader';
 
 interface Project {
   title: string;
@@ -14,7 +15,7 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: 'WebGL Photo Filters & Effect',
+    title: 'WebGL Photo Filters',
     desc: `An exploration of achieving common photo filters and effects with WebGL and GLSL. This was later expanded into a series of articles where I break down the GLSL functions.`,
     src: '/img/work_filters_effects.jpg',
     href: '/webgl-filters-and-effects',
@@ -60,15 +61,15 @@ app with drag-and-drop functionality throughout.`,
 export default function Work() {
   return (
     <section className={styles.container}>
-      <div className="content">
-        <div className={styles.work}>
-          <h2 className={styles.title}>Work</h2>
-          <p
-            className={styles.desc}
-          >{`A preview of various projects I've led, and tools I've built.`}</p>
+      <div className={styles.content}>
+        <SectionHeader
+          title="Work"
+          desc={`A preview of various projects I've led, and tools I've built.`}
+        />
 
+        <div className={styles.work}>
           {projects.map((p, idx) => (
-            <article className={styles.work} key={idx}>
+            <article className={styles.workitem} key={idx}>
               <div className={styles.workMedia}>
                 {p.vidSrc ? (
                   <video autoPlay={true} loop muted>

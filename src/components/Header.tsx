@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   function handleScrollTo(evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, anchor: string){
     const $el = document.querySelector('#' + anchor)
     if (!$el) return;
-    $el.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    $el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     evt.preventDefault();
   }
   if (hideHeader) return null;
