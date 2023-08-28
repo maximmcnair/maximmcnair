@@ -62,6 +62,12 @@ export const experiments: Experiment[] = [
     published: true
   },
   {
+    title: 'Burnie',
+    category: 'Blender',
+    video: '/experiments/burnie.mp4',
+    published: true
+  },
+  {
     title: 'Blender',
     category: 'Blender',
     thumb: '/experiments/feb-10.png',
