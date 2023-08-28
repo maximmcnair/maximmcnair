@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   function handleScrollTo(evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>, anchor: string){
     const $el = document.querySelector('#' + anchor)
     if (!$el) return;
-    $el.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    $el.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
     evt.preventDefault();
   }
   if (hideHeader) return null;
@@ -20,6 +20,7 @@ const Header: React.FC = () => {
           <Link href="/#about" onClick={(evt) => handleScrollTo(evt, 'about')}>About</Link>
           <Link href="/#articles" onClick={(evt) => handleScrollTo(evt, 'articles')}>Articles</Link>
           <Link href="/#work" onClick={(evt) => handleScrollTo(evt, 'work')}>Work</Link>
+          <Link href="/#experiments" onClick={(evt) => handleScrollTo(evt, 'experiments')}>Experiments</Link>
         </nav>
       </div>
     </header>
