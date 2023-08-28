@@ -19,6 +19,7 @@ export interface Meta {
 export interface Experiment {
   title?: string;
   slug?: string;
+  frag?: string;
   video?: string;
   thumb?: string;
   category: string;

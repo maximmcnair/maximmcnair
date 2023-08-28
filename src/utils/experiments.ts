@@ -1,5 +1,10 @@
 import { Experiment } from '@/types';
 
+// @ts-ignore
+import fragShader2023_07_12_02 from '../shaders/2023-07-12_02.frag';
+// @ts-ignore
+import fragShader2023_08_18_01 from '../shaders/2023-08-18_01.frag';
+
 export const experiments: Experiment[] = [
   {
     title: 'WebGL Grainy Textures',
@@ -41,13 +46,29 @@ export const experiments: Experiment[] = [
     published: false,
     src: '2023-filters-effects/index.tsx'
   },
-
   {
+    title: 'WebGL Shader',
+    category: 'WebGL',
+    frag: fragShader2023_07_12_02,
+    src: '/shaders/2023-08-18_02',
+    published: true
+  },
+  {
+    title: 'WebGL Shader',
+    category: 'WebGL',
+    frag: fragShader2023_08_18_01,
+    thumb: '/experiments/shaders_2023-08-18_01.jpg',
+    src: '/shaders/2023-08-18_01',
+    published: true
+  },
+  {
+    title: 'Blender',
     category: 'Blender',
     thumb: '/experiments/feb-10.png',
     published: true
   },
   {
+    title: 'Blender',
     category: 'Blender',
     video: '/experiments/feb-25.mp4',
     published: true
@@ -65,7 +86,7 @@ export const experiments: Experiment[] = [
     slug: 'moving-gradient',
     category: 'Canvas 2d',
     thumb: '/experiments/moving-gradient.png',
-    published: true,
+    published: false,
     src: '2023-01-moving-gradient.tsx'
   },
   {
@@ -73,7 +94,7 @@ export const experiments: Experiment[] = [
     slug: 'canvas-cube-rotation',
     category: 'Canvas 2d',
     thumb: '/experiments/cube-rotation.jpg',
-    published: true,
+    published: false,
     src: 'canvas-cube-rotation.tsx'
   },
   {
@@ -85,6 +106,7 @@ export const experiments: Experiment[] = [
     src: 'canvas-flocking-boids.tsx'
   },
   {
+    title: 'Blender',
     category: 'Blender',
     video: '/experiments/feb-26.mp4',
     published: true
@@ -98,6 +120,7 @@ export const experiments: Experiment[] = [
     src: '2023-01-particles.tsx'
   },
   {
+    title: 'Blender',
     category: 'Blender',
     video: '/experiments/dec-15.mp4',
     published: true

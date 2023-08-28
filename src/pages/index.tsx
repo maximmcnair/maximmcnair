@@ -47,7 +47,6 @@ const Home: NextPage<Props> = ({ posts }) => {
 
   useEffect(() => {
     if (!refBackground.current) return;
-
     function handleScroll() {
       if (!refBackground.current) return;
       const st = document.documentElement.scrollTop;
@@ -59,7 +58,7 @@ const Home: NextPage<Props> = ({ posts }) => {
         refBackground.current.style.opacity = '0';
       }
     }
-
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [refBackground]);
@@ -103,6 +102,10 @@ const Home: NextPage<Props> = ({ posts }) => {
 
         <section id="work">
           <Work />
+        </section>
+
+        <section id="experiments">
+          <Experiments />
         </section>
 
         {false && (

@@ -35,10 +35,7 @@
 
 .article{
   background: #000000;
-  /* background: #202020; */
-  border-radius: 3px;
   position: relative;
-  /* height: 310px; */
   transform: rotateX(0) rotateY(0);
   transform-style: preserve-3d;
   transition-duration: 0.1s;
@@ -88,5 +85,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
+}
+
+.visit svg {
+  margin-bottom: 4px; 
 }
