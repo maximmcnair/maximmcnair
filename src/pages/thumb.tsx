@@ -9,12 +9,13 @@ import Highlight from 'react-highlight';
 // import frag from '@/components/WebGLFilters/dither/melting.glsl';
 // import frag from '@/components/WebGLFilters/dither/blend-modes.glsl';
 // @ts-ignore
-import frag from '@/components/WebGLFilters/dither/matrix-color.glsl';
+import frag from '@/components/WebGLFilters/dither/melting.glsl';
+// import frag from '@/components/WebGLFilters/dither/matrix-color.glsl';
 
 interface Props {}
 
 const imgs = [
-  '/matrix.png',
+  // '/matrix.png',
   // '/melting.png',
   '/flowers.jpg',
   '/brice-cooper-city.jpg',
@@ -79,8 +80,10 @@ const Thumb: NextPage<Props> = () => {
       title={''}
       // width={1200}
       // height={1200}
-      width={602}
-      height={426}
+      width={600}
+      height={600}
+      // width={602}
+      // height={426}
       // mouse
       frag={frag}
       imgSrc={imgs[imgIdx]}
