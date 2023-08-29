@@ -285,7 +285,7 @@ video::-internal-media-controls-overlay-cast-button {
   margin-top: 80px;
 }
 
-@media (min-width: 660px) {
+@media (min-width: 860px) {
   .article__wrapper {
     grid-template-columns: repeat(6, 1fr);
   }
