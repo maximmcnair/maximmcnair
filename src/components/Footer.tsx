@@ -30,8 +30,8 @@ const Footer: React.FC = () => {
           <Link href="/#work" onClick={evt => handleScrollTo(evt, 'work')}>
             Work
           </Link>
-          <Link href="/webgl-image-processing">
-            WebGL Image Processing series
+          <Link href="/webgl-image-manipulation">
+            WebGL Image Manipulation series
           </Link>
         </nav>
 

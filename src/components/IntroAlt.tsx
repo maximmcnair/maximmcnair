@@ -9,10 +9,7 @@ interface Work {
   src: string;
 }
 
-// 'I’m a UI Software Engineer interested in the intersection of Math, Comp Sci and Design.'
-//
 // 'I’m a UI Software Engineer focused on building collaborative creative tools for the web.'
-// 'Currently exploring the world of computer graphics and image processing, while building interactive articles here.'
 
 export default function Intro() {
   return (
