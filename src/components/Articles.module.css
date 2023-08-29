@@ -23,8 +23,14 @@
 
 .articles {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 20px;
+}
+
+@media (min-width: 400px) {
+  .articles{
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 660px) {
@@ -50,7 +56,8 @@
   text-decoration: none !important;
 }
 
-.article canvas {
+.article canvas,
+.article img {
   aspect-ratio: 1 / 1;
 }
 

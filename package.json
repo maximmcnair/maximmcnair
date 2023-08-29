@@ -31,6 +31,7 @@
     "next-mdx-remote": "^4.4.0",
     "perfect-freehand": "^1.2.0",
     "react": "18.2.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "18.2.0",
     "react-draggable": "^4.4.5",
     "react-highlight": "^0.15.0",

@@ -1,8 +1,9 @@
-import { useRef, MouseEvent } from 'react';
+import { useRef } from 'react';
 import styles from './Articles.module.css';
 import ShaderView from '@/components/ShaderView';
 import { ArrowUpRight } from 'lucide-react';
 import { Post } from '@/types';
+import { isMobile } from 'react-device-detect';
 
 // @ts-ignore
 import fragBasic from '@/components/WebGLFilters/dither/basic.glsl';
@@ -87,6 +88,7 @@ export const Article: React.FC<Props> = ({
 
   const frag = slugToShaderPreview(slug);
 
+  // TODO check GPU support
   return (
     <a
       href={`/p/${slug}`}
@@ -100,15 +102,19 @@ export const Article: React.FC<Props> = ({
         <ArrowUpRight size={20} />
         Read
       </span>
-      <ShaderView
-        title={''}
-        frag={frag}
-        imgSrc={imgSrc}
-        fx={0.4}
-        fy={0.6}
-        fz={0.5}
-        fw={1}
-      />
+      {!isMobile ? (
+        <ShaderView
+          title={''}
+          frag={frag}
+          imgSrc={imgSrc}
+          fx={0.4}
+          fy={0.6}
+          fz={0.5}
+          fw={1}
+        />
+      ) : (
+        <img className={styles.image} src={meta.thumb} />
+      )}
     </a>
   );
 };
