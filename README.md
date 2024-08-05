@@ -1,7 +1,8 @@
 ### 🔥 Developer/Designer/Creative Coder
 
 Currently building:
-- Node base shader animation tool prototype https://usecables.com
+- Cosmos https://www.cosmos.so/
+- Public Work https://public.work/
 - Showcase of opensource variable typefaces https://opentypecollective.com
 - Easily search and copy mathjax symbols https://copypastemathjax.com
 
