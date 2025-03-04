@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-fadein: fadein 0.5s ease-in-out forwards;
+  @keyframes fadein {
+    0%{
+      opacity: 0;
+    }
+    100%{
+      opacity: 1;
+    }
+  }
+
+  --animate-fadeinblur: fadeinblur 0.5s ease-in-out forwards;
+  @keyframes fadeinblur {
+    0%{
+      opacity: 0;
+      filter: blur(10px);
+    }
+    100%{
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+}
+
+body {
+    font-family: var(--font-inter);
+}
+
+::selection {
+  background-color: white;
+  color: black;
+}
+
+::-moz-selection {
+  background-color: white;
+  color: black;
+}
+
+

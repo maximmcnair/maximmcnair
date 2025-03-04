@@ -1,22 +1,16 @@
-interface Props {
-  href: string;
-  text: string;
+'use client'
+
+interface ButtonProps {
+  text: string
 }
 
-function Button({ text, href }: Props) {
-  if (href.includes('/p/')) {
-    return (
-      <a href={href} className="btn">
-        {text}
-      </a>
-    );
-  }
-
+export function Button({ text }: ButtonProps) {
   return (
-    <a href={href} target="_blank" rel="noreferrer" className="btn">
+    <button>
       {text}
-    </a>
-  );
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-arrow-up-right">
+        <path d="M7 7h10v10" /><path d="M7 17 17 7" />
+      </svg>
+    </button>
+  )
 }
-
-export default Button;

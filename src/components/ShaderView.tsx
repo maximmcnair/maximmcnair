@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 
 import {
   createProgramFromSources,
   loadTexture,
   clamp,
   mapLinear,
-} from '@/utils/webgl';
-import { Position } from '@/types';
+} from "$/utils/webgl";
+import { Position } from "$/types";
 
-// @ts-ignore
-import vertDefault from './ShaderDefaultVert.glsl';
-// @ts-ignore
-import fragDefault from './ShaderDefaultFrag.glsl';
+import vertDefault from "$/shaders/ShaderDefaultVert.glsl";
+import fragDefault from "$/shaders/ShaderDefaultFrag.glsl";
 
 interface Props {
   vert?: string;
@@ -76,14 +76,14 @@ export default function ShaderView({
       }
     }
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [width, height]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current as HTMLCanvasElement;
-    const gl = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
+    const gl = canvas.getContext("webgl2", { preserveDrawingBuffer: true });
     if (!gl || !imgSrc) return;
     loadTexture(gl, imgSrc).then(({ texture, aspectRatio }) => {
       gl.activeTexture(gl.TEXTURE0);
@@ -94,22 +94,22 @@ export default function ShaderView({
   useEffect(() => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current as HTMLCanvasElement;
-    const gl = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
+    const gl = canvas.getContext("webgl2", { preserveDrawingBuffer: true });
     if (!gl || !programRef.current) return;
-    const uFx = gl.getUniformLocation(programRef.current, 'u_fx');
+    const uFx = gl.getUniformLocation(programRef.current, "u_fx");
     gl.uniform1f(uFx, fx);
-    const uFy = gl.getUniformLocation(programRef.current, 'u_fy');
+    const uFy = gl.getUniformLocation(programRef.current, "u_fy");
     gl.uniform1f(uFy, fy);
-    const uFz = gl.getUniformLocation(programRef.current, 'u_fz');
+    const uFz = gl.getUniformLocation(programRef.current, "u_fz");
     gl.uniform1f(uFz, fz);
-    const uFw = gl.getUniformLocation(programRef.current, 'u_fw');
+    const uFw = gl.getUniformLocation(programRef.current, "u_fw");
     gl.uniform1f(uFw, fw);
   }, [fx, fy, fz, fw]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current as HTMLCanvasElement;
-    const gl = canvas.getContext('webgl2', { preserveDrawingBuffer: true });
+    const gl = canvas.getContext("webgl2", { preserveDrawingBuffer: true });
 
     // set height & width of canvas
     canvas.width = size.width;
@@ -128,10 +128,10 @@ export default function ShaderView({
 
     /* ===== Vertices ===== */
     const corners = {
-      'top-left': [1, -1, 0],
-      'top-right': [1, 1, 0],
-      'bottom-left': [-1, -1, 0],
-      'bottom-right': [-1, 1, 0],
+      "top-left": [1, -1, 0],
+      "top-right": [1, 1, 0],
+      "bottom-left": [-1, -1, 0],
+      "bottom-right": [-1, 1, 0],
     };
 
     // prettier-ignore
@@ -165,12 +165,12 @@ export default function ShaderView({
     gl.uniform2f(uRes, canvas.width, canvas.height);
 
     /* ===== Uniforms - u_time ===== */
-    const uTime = gl.getUniformLocation(program, 'u_time');
+    const uTime = gl.getUniformLocation(program, "u_time");
     let time = 1.0;
     gl.uniform1f(uTime, time);
 
     /* ===== Uniforms - u_mouse ===== */
-    const uMouse = gl.getUniformLocation(program, 'u_mouse');
+    const uMouse = gl.getUniformLocation(program, "u_mouse");
     let mouse = 1.0;
     gl.uniform1f(uMouse, mouse);
 
@@ -180,14 +180,14 @@ export default function ShaderView({
       mousePos.x = evt.clientX || evt.pageX;
       mousePos.y = evt.clientY || evt.pageY;
     };
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     /* ===== Uniforms - u_mouse_over ===== */
-    const uMouseOver = gl.getUniformLocation(program, 'u_mouse_over');
+    const uMouseOver = gl.getUniformLocation(program, "u_mouse_over");
     gl.uniform1i(uMouseOver, 0);
 
     /* ===== Uniforms - u_image ===== */
-    const uImage = gl.getUniformLocation(program, 'u_image');
+    const uImage = gl.getUniformLocation(program, "u_image");
     gl.uniform1i(uImage, 0);
     if (imgSrc) {
       loadTexture(gl, imgSrc).then(({ texture, aspectRatio }) => {
@@ -197,13 +197,13 @@ export default function ShaderView({
     }
 
     /* ===== Uniforms - generic ===== */
-    const uFx = gl.getUniformLocation(program, 'u_fx');
+    const uFx = gl.getUniformLocation(program, "u_fx");
     gl.uniform1f(uFx, fx);
-    const uFy = gl.getUniformLocation(program, 'u_fy');
+    const uFy = gl.getUniformLocation(program, "u_fy");
     gl.uniform1f(uFy, fy);
-    const uFz = gl.getUniformLocation(program, 'u_fz');
+    const uFz = gl.getUniformLocation(program, "u_fz");
     gl.uniform1f(uFz, fz);
-    const uFw = gl.getUniformLocation(program, 'u_fw');
+    const uFw = gl.getUniformLocation(program, "u_fw");
     gl.uniform1f(uFw, fw);
 
     /* ===== Animate LOOP ===== */
@@ -236,10 +236,7 @@ export default function ShaderView({
           mousePos.x < left + size.width &&
           mousePos.y > top &&
           mousePos.y < top + size.height;
-        gl.uniform1i(
-          uMouseOver,
-          isMouseOver ? 1 : 0
-        );
+        gl.uniform1i(uMouseOver, isMouseOver ? 1 : 0);
       }
 
       frame = requestAnimationFrame(loop);
@@ -249,7 +246,7 @@ export default function ShaderView({
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, [canvasRef, size, frag, vert]);
 
@@ -267,33 +264,35 @@ export default function ShaderView({
         });
       }
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [canvasRef, size]);
 
   return (
     <section className={className} ref={containerRef} style={style}>
       <div
-        style={{
-          // position: 'relative',
-          // width: size.width,
-          // height: size.height,
-        }}
+        style={
+          {
+            // position: 'relative',
+            // width: size.width,
+            // height: size.height,
+          }
+        }
       >
         {renderTitle ? <span>{title}</span> : null}
         {mouse ? (
           <div
             style={{
-              position: 'absolute',
-              top: '50%',
+              position: "absolute",
+              top: "50%",
               left: `${mapLinear(mousePos.x, 0, 1, 0, 100)}%`,
-              width: '50px',
-              height: '50px',
-              transform: 'translate3d(-25px, -10px, 0)',
-              backgroundColor: 'var(--color-black-off)',
-              borderRadius: '50%',
-              border: '1px solid var(--color-black-off)',
-              padding: '10px',
+              width: "50px",
+              height: "50px",
+              transform: "translate3d(-25px, -10px, 0)",
+              backgroundColor: "var(--color-black-off)",
+              borderRadius: "50%",
+              border: "1px solid var(--color-black-off)",
+              padding: "10px",
             }}
           >
             <svg
