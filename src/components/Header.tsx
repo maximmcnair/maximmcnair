@@ -9,7 +9,7 @@ export function Header() {
 
       <nav className="flex gap-3">
         <Link href="/" className="font-medium">Work</Link>
-        <Link href="/#exploration" className="font-medium">Exploration</Link>
+        <Link href="/#exploration" className="font-medium hidden">Exploration</Link>
         <Link href="/webgl-image-processing" className="font-medium">Articles</Link>
       </nav>
     </header>
