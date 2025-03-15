@@ -1,30 +1,9 @@
-import React from 'react';
-import Head from 'next/head';
+import React from "react";
 
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
-interface Props {
-  title?: string;
-  desc?: string;
-  children: React.ReactNode;
-}
-
-export const Layout: React.FC<Props> = ({ title, desc, children }) => {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      <Head>
-        <title>{title ? `${title} | Maxim McNair` : 'Maxim McNair'}</title>
-        <meta name="description" content={desc || ''} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="page">
-        <Header />
-        {children}
-      </main>
-
-      <Footer />
-    </>
-  );
-};
+    <div className="mx-auto px-6 mt-6 max-w-[1200px]">
+      {children}
+    </div>
+  )
+}

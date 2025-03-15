@@ -1,35 +1,38 @@
-import { Article } from './Article';
-import styles from './Articles.module.css';
-import { Post } from '@/types';
+'use client';
 
-interface Props {
+import { Post } from '$/types';
+import { Article } from './article/Article';
+
+interface ArticlesProps {
   posts: Post[];
 }
 
-const Articles: React.FC<Props> = ({ posts }) => {
+const Articles = ({ posts }: ArticlesProps) => {
   return (
-    <section className={styles.container}>
-      <div className={styles.content}>
-        <h2 className={styles.header}>WebGL Image Manipulation</h2>
-        <p className={styles.desc}>
-          An exploration of image processing with GPU shaders in the browser.
-        </p>
-        <div className={styles.articles}>
+    <div className="mt-12 pt-8 pb-16">
+      <div className="relative z-10 w-[90%] max-w-[var(--layout-width-max)] mx-auto">
+        <h1 className="mb-3 text-xl">WebGL Image Processing</h1>
+        <span className='block mb-6 text-md text-zinc-600'>An exploration of image processing with GPU shaders in the browser.</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
           {posts
             .filter(p => p.meta.series === 'WebGL Image Processing')
             .sort((a, b) =>
               a.meta.issue < b.meta.issue
                 ? -1
                 : a.meta.issue > b.meta.issue
-                ? 1
-                : 0,
+                  ? 1
+                  : 0,
             )
-            .map(article => (
-              <Article style={{}} article={article} key={article.slug} />
+            .map((post, i) => (
+              <Article
+                key={post.slug}
+                article={post}
+                style={{ animationDelay: `${i * 0.05}s` }}
+              />
             ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
