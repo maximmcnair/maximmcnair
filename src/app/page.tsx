@@ -4,6 +4,8 @@ import { Video } from "$/components/Video";
 import { ButtonLink } from "$/components/ButtonLink";
 import { Image } from "$/components/Image";
 import { AnimateTextBlur } from "$/components/AnimateTextBlur";
+import { Header } from "$/components/Header";
+import { Layout } from "$/components/Layout";
 
 enum WorkType {
   Img,
@@ -52,16 +54,8 @@ function Work({ type, title, src, href, desc, role }: WorkProps) {
 
 export default function Home() {
   return (
-    <div className="mx-auto px-6 mt-6 max-w-[1200px]">
-      <header id="header" className="mb-8 flex flex-row justify-between opacity-0 animate-fadein">
-        <h1 className="flex w-full text-center font-bold text-sm lg:text-xl">Maxim McNair</h1>
-
-        <nav className="flex gap-3 hidden">
-          <a href="#work" className="font-medium">Work</a>
-          <a href="#exploration" className="font-medium">Exploration</a>
-          <a href="/articles" className="font-medium">Articles</a>
-        </nav>
-      </header>
+    <Layout>
+      <Header />
 
       <section
         id="about"
@@ -154,6 +148,6 @@ export default function Home() {
             multiple stores that are currently in stock`}
         />
       </section>
-    </div>
+    </Layout>
   );
 }

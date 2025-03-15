@@ -1,0 +1,108 @@
+---
+title: "Thresholding"
+series: "WebGL Image Processing"
+issue: "08"
+publishedOn: "2023-06-28T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-threshold.jpg"
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+This article was inspired by [threshold/halftone article](http://caca.zoy.org/study/index.html), but we'll look at this from a WebGL/GLSL viewpoint and show the code necessary to obtain these effects.
+
+## What is Thresholding?
+Thresholding segments an image's color values into a smaller range. It's a method of color quantization which was mainly developed for image compression (reducing the size of images) to meet the limitations of the technology available at that time.
+
+Computers started out with extremely limited color rendering options. 8-bit pixel depth was 256 colors, while 4-bit was only 16 colors. And to make it worse, different machines had different color palettes. Any image rendered on a system had to be rendered in those colors.
+
+We don't have these issues anymore - image compression is still in use but not with dramatic effects - but thresholding and dithering algorithms are still used for their aesthetic look.
+
+We'll use this image for the rest of the article, with a gradient bar on the side to make it easier to understand what's happening to the color range.
+
+## A basic example
+Instead of using the whole range of GLSL's 0-1 floating point color channel, we could round our values to either 0 (if our color value is lower than 0.5) or 1 (if our color value is higher than 0.5).
+
+The results of this segmentation depend on the threshold amount, and the white balance of our image. For different images there will be a better threshold amount to pick. Try changing the threshold amount for the image below, see how the gradient on the side is clamped to either black or white at a specific point.
+
+<Dither step="1-threshold" />
+
+## Threshold
+
+This isn't the most specular image - in fact it looks pretty bad - but it's simple to understand and will lead us to more interesting effects. Let's break it down with GLSL.
+
+We'll start with the grayscale function we covered in the [color correction article](/p/webgl-color-correction).
+
+```glsl
+  // make image grayscale
+  vec4 lum = vec4(0.2126, 0.7152, 0.0722, 0);
+  float grayscale = dot(outColor, lum);
+```
+
+Now that we have a grayscale image we can take our 0-1 color channel value and round up or down depending on our threshold value (we've used 0.5 here).
+
+```glsl
+float thresholdValue = 0.5;
+
+float threshold(float color) {
+  if (color > thresholdValue) {
+    return 1.0;
+  }
+  return 0.0;
+}
+
+outcolor = vec4(vec3(threshold(grayscale)), 1.0);
+```
+
+## Multi-Step Threshold
+
+In our binary threshold we lose a lot of information from our image, which makes it hard to recognise what we're looking at. A simple improvement to this would be to add more information: instead of a binary 2-value (white, black) image we could use 3 values (white, gray, black).
+
+We can then set these threshold amounts to different values.
+
+<Dither step="2-threshold-steps" />
+
+We achieve this by adding an additional condition statement to our threshold function.
+
+```glsl
+float thresholdWhiteValue = 0.5;
+float thresholdGreyValue = 0.25;
+
+float threshold(float color) {
+  if (color > thresholdWhiteValue) {
+    return 1.0;
+  }
+  if (color > thresholdGreyValue) {
+    return 0.5;
+  }
+  return 0.0;
+}
+```
+
+## Threshold with noise
+
+A simple way to improve our threshold is to add some noise between our thresholded steps.
+
+<Dither step="3-threshold-noise" />
+
+```glsl
+float rand(vec2 uv) {
+  return fract(sin(dot(uv.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+
+float grainMultiplier = 1.2;
+
+void main() {
+  // ... load image 
+  float thresholded = threshold(
+    grayscale + ((rand(uv) / 9.0) * grainMultiplier)
+  );
+
+  outColor = vec4(vec3(thresholded), 1.0);
+}
+```
+
+In the [next article](/p/webgl-dithering), we'll extend this effect to use dithering/halftone patterns for each threshold step.
+
+<ArticlePreview slug="webgl-dithering" />

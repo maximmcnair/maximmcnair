@@ -1,0 +1,230 @@
+---
+title: "Blend Modes"
+series: "WebGL Image Processing"
+issue: "04"
+publishedOn: "2023-07-10T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-blend-modes.jpg"
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+In this article we’ll look at how to implement Photoshop-like Blend Modes with WebGL. Many of these algorithms come from the [glsl-blend package](https://github.com/jamieowen/glsl-blend) which is licensed under the MIT license.
+
+## What are Blend Modes
+
+Blend Modes are algorithms that blend two color values. We take a base color, add a blend color and output a result color.  
+
+Blend Modes were introduced with Photoshop 3.0 back in 1994. We’ll cover a subset of these and how to create them in GLSL.
+
+## Neutral Colors
+
+Blend Modes have Neutral Colors that have no effect when blended, we can group Blend Modes by their Neutral Colors:
+- Normal. Does not have a Neutral Color.
+- Darken. White is the Neutral Color and will become transparent.
+- Lighten. Black is the Neutral Color and will become transparent.
+- Contrast. 50% gray is the Neutral Color and will become transparent.
+
+## Normal Blend Modes
+
+### Normal
+
+Normal is the default Blending Mode for Photoshop layers and does not have an algorithm that blends the color data. The result color will always be the blend color.
+
+<Dither step="blend-normal" />
+
+```glsl
+vec4 blendNormal(vec4 base, vec4 blend){
+  return blend;
+}
+```
+
+## Darken Blend Modes
+
+These Blend Modes make the Result Color darker. White is the Neutral Color for this category and will become transparent.
+
+### Darken
+
+Darken compares the base and blend color and outputs the darker value as its result color. This is the opposite of the Lighten Blend Mode we’ll cover later.
+
+<Dither step="blend-darken" />
+
+```glsl 
+vec4 blendDarken(vec4 base, vec4 blend){
+  return vec4(
+    min(base.r, blend.r),
+    min(base.g, blend.g),
+    min(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+### Multiply
+
+The multiply Blend Mode, multiplies the base and blends colors, resulting in a darker color. Multiplying any color by black results in black, while white will have no effect. This is the opposite of the Screen Blend Mode we’ll cover later.
+
+<Dither step="blend-multiply" />
+
+```glsl 
+vec4 blendMultiply(vec4 base, vec4 blend){
+  return vec4(
+    base.r * blend.r,
+    base.g * blend.g,
+    base.b * blend.b,
+    1.0
+  );
+}
+```
+
+### Color Burn
+
+Color Burn darkens the base color to reflect the blend color by increasing the contrast between the two. This is the opposite of the Color Dodge Blend Mode we’ll cover later.
+
+<Dither step="blend-color-burn" />
+
+```glsl 
+float blendColorBurn(float base, float blend){
+  return (blend==0.0)?blend:max((1.0-((1.0-base)/blend)),0.0);
+}
+
+vec4 blendColorBurn(vec4 base, vec4 blend){
+  return vec4(
+    blendColorBurn(base.r, blend.r),
+    blendColorBurn(base.g, blend.g),
+    blendColorBurn(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+## Lighten Blend Modes
+
+These Blend Modes make the Result Color lighter, and are generally complementary to the Darken Blend Modes. Black is the Neutral Color for this category and will become transparent.
+
+### Lighten
+
+Lighten compares the base and blend color and outputs the lighter value as its result color. This is the opposite of the Darken Blend Mode we covered previously.
+
+<Dither step="blend-lighten" />
+
+```glsl 
+vec4 blendLighten(vec4 base, vec4 blend){
+  return vec4(
+    max(base.r, blend.r),
+    max(base.g, blend.g),
+    max(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+### Screen
+
+The Screen Blend Mode, multiplies the inverse of the base and blend colors, resulting in a lighter color. Screening any color by white results in white, while black will have no effect. This is the opposite of the Multiply Blend Mode we covered previously.
+
+<Dither step="blend-screen" />
+
+```glsl 
+vec4 blendScreen(vec4 base, vec4 blend){
+  return vec4(
+    1.0 - ((1.0 - base.r) * (1.0 - blend.r)),
+    1.0 - ((1.0 - base.g) * (1.0 - blend.g)),
+    1.0 - ((1.0 - base.b) * (1.0 - blend.b)),
+    1.0
+  );
+}
+```
+
+### Color Dodge
+
+Color Doge brightens the base color to  reflect the blend color by decreasing contrast between the two. This is the opposite of the Color Burn Blend Mode we covered previously.
+
+<Dither step="blend-color-dodge" />
+
+```glsl 
+float blendColorDodge(float base, float blend){
+  return (blend == 1.0) ? blend : min(base / (1.0 - blend), 1.0);
+}
+
+vec4 blendColorDodge(vec4 base, vec4 blend){
+  return vec4(
+    blendColorDodge(base.r, blend.r),
+    blendColorDodge(base.g, blend.g),
+    blendColorDodge(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+## Contrast Blend Modes
+
+Contrast Blend Modes build on the Blend Modes we just covered. Rather than always darkening or lightening the color, they will darkening if the **base color** is darker than 50% gray or lighter if it’s lighter than 50% gray.
+
+### Overlay
+
+Overlay builds on the Screen and Multiply Blend Modes. It uses Screen on color brighter than 50% gray and Multiply on colors darker than 50% gray. 
+
+<Dither step="blend-overlay" />
+
+```glsl 
+float blendOverlay(float base, float blend){
+  return base < 0.5 ? (2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));
+}
+
+vec4 blendOverlay(vec4 base, vec4 blend){
+  return vec4(
+    blendOverlay(base.r, blend.r),
+    blendOverlay(base.g, blend.g),
+    blendOverlay(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+### Soft Light
+
+Soft Light darkens or lightens the colors, depending on the blend color. The effect mimics shining a diffused light on the image. If the blend color is lighter than 50% gray, the image is lightened. If the blend color is darker than 50% gray, the image is darkened.
+
+<Dither step="blend-soft-light" />
+
+```glsl 
+float blendSoftLight(float base, float blend){
+  return (blend<0.5)?(2.0*base*blend+base*base*(1.0-2.0*blend)):(sqrt(base)*(2.0*blend-1.0)+2.0*base*(1.0-blend));
+}
+
+vec4 blendSoftLight(vec4 base, vec4 blend){
+  return vec4(
+    blendSoftLight(base.r, blend.r),
+    blendSoftLight(base.g, blend.g),
+    blendSoftLight(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+### Hard Light
+
+Hard Light darkens or lightens the colors, depending on the blend color.The effect mimics shining a harsh light on the image. If the blend color is darker than 50% gray, the image is darkened.
+
+<Dither step="blend-hard-light" />
+
+```glsl 
+float blendHardLight(float base, float blend){
+  return base < 0.5 ? (2.0*base*blend):(1.0-2.0*(1.0-base)*(1.0-blend));
+}
+
+vec4 blendHardLight(vec4 base, vec4 blend){
+  return vec4(
+    blendHardLight(base.r, blend.r),
+    blendHardLight(base.g, blend.g),
+    blendHardLight(base.b, blend.b),
+    1.0
+  );
+}
+```
+
+In the [next article](/p/webgl-film-grain), we'll look at how we can add an analog feel to our images by simulating film grain.
+
+<ArticlePreview slug="webgl-film-grain" />

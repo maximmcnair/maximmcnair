@@ -1,0 +1,213 @@
+---
+title: "Convolution"
+series: "WebGL Image Processing"
+issue: "12"
+publishedOn: "2023-07-10T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-convolution.jpg"
+published: false
+---
+
+<WebGLImageProcessingIntro />
+
+Image convolution is the process of modifying an image by convolving it by a kernel matrix (this is not the same as a dither matrix we covered before). Depending on the matrix chosen we can achieve effects such as embossing, outlining, blurring and sharpening.
+
+### Mathematical
+
+In mathematical terms, a convolution is the blending of two functions, $f(x)$ and $g(x)$.
+
+$$
+(f \ast g)(t) = \int\limits_{-\infty}^{\infty} f(\tau)g(t-\tau)d\tau
+$$
+
+<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+  <img src="/convolution-wolfram-mathworld.gif" />
+</div>
+
+[https://mathworld.wolfram.com/Convolution.html]().
+
+// img Cross-correlation ("Convolution") of two functions, f and g. (from Wolfram MathWorld)
+
+## Image Processing
+
+For image processing, convolution is performed by sliding a matrix over the cell groups of an image. For each position of the convolution matrix, the pixel values are multiplied and added together to replace the original center.
+
+## 
+
+```glsl
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+
+  vec2 onePixel = vec2(1) / vec2(textureSize(u_image, 0));
+
+  vec4 colorSum =
+    texture(u_image, uv + onePixel * vec2(-1, -1)) * vec4(kernel_matrix[0]) +
+    texture(u_image, uv + onePixel * vec2( 0, -1)) * vec4(kernel_matrix[1]) +
+    texture(u_image, uv + onePixel * vec2( 1, -1)) * vec4(kernel_matrix[2]) +
+    texture(u_image, uv + onePixel * vec2(-1,  0)) * vec4(kernel_matrix[3]) +
+    texture(u_image, uv + onePixel * vec2( 0,  0)) * vec4(kernel_matrix[4]) +
+    texture(u_image, uv + onePixel * vec2( 1,  0)) * vec4(kernel_matrix[5]) +
+    texture(u_image, uv + onePixel * vec2(-1,  1)) * vec4(kernel_matrix[6]) +
+    texture(u_image, uv + onePixel * vec2( 0,  1)) * vec4(kernel_matrix[7]) +
+    texture(u_image, uv + onePixel * vec2( 1,  1)) * vec4(kernel_matrix[8]) ;
+
+  outColor = vec4((colorSum / vec4(kernel_weight)).rgb, 1);
+}
+```
+
+### Identity
+$$
+\begin{bmatrix}
+  0 & 0 & 0 \\
+  0 & 1 & 0 \\
+  0 & 0 & 0
+\end{bmatrix}
+$$
+
+<Dither step="convolution-identity" />
+
+```glsl
+const int kernel_matrix[9] = int[](
+  0, 0, 0,
+  0, 1, 0,
+  0, 0, 0
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```
+
+### Ridge
+$$
+\begin{bmatrix}
+  0 & -1 & 0 \\
+  -1 & 4 & -1 \\
+  0 & -1 & 0
+\end{bmatrix}
+$$
+
+<Dither step="convolution-ridge" />
+
+```glsl
+const int kernel_matrix[9] = int[](
+  0, -1,  0,  
+ -1,  4, -1,
+  0, -1,  0
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```
+
+### Edge Detection
+$$
+\begin{bmatrix}
+  -1 & -1 & -1 \\
+  -1 & 8 & -1 \\
+  -1 & -1 & -1 
+\end{bmatrix}
+$$
+
+<Dither step="convolution-edge-detection" />
+
+```glsl 
+const int kernel_matrix[9] = int[](
+  -1, -1, -1,
+  -1,  8, -1,
+  -1, -1, -1
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```
+
+
+### Sharpen
+$$
+\begin{bmatrix}
+  0 & -1 & 0 \\
+  -1 & 5 & -1 \\
+  0 & -1 & 0
+\end{bmatrix}
+$$
+
+<Dither step="convolution-sharpen" />
+
+```glsl
+const int kernel_matrix[9] = int[](
+  0, -1, 0,
+  -1, 5, -1,
+  0, -1, 0
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```
+
+
+### Box Blur
+$$
+\frac{1}{9}
+\begin{bmatrix}
+  1 & 1 & 1 \\
+  1 & 1 & 1 \\
+  1 & 1 & 1
+\end{bmatrix}
+=
+\begin{bmatrix}
+  0.111 & 0.111 & 0.111 \\
+  0.111 & 0.111 & 0.111 \\
+  0.111 & 0.111 & 0.111
+\end{bmatrix}
+$$
+
+<Dither step="convolution-box-blur" />
+
+```glsl
+const float kernel_matrix[9] = float[](
+  0.111, 0.111, 0.111,
+  0.111, 0.111, 0.111,
+  0.111, 0.111, 0.111
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const float kernel_weight = 0.999; // 0.111 * 9
+```
+
+### Sobel Edge (Horizontal)
+$$
+\begin{bmatrix}
+  -1 & -2 & -1 \\
+  0 & 1 & 0 \\
+  1 & 2 & 1
+\end{bmatrix}
+$$
+
+<Dither step="convolution-sobel-hori" />
+
+```glsl
+const int kernel_matrix[9] = int[](
+  -1, -2, -1,
+  0, 0, 0,
+  1, 2, 1
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```
+
+### Sobel Edge (Vertical)
+$$
+\begin{bmatrix}
+  -1 & 0 & 1 \\
+  -2 & 1 & 2 \\
+  -1 & 0 & 1
+\end{bmatrix}
+$$
+
+<Dither step="convolution-sobel-vert" />
+
+```glsl
+const int kernel_matrix[9] = int[](
+  -1, 0, 1,
+  -2, 0, 2,
+  -1, 0, 1
+);
+// total of elements in convolution matrix if above 1, otherwise 1
+const int kernel_weight = 1;
+```

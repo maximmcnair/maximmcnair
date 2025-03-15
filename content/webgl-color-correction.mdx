@@ -1,0 +1,99 @@
+---
+title: "Color Correction"
+series: "WebGL Image Processing"
+issue: "02"
+publishedOn: "2023-06-15T16:31:05.404Z"
+tags: ["WebGL", "Image Processing"]
+thumb: "/article-webgl-grayscale.jpg"
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+Now that we know how to import and render our image, let’s look at how we can adjust it with some basic color correction algorithms such as brightness, contrast, exposure and saturation.
+
+## Brightness
+
+To increase the brightness of our image we'll want to increase our color value by adding the same amount to each RGB value.
+
+```glsl
+vec4 brightness(vec4 color, float value) {
+  // Update only rgb values
+  vec3 rgb = color.rgb + value;
+  return vec4(rgb, color.a);
+}
+```
+
+<WebGLFilters step="Brightness" />
+
+## Exposure
+
+To update the exposure, we want to _multiply_ each RGB value by the same amount. This changes the brightness of our image by its current luminosity (the strength of the individual texel). Since multiplying a zero value outputs another zero, we need to increase our original value by 1.0.
+
+```glsl
+vec4 exposure(vec4 color, float value) {
+  // Update only rgb values
+  vec3 rgb = (1.0 + color.rgb) * value;
+  return vec4(rgb, color.a);
+}
+```
+
+<WebGLFilters step="Exposure" />
+
+## Contrast
+
+This is the contrast between the highs and lows of your image. So to increase the contrast we need to increase the range between the higher and lower values. We increase values over 0.5, while decreasing values under 0.5.
+
+```glsl
+vec4 contrast(vec4 color, float value) {
+  // Update only rgb values
+  vec3 rgb = 0.5 + (1.0 + value) * (color.rgb - 0.5);
+  return vec4(rgb, color.a);
+}
+```
+
+<WebGLFilters step="Contrast" />
+
+## Saturation
+
+Saturation alters the vibrance of colors in an image. The more saturated an image is, the more colorful it appears.
+
+When we increase the saturation, we increase the contrast between the RGB channels of a texel. Meaning a fully saturated texel would be one of 3 values `vec4(1, 0, 0, 1)` ,  `vec3(0, 1, 0, 1)`  or  `vec4(0, 0, 1, 1)`.
+
+To create a desaturated (black-and-white or grayscale) image, we can take the average of the channels.
+
+```glsl
+vec4 desaturated(vec4 color) {
+  vec4 luminance = vec4(color.r + color.g + color.b / 3.0);
+  return vec4(vec3(luminance), 1.0);
+}
+```
+
+But the human eye doesn't perceive the luminosity of each color channel in a way that matches the WebGL value range. As a result, we need to adapt our RGB values by a factor that has been set out by the Web Content Accessibility Guidelines (WCAG) section on [relative luminance](https://www.w3.org/TR/WCAG21/#dfn-relative-luminance).
+
+
+```glsl
+vec4 desaturated(vec4 color) {
+  // sRGB colorspace luminosity factor
+  vec3 luma = vec3(0.2126, 0.7152, 0.0722);
+  vec3 rgb = vec3(dot(color, luma));
+  return vec4(rgb, color.a);
+}
+
+vec4 saturation(vec4 color, float value) {
+  vec4 desaturated = desaturated(color);
+  return mix(desaturated, color, 1.0 + value);
+}
+```
+
+<WebGLFilters step="Saturation" />
+
+## Let's try a blend 
+
+<WebGLFilters step="Article1" />
+
+With these four functions, we can start to edit our image dramatically. They give us the power to fix a lot of issues that can arise when taking photos.
+
+But we're just getting started with what we can do with GLSL. In the [next article](/p/webgl-hue) we'll take a look at how to we can morph the colors with hue adjustments.
+
+<ArticlePreview slug="webgl-hue" />

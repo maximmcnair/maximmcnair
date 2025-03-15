@@ -1,0 +1,274 @@
+---
+title: "Math: Vectors"
+publishedOn: "2023-02-15T16:31:05.404Z"
+published: false
+tags: ['Math']
+---
+
+<small>
+  NOTE: This is a work-in-progress. The aim is for it to be part of a larger course of teaching math from zero to creating a 3d rotating donut without a 3rd party rendering engine.
+</small>
+
+Vectors describe movement from one point to another. However we only use their end point to describe them, while we assume they start from the origin point of (0, 0). We use an arrow above the variable to notate it's a vector while wrapping the coordinates in square brackets.
+
+$$
+{\color{red}\vec a} =
+\begin{bmatrix}
+3 \\
+2
+\end{bmatrix}
+$$
+
+<MathGrid 
+  items={[
+    { type: 'Vector', endX: 3, endY: 2, color: 'red' }
+  ]}
+/>
+
+Vectors are conceptually seperate from scalars as they have more than one number. A vector have both a size (magnitude) and a direction, while a scalar only has a size.
+
+A vector can hold a infinte amount of numbers, which we refer to as it's dimensions, however we will focus on 2d and 3d vectors here.
+
+A two-dimensional (2d) vector can represent a movement to an (x, y) coordinate while a three-dimensional (3d) represent a movement to an (x, y, z) coordinate.
+
+$$
+\text{2d vector} =
+\begin{bmatrix}
+x \\
+y
+\end{bmatrix}
+$$
+
+$$
+\text{3d vector} =
+\begin{bmatrix}
+x \\
+y \\
+z
+\end{bmatrix}
+$$
+
+$$
+\text{n-d vector} =
+\begin{bmatrix}
+v_1 \\
+v_2 \\
+\vdots \\
+v_n
+\end{bmatrix}
+$$
+
+<small>TODO: embed three.js 3d vector graph</small>
+
+## Parts of a vector
+
+We have names and symbols to refer to specific parts of a vector. We call the starting point of a vector it's Tail, while where it ends is it's Head. So the (x, y) coordinates refer to it's Head.
+
+It's Head's values are also refered to as the vector's components. Or more specificly it's $x$ component and it's $y$ component.
+
+A vector's components describe how much these values change, which we use the symbol "delta" $\Delta$ to describe, this will make more sense when we sum vectors together.
+
+$$
+\vec a = (\Delta x, \Delta y)
+$$
+
+## Vector Magnitude
+
+The length of a vector is refered to as it's Magnitude, we use the following notation:
+$$
+\Vert \vec a \Vert = 3
+$$
+
+As we can think about a vector as a right triangle, the x and y coordinates decribing it's opposite and adjacent sides. So we can use the Pythagorean Theorem to calculate it's magnitude.
+
+$$
+\Vert \vec u \Vert = \sqrt{(\Delta x)^2 + (\Delta y)^2}
+$$
+
+Let's see this in action with a vector $b$:
+
+$$
+{\color{yellow}\vec b} =
+\begin{bmatrix}
+4 \\
+2
+\end{bmatrix}
+$$
+
+<MathGrid 
+  items={[
+    {type: 'Vector', endX: 4, endY: 2, color: 'yellow'},
+  ]}
+/>
+
+$$
+\Vert \vec b \Vert = \sqrt{(4)^2 + (2)^2} = \sqrt{16 + 4} = \sqrt{20} = 4.472..
+$$
+
+## Addition / Subtraction
+
+We sum two vectors by adding their components together.
+
+$$
+{\color{yellow} \vec a} = 
+\begin{bmatrix}
+3 \\
+-1
+\end{bmatrix}
+
+\;
+\;
+\;
+\;
+
+{\color{red} \vec b} = 
+\begin{bmatrix}
+2 \\
+3
+\end{bmatrix}
+$$
+
+$$
+{\color{blue} \vec a + \vec b} = 
+\begin{bmatrix}
+3 + 2 \\
+-1 + 3
+\end{bmatrix}
+=
+\begin{bmatrix}
+5 \\
+2
+\end{bmatrix}
+$$
+
+We can think of this as adding either vector to the end of the other one, shown below:
+
+<MathGrid 
+  items={[
+    {type: 'Vector', endX: 3, endY: -1, color: 'yellow'},
+    {type: 'Vector', endX: 2, endY: 3, color: 'red'},
+    {type: 'Vector', endX: 5, endY: 2, color: 'blue'},
+    {type: 'Vector', startX: 2, startY: 3, endX: 5, endY: 2, color: 'yellow'},
+    {type: 'Vector', startX: 3, startY: -1, endX: 5, endY: 2, color: 'red'},
+  ]}
+/>
+
+## Scalar Multiplication
+
+We can multiply a vector by a scalar by simply multipyling each component by that scalar.
+
+$$
+\vec c =
+\begin{bmatrix}
+6 \\
+3
+\end{bmatrix}
+$$
+
+$$
+3\vec c =
+\begin{bmatrix}
+3 \cdot 6 \\
+3 \cdot 3
+\end{bmatrix}
+=
+\begin{bmatrix}
+18 \\
+9
+\end{bmatrix}
+$$
+
+When we multiple a vector by a scalar the direction will not change, only the magnitude will change. 
+
+$$
+{\color{yellow} \vec b} = 
+\begin{bmatrix}
+1 \\
+1
+\end{bmatrix}
+
+\;
+\;
+\;
+\;
+
+{\color{red} 2\vec b} = 
+\begin{bmatrix}
+2 \\
+2
+\end{bmatrix}
+$$
+
+<MathGrid 
+  items={[
+    {type: 'Vector', endX: 2, endY: 2, color: 'red'},
+    {type: 'Vector', endX: 1, endY: 1, color: 'yellow'},
+  ]}
+/>
+
+When a vector is multipled by a negative number, it will flip in direction. The same as on a 1d number line.
+
+$$
+{\color{yellow} \vec a} = 
+\begin{bmatrix}
+4 \\
+2
+\end{bmatrix}
+
+\;
+\;
+\;
+\;
+
+{\color{red} -\vec a} = 
+\begin{bmatrix}
+-4 \\
+-2
+\end{bmatrix}
+$$
+
+<MathGrid 
+  items={[
+    {type: 'Vector', endX: 4, endY: 2, color: 'yellow'},
+    {type: 'Vector', endX: -4, endY: -2, color: 'red'},
+  ]}
+/>
+
+## Multiplying vectors
+
+Aside from scalar multiplication that we covered before, there another two ways to multiple vectors. The dot product and the cross product.
+
+$$
+\text{cross product} = \vec a \times \vec b 
+$$
+
+$$
+\text{dot product} = \vec a \cdot \vec b 
+$$
+
+## Dot Product
+
+The dot product of two vectors will give us a scalar. We can think of it as a directional multiplication.
+
+A common use case for the dot product is to get the angle between two vectors.
+
+## Angle between two vectors
+
+```
+function angleBetween(v1, v2) {
+  let dot = v1.dot(v2);
+  let theta = Math.acos(dot / (v1.mag() * v2.mag()));
+  return theta;
+}
+```
+
+
+$$
+\overrightarrow{a}\cdot\overrightarrow{b} = a_x \cdot b_x + a_y \cdot b_y = \Vert\overrightarrow{a}\Vert \Vert\overrightarrow{b}\Vert cos(\theta) n
+$$
+
+## Cross Product
+
+$$
+\overrightarrow{a}\cdot\overrightarrow{b} = \Vert\overrightarrow{a}\Vert \Vert\overrightarrow{b}\Vert sin(\theta) n
+$$

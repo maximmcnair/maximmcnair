@@ -1,0 +1,90 @@
+---
+title: "Chromatic Aberration"
+series: "WebGL Image Processing"
+issue: "11"
+publishedOn: "2023-06-28T16:31:05.404Z"
+tags: ["WebGL"]
+thumb: "/article-webgl-chromatic-aberration.jpg"
+published: true
+---
+
+<WebGLImageProcessingIntro />
+
+## What is Chromatic Aberration?
+
+Chromatic aberration, or color fringing, occurs in a camera lens when it's unable to bring all wavelengths of color to the same focal plane.
+
+We can simulate this effect by moving one or more of our RGB channels from our texture along the $x$ or $y$ axis. Here are two examples, in which we can move the red and blue channels:
+
+<Dither step="chromatic-aberration-red" />
+
+<Dither step="chromatic-aberration-blue" />
+
+The GLSL code for this is straightforward. Below, we pass our texel data into our chromatic aberration function. This generates a vec4 color value based on the texel at our program's UV coordinates (aka. the pixel's location on the canvas). We can then move our red channel by an `xOffset` and `yOffset`. 
+
+```glsl
+vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
+  return vec4(
+    texture(
+      u_image, 
+      vec2(uv.x + (0.1 * xOffset), uv.y + (0.1 * yOffset))
+    ).x,
+    texture(
+      u_image, 
+      uv
+    ).y,
+    texture(
+      u_image, 
+      uv
+    ).z,
+    1.0
+  );
+}
+
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  vec4 texel = texture(u_image, uv);
+  outColor = chromaticAberration(uv, texel);
+}
+```
+
+## Distance from edges
+
+Above we moved an entire color channel across the whole image at a constant rate. To mimic the effect created by a camera lens we need to increase the movement of the channel as it approaches the edge of the image. This is similar to the vignette effect in the [previous article](/p/webgl-vignette).
+
+<Dither step="chromatic-aberration" />
+
+In GLSL, we can achieve this by getting the UV's distance from the center with `length(uv - 0.5)` and then multiplying this by an offset for each channel (this is controlled by the dials).
+
+```glsl 
+vec4 chromaticAberration(vec2 uv, vec4 fragColor) {
+  float d = length(uv - 0.5);
+
+  return vec4(
+    texture(
+      u_image, 
+      uv - d * 0.1 * redOffset
+    ).x,
+    texture(
+      u_image, 
+      uv + d * 0.1 * blueOffset
+    ).y,
+    texture(
+      u_image, 
+      uv - d * 0.1 * greenOffset
+    ).z,
+    1.0
+  );
+}
+
+void main() {
+  // map uv between 0 -> 1
+  vec2 uv = gl_FragCoord.xy/u_resolution;
+  vec4 texel = texture(u_image, uv);
+  outColor = chromaticAberration(uv, texel);
+}
+```
+
+This is the most recent article in the series. Follow me on [twitter](https://twitter.com/maximmcnair) for future articles.
+
