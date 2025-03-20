@@ -53,3 +53,6 @@ next-env.d.ts
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+# Sentry Config File
+.env.sentry-build-plugin

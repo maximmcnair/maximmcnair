@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sentry/nextjs": "^9",
     "@tailwindcss/postcss": "^4.0.1",
     "@types/react-syntax-highlighter": "^15.5.13",
     "date-fns": "^4.1.0",
