@@ -20,6 +20,18 @@ const nextConfig: NextConfig = {
     // there are TypeScript errors
     ignoreBuildErrors: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/stats/js/script.js",
+        destination: "https://plausible.io/js/script.js"
+      },
+      {
+        source: "/stats/api/event",
+        destination: "https://plausible.io/api/event"
+      }
+    ];
+  },
 };
 
 export default nextConfig;
