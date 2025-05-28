@@ -13,12 +13,12 @@ enum WorkType {
 }
 
 interface WorkProps {
-  type: WorkType
-  title: string
-  src: string
-  desc: string
-  href?: string
-  role: string
+  type: WorkType;
+  title: string;
+  src: string;
+  desc: string;
+  href?: string;
+  role: string;
 }
 
 // <img src={src} className="aspect-[2.5] w-full bg-zinc-900 overflow-hidden rounded-4xl border-0 outline-hidden" />
@@ -27,19 +27,23 @@ function Work({ type, title, src, href, desc, role }: WorkProps) {
   return (
     <section>
       <div className="w-full bg-zinc-900">
-        {type === WorkType.Vid ?
+        {type === WorkType.Vid ? (
           <Video src={src} className="overflow-hidden rounded-4xl" />
-          :
-          <Image src={src} alt={title} className="overflow-hidden rounded-4xl border-0 outline-hidden" />
-        }
+        ) : (
+          <Image
+            src={src}
+            alt={title}
+            className="overflow-hidden rounded-4xl border-0 outline-hidden"
+          />
+        )}
       </div>
       <section className="relative mt-4 flex flex-col gap-3">
         <h3 className="mt-1 text-xl font-medium">{title}</h3>
-        <p className="max-w-[800px] md:pr-[200px] mb-2">
-          {desc}
-        </p>
+        <p className="max-w-[800px] md:pr-[200px] mb-2">{desc}</p>
         <div className="mb-2">
-          <strong className="flex-inline py-[8px] pb-[9px] px-[15px] rounded-lg bg-zinc-800 text-white font-bold text-sm">{role}</strong>
+          <strong className="flex-inline py-[8px] pb-[9px] px-[15px] rounded-lg bg-zinc-800 text-white font-bold text-sm">
+            {role}
+          </strong>
         </div>
         {href && (
           <div className="md:absolute top-2 right-0">
@@ -48,8 +52,7 @@ function Work({ type, title, src, href, desc, role }: WorkProps) {
         )}
       </section>
     </section>
-
-  )
+  );
 }
 
 export default function Home() {
@@ -71,7 +74,10 @@ export default function Home() {
         {/* </h1> */}
 
         <div className="z-80">
-          <AnimateTextBlur text="Design Engineer. Currently building Cosmos." delay={1.5} />
+          <AnimateTextBlur
+            text="Design Engineer. Currently building Cosmos."
+            delay={1.5}
+          />
         </div>
 
         <ShaderView
@@ -80,24 +86,27 @@ export default function Home() {
         />
       </section>
 
-      <section id="work" className="flex flex-col gap-[70px] sm:gap-[100px] mb-20 opacity-0 animate-fadein"
-        style={{ animationDelay: '1.4s' }}>
-        <Work
-          type={WorkType.Vid}
-          title="Cosmos"
-          src="cosmos"
-          desc="Software engineer at Cosmos, where I help build a discovery engine for creatives. At Cosmos, users can save inspiring content from across the web, organize discoveries into meaningful clusters, and share curated collections with the world."
-          href="https://www.cosmos.so"
-          role="Senior Software Engineer"
-        />
-
+      <section
+        id="work"
+        className="flex flex-col gap-[70px] sm:gap-[100px] mb-20 opacity-0 animate-fadein"
+        style={{ animationDelay: "1.4s" }}
+      >
         <Work
           type={WorkType.Vid}
           title="Public Work"
           src="public-work"
           desc="Result of a week long hack week at Cosmos. Public Work is a visual search engine for public domain content. Explore 100,000+ copyright-free images from The MET, New York Public Library, and other sources"
           href="https://www.public.work"
-          role="Design Engineer"
+          role="Lead Design Engineer"
+        />
+
+        <Work
+          type={WorkType.Vid}
+          title="Cosmos"
+          src="cosmos"
+          desc="Software engineer at Cosmos, where I help build a discovery engine for creatives. At Cosmos, users can save inspiring content from across the web, organize discoveries into meaningful clusters, and share curated collections with the world."
+          href="https://www.cosmos.so"
+          role="FE Engineer"
         />
 
         <Work
@@ -105,7 +114,7 @@ export default function Home() {
           title="Lumine"
           src="lumine"
           desc="WebGPU based image editor"
-          role="Design Engineer"
+          role="Lead Design Engineer"
         />
 
         <Work
@@ -128,13 +137,12 @@ export default function Home() {
           desc={`Connecting club culture to the wider world, on screen and through parties, film and video.`}
         />
 
-
         {false && (
           <Work
             type={WorkType.Img}
             title="Bulb Energy"
             src="/work_boilerroom.jpg"
-            role="Mobile Lead Engineer"
+            role="Lead Mobile Engineer"
             desc={``}
           />
         )}
