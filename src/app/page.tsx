@@ -100,14 +100,16 @@ export default function Home() {
           role="Lead Design Engineer"
         />
 
-        <Work
-          type={WorkType.Vid}
-          title="Cosmos"
-          src="cosmos"
-          desc="Software engineer at Cosmos, where I help build a discovery engine for creatives. At Cosmos, users can save inspiring content from across the web, organize discoveries into meaningful clusters, and share curated collections with the world."
-          href="https://www.cosmos.so"
-          role="FE Engineer"
-        />
+        {false && (
+          <Work
+            type={WorkType.Vid}
+            title="Cosmos"
+            src="cosmos"
+            desc="Software engineer at Cosmos, where I help build a discovery engine for creatives. At Cosmos, users can save inspiring content from across the web, organize discoveries into meaningful clusters, and share curated collections with the world."
+            href="https://www.cosmos.so"
+            role="FE Engineer"
+          />
+        )}
 
         <Work
           type={WorkType.Vid}
