@@ -1,6 +1,7 @@
 ### 🔥 Developer/Designer/Creative Coder
 
 Currently building:
+
 - Cosmos https://www.cosmos.so/
 - Public Work https://public.work/
 - Showcase of opensource variable typefaces https://opentypecollective.com
