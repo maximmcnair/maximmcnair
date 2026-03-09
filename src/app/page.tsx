@@ -28,12 +28,12 @@ function Work({ type, title, src, href, desc, role }: WorkProps) {
     <section>
       <div className="w-full bg-zinc-900">
         {type === WorkType.Vid ? (
-          <Video src={src} className="overflow-hidden rounded-4xl" />
+          <Video src={src} className="overflow-hidden" />
         ) : (
           <Image
             src={src}
             alt={title}
-            className="overflow-hidden rounded-4xl border-0 outline-hidden"
+            className="overflow-hidden border-0 outline-hidden"
           />
         )}
       </div>
