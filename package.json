@@ -17,7 +17,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.476.0",
     "motion": "^12.4.7",
-    "next": "15.1.6",
+    "next": "15.1.11",
     "next-mdx-remote": "^5.0.0",
     "react": "^19.0.0",
     "react-device-detect": "^2.2.3",
