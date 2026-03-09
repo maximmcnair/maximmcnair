@@ -38,7 +38,7 @@ function Work({ type, title, src, href, desc, role }: WorkProps) {
         )}
       </div>
       <section className="relative mt-4 flex flex-col gap-3">
-        <h3 className="mt-1 text-xl font-medium">{title}</h3>
+        <h3 className="mt-4 text-xl font-medium">{title}</h3>
         <p className="max-w-[800px] md:pr-[200px] mb-2">{desc}</p>
         <div className="mb-2">
           <strong className="flex-inline py-[8px] pb-[9px] px-[15px] rounded-lg bg-zinc-800 text-white font-bold text-sm">
@@ -64,18 +64,9 @@ export default function Home() {
         id="about"
         className="relative overflow-hidden rounded-4xl aspect-square sm:aspect-[2.8] text-center mb-14 flex justify-center items-center bg-zinc-900 opacity-0 animate-fadein"
       >
-        {/* <h1 className="text-white z-90 text-sm lg:text-xl font-medium"> */}
-        {/*   Design Engineer.<br /> */}
-        {/*   Currently building{" "} */}
-        {/*   <a href="http://cosmos.so" className="border-b-2" target="_blank"> */}
-        {/*     Cosmos */}
-        {/*   </a> */}
-        {/*   . */}
-        {/* </h1> */}
-
         <div className="z-80">
           <AnimateTextBlur
-            text="Design Engineer. Currently building Cosmos."
+            text="Creative Engineer, based in NYC."
             delay={1.5}
           />
         </div>
@@ -93,6 +84,15 @@ export default function Home() {
       >
         <Work
           type={WorkType.Vid}
+          title="Variant"
+          src="variant"
+          desc="Variant is a tool that uses generative AI to create multiple UI/UX design variations from a simple prompt. As Founding Design Engineer, I worked on the core UI and helped build the agentic design workflows that power the product, shaping how users generate, explore, and iterate on interface ideas through AI-driven interactions."
+          href="https://variant.com/"
+          role="Founding Design Engineer"
+        />
+
+        <Work
+          type={WorkType.Vid}
           title="Public Work"
           src="public-work"
           desc="Result of a week long hack week at Cosmos. Public Work is a visual search engine for public domain content. Explore 100,000+ copyright-free images from The MET, New York Public Library, and other sources"
@@ -106,7 +106,7 @@ export default function Home() {
           src="cosmos"
           desc="Lead web app development at Cosmos, a discovery engine for creatives. At Cosmos, users can save inspiring content from across the web, organize discoveries into meaningful clusters, and share curated collections with the world."
           href="https://www.cosmos.so"
-          role="FE Engineer"
+          role="Founding Engineer"
         />
 
         <Work
