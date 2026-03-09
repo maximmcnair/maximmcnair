@@ -111,6 +111,15 @@ export default function Home() {
 
         <Work
           type={WorkType.Vid}
+          title="Objects from the future"
+          src="futureobjects"
+          desc="Objects from the Future is a tool for encouraging creative thinking about the future, adapted from imagination card game, The Thing from the Future by Situation Lab. A collaboration with researcher Lore Oxford."
+          href="https://futureobjects.xyz/"
+          role="Design Engineer"
+        />
+
+        <Work
+          type={WorkType.Vid}
           title="Lumine"
           src="lumine"
           desc="WebGPU based image editor"
