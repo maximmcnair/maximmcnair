@@ -16,9 +16,7 @@ export default function AboutPage() {
             style={{ animationDelay: "0.2s" }}
           >
             I design and build interactive systems — combining design,
-            engineering and spatial interfaces. My work focuses on tools,
-            materials and 3D interaction, exploring how digital systems can feel
-            physical and intuitive.
+            engineering, spatial interfaces.
           </p>
 
           <p
