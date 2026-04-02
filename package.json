@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "transcode": "sh -c 'f=\"$1\"; base=\"${f%.*}\"; ffmpeg -i \"$f\" -vcodec libvpx-vp9 -crf 33 -b:v 0 -acodec libopus -b:a 128k \"$base.webm\" && ffmpeg -i \"$f\" -vcodec libx264 -crf 23 -preset slow -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" -pix_fmt yuv420p -movflags +faststart -acodec aac -b:a 128k \"$base.mp4\"' --",
+    "poster": "sh -c 'f=\"$1\"; ts=\"${2:-00:00:01}\"; base=\"${f%.*}\"; ffmpeg -i \"$f\" -ss \"$ts\" -vframes 1 \"$base.jpg\"' --"
   },
   "dependencies": {
     "@sentry/nextjs": "^9",
     "@tailwindcss/postcss": "^4.0.1",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "gl-matrix": "^3.4.3",
     "gray-matter": "^4.0.3",
