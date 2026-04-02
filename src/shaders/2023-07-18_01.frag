@@ -3,6 +3,8 @@ precision highp float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec2 u_mouse;
+uniform int u_mouse_over;
 
 out vec4 outColor;
 
@@ -36,6 +38,8 @@ void main() {
     uv -= 0.03;
 
     float grain = rand(100.0 * uv);
+
+    uv += (u_mouse - 0.5) * -0.2;
 
     for (int n = 1; n < 2; n++) {
         float i = float(n);

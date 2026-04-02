@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { useRef, useState } from "react";
 
 interface VideoProps {
-  src: string
-  className: string
+  src: string;
+  className: string;
 }
 
 export function Video({ src, className }: VideoProps) {
@@ -43,10 +43,11 @@ export function Video({ src, className }: VideoProps) {
       <source src={`/${src}.ogv`} type="video/ogg" />
       <source src={`/${src}.mov`} type="video/quicktime" />
       <div>
-        <img src={`/${src}-thumbnail.jpg`} className="aspect-[2.5] w-full bg-gray-200" />
+        <img
+          src={`/${src}-thumbnail.jpg`}
+          className="aspect-[2.5] w-full bg-gray-200"
+        />
       </div>
     </video>
-
-  )
+  );
 }
-

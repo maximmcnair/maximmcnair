@@ -175,6 +175,8 @@ export default function ShaderView({
     gl.uniform1f(uMouse, mouse);
 
     let mousePos: Position = { x: 0, y: 0 };
+    let targetMouse = { x: 0.5, y: 0.5 };
+    let smoothMouse = { x: 0.5, y: 0.5 };
 
     const handleMouseMove = (evt: MouseEvent) => {
       mousePos.x = evt.clientX || evt.pageX;
@@ -225,11 +227,6 @@ export default function ShaderView({
       // update u_mouse && u_mouse_over
       if (canvasRef.current) {
         const { left, top } = canvasRef.current.getBoundingClientRect();
-        gl.uniform2f(
-          uMouse,
-          (mousePos.x - left) / size.width,
-          (canvas.height - (mousePos.y - top)) / size.height,
-        );
 
         const isMouseOver =
           mousePos.x > left &&
@@ -237,6 +234,17 @@ export default function ShaderView({
           mousePos.y > top &&
           mousePos.y < top + size.height;
         gl.uniform1i(uMouseOver, isMouseOver ? 1 : 0);
+
+        // only update target while over canvas so last position persists
+        if (isMouseOver) {
+          targetMouse.x = (mousePos.x - left) / size.width;
+          targetMouse.y = (canvas.height - (mousePos.y - top)) / size.height;
+        }
+
+        // always lerp toward target for smooth re-entry
+        smoothMouse.x += (targetMouse.x - smoothMouse.x) * 0.08;
+        smoothMouse.y += (targetMouse.y - smoothMouse.y) * 0.08;
+        gl.uniform2f(uMouse, smoothMouse.x, smoothMouse.y);
       }
 
       frame = requestAnimationFrame(loop);
