@@ -1,40 +1,40 @@
-import { useRef } from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { isMobile } from 'react-device-detect';
+import { useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { isMobile } from "react-device-detect";
 
-import { Post } from '$/types';
-import ShaderView from '$/components/ShaderView';
-import styles from './Articles.module.css';
+import { Post } from "$/types";
+import ShaderView from "$/components/ShaderView";
+import styles from "./Articles.module.css";
 
 // @ts-ignore
-import fragBasic from '$/components/article/WebGLFilters/dither/basic.glsl';
+import fragBasic from "$/components/article/WebGLFilters/dither/basic.glsl";
 // @ts-ignore
-import fragColorCorrection from '$/components/article/WebGLFilters/dither/color-correction-preview.glsl';
+import fragColorCorrection from "$/components/article/WebGLFilters/dither/color-correction-preview.glsl";
 // @ts-ignore
-import fragHue from '$/components/article/WebGLFilters/dither/hue-preview.glsl';
+import fragHue from "$/components/article/WebGLFilters/dither/hue-preview.glsl";
 // @ts-ignore
-import fragFilmGrain from '$/components/article/WebGLFilters/dither/grain-preview.glsl';
+import fragFilmGrain from "$/components/article/WebGLFilters/dither/grain-preview.glsl";
 // @ts-ignore
-import fragDuotone from '$/components/article/WebGLFilters/dither/duotone-preview.glsl';
+import fragDuotone from "$/components/article/WebGLFilters/dither/duotone-preview.glsl";
 // @ts-ignore
-import fragPixelate from '$/components/article/WebGLFilters/dither/pixelate-preview.glsl';
+import fragPixelate from "$/components/article/WebGLFilters/dither/pixelate-preview.glsl";
 // @ts-ignore
-import fragThresholding from '$/components/article/WebGLFilters/dither/threshold-preview.glsl';
+import fragThresholding from "$/components/article/WebGLFilters/dither/threshold-preview.glsl";
 // @ts-ignore
-import fragDithering from '$/components/article/WebGLFilters/dither/dither-preview.glsl';
+import fragDithering from "$/components/article/WebGLFilters/dither/dither-preview.glsl";
 // @ts-ignore
-import fragVignette from '$/components/article/WebGLFilters/dither/vignette-preview.glsl';
+import fragVignette from "$/components/article/WebGLFilters/dither/vignette-preview.glsl";
 // @ts-ignore
-import fragChromaticAberration from '$/components/article/WebGLFilters/dither/chromatic-aberration-preview.glsl';
+import fragChromaticAberration from "$/components/article/WebGLFilters/dither/chromatic-aberration-preview.glsl";
 
 interface Props {
   article: Post;
   style: React.CSSProperties;
 }
 
-const perspective = '1000px';
+const perspective = "1000px";
 const delta = 20;
-const imgSrc = '/flowers.jpg';
+const imgSrc = "/flowers.jpg";
 
 export const Article: React.FC<Props> = ({
   article: { slug, meta },
@@ -64,23 +64,23 @@ export const Article: React.FC<Props> = ({
 
   function slugToShaderPreview(slug: string) {
     switch (slug) {
-      case 'webgl-color-correction':
+      case "webgl-color-correction":
         return fragColorCorrection;
-      case 'webgl-hue':
+      case "webgl-hue":
         return fragHue;
-      case 'webgl-pixelate':
+      case "webgl-pixelate":
         return fragPixelate;
-      case 'webgl-thresholding':
+      case "webgl-thresholding":
         return fragThresholding;
-      case 'webgl-dithering':
+      case "webgl-dithering":
         return fragDithering;
-      case 'webgl-vignette':
+      case "webgl-vignette":
         return fragVignette;
-      case 'webgl-chromatic-aberration':
+      case "webgl-chromatic-aberration":
         return fragChromaticAberration;
-      case 'webgl-film-grain':
+      case "webgl-film-grain":
         return fragFilmGrain;
-      case 'webgl-duotone':
+      case "webgl-duotone":
         return fragDuotone;
       default:
         return fragBasic;
@@ -100,12 +100,12 @@ export const Article: React.FC<Props> = ({
       <span className={styles.title}>{meta.title}</span>
       <span className={styles.issue}>{meta.issue}</span>
       <span className={styles.visit}>
-        <ArrowUpRight size={20} />
+        <ArrowUpRight size={18} />
         Read
       </span>
       {!isMobile ? (
         <ShaderView
-          title={''}
+          title={""}
           frag={frag}
           imgSrc={imgSrc}
           fx={0.4}

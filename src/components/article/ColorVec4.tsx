@@ -2,7 +2,22 @@ import { useState } from 'react';
 import { mapLinear, clamp } from './WebGLFilters/utils';
 
 interface Props {
-  color: [number, number, number, number];
+  color?: [number, number, number, number];
+}
+
+const defaultColor: [number, number, number, number] = [255, 0, 0, 255];
+
+function getInitialColor(color?: Props['color']): [number, number, number, number] {
+  if (!Array.isArray(color) || color.length < 4) {
+    return defaultColor;
+  }
+
+  return [
+    Number.isFinite(color[0]) ? color[0] : defaultColor[0],
+    Number.isFinite(color[1]) ? color[1] : defaultColor[1],
+    Number.isFinite(color[2]) ? color[2] : defaultColor[2],
+    Number.isFinite(color[3]) ? color[3] : defaultColor[3],
+  ];
 }
 
 function mapCssToGlsl(val: number): number {
@@ -14,10 +29,11 @@ function mapGlslToCss(val: number): number {
 }
 
 export function ColorVec4(props: Props) {
-  const [r, setR] = useState(props.color[0]);
-  const [g, setG] = useState(props.color[1]);
-  const [b, setB] = useState(props.color[2]);
-  const [a, setA] = useState(props.color[3]);
+  const [initialR, initialG, initialB, initialA] = getInitialColor(props.color);
+  const [r, setR] = useState(initialR);
+  const [g, setG] = useState(initialG);
+  const [b, setB] = useState(initialB);
+  const [a, setA] = useState(initialA);
 
   function handleGLSLChange(val: string) {
     const num = parseFloat(val);

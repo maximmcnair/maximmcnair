@@ -67,10 +67,7 @@ export default function Home() {
         className="relative overflow-hidden rounded-4xl aspect-square sm:aspect-[2] text-center mb-14 flex justify-center items-center bg-zinc-900 opacity-0 animate-fadein"
       >
         <div className="z-80">
-          <AnimateTextBlur
-            text="Creative technologist, based in NYC."
-            delay={1.5}
-          />
+          <AnimateTextBlur text="Design Engineer, based in NYC." delay={1.5} />
         </div>
 
         <ShaderView

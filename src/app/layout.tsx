@@ -24,13 +24,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script
-        defer
-        data-domain="maximmcnair.com"
-        src="/stats/js/script.js"
-        data-api="/stats/api/event"
-      ></script>
-      <body className={`${inter.variable} antialiased bg-black text-white`}>{children}</body>
+      <head>
+        <script
+          defer
+          data-domain="maximmcnair.com"
+          src="/stats/js/script.js"
+          data-api="/stats/api/event"
+        />
+      </head>
+      <body className={`${inter.variable} antialiased bg-black text-white`}>
+        {children}
+      </body>
     </html>
   );
 }
